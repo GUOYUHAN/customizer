@@ -1,28 +1,29 @@
+<style lang="scss">
+html,
+body {
+  height: 100%;
+}
+#app {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <w-customizer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import './styles/app.css'
+import 'vant/lib/index.css'
+import WCustomizer from './components/WCustomizer'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    WCustomizer,
   },
 }
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

@@ -1,0 +1,99 @@
+html {
+  min-height: 100%;
+  /* -webkit-user-select: none; */
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  width: 100%;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+p {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+img {
+  border: 0;
+  -webkit-touch-callout: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+input,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+button,
+input {
+  border: none;
+  background: inherit;
+  -webkit-appearance: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:active,
+a:hover,
+a:focus,
+a:hover {
+  outline: 0;
+}
+
+[hidden],
+template {
+  display: none;
+}
+
+p,
+pre {
+  max-height: 10000rem; /* 禁用font-boosting */
+}

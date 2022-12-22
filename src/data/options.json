@@ -1,0 +1,545 @@
+[
+  {
+    "partName": "鞋头",
+    "part": "toe",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "赛车红",
+            "value": "rgb(201, 24, 57)"
+          },
+          {
+            "id": "2",
+            "name": "暗红色",
+            "value": "rgb(88, 51, 62)"
+          },
+          {
+            "id": "3",
+            "name": "姜黄色",
+            "value": "rgb(125, 62, 21)"
+          },
+          {
+            "id": "4",
+            "name": "亮棕色",
+            "value": "rgb(77, 46, 27)"
+          },
+          {
+            "id": "5",
+            "name": "天蓝色",
+            "value": "rgb(142, 158, 194)"
+          },
+          {
+            "id": "6",
+            "name": "藏青色",
+            "value": "rgb(39, 51, 71)"
+          },
+          {
+            "id": "7",
+            "name": "纯白色",
+            "value": "rgb(237, 239, 237)"
+          },
+          {
+            "id": "8",
+            "name": "米白色",
+            "value": "rgb(233, 234, 218)"
+          },
+          {
+            "id": "9",
+            "name": "霜灰色",
+            "value": "rgb(132, 132, 135)"
+          },
+          {
+            "id": "10",
+            "name": "木炭灰",
+            "value": "rgb(84, 82, 82)"
+          },
+          {
+            "id": "11",
+            "name": "黑色",
+            "value": "rgb(0, 0, 0)"
+          }
+        ]
+      },
+      {
+        "optionType": "image",
+        "optionName": "图案",
+        "options": [
+          {
+            "id": "0",
+            "name": "自定义图片",
+            "customImage": true,
+            "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
+          },
+          {
+            "id": "1",
+            "name": "课堂白日梦",
+            "icon": "https://pic.bbtkids.cn/FqKzbeoQixnWcZQRMa3rKJevVHZY",
+            "map": "https://pic.bbtkids.cn/FgeFcHoVaTh7HCOo8TFtNgg3lU8w"
+          },
+          {
+            "id": "2",
+            "name": "未知的未来",
+            "icon": "https://pic.bbtkids.cn/FpSbiOG7eh0U1vhX71qo85pYkwdq",
+            "map": "https://pic.bbtkids.cn/FrMdnGVqp0358xVcAMZrjEV1tGFf"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋腰",
+    "part": "quarters",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "珍珠白",
+            "value": "rgb(235, 215, 209)"
+          },
+          {
+            "id": "2",
+            "name": "苔藓绿",
+            "value": "rgb(51, 53, 34)"
+          },
+          {
+            "id": "3",
+            "name": "青绿色",
+            "value": "rgb(0, 124, 100)"
+          },
+          {
+            "id": "4",
+            "name": "薄荷绿",
+            "value": "rgb(0, 175, 172)"
+          },
+          {
+            "id": "5",
+            "name": "浅绿色",
+            "value": "rgb(152, 226, 207)"
+          },
+          {
+            "id": "6",
+            "name": "帝王蓝",
+            "value": "rgb(0, 89, 154)"
+          },
+          {
+            "id": "7",
+            "name": "海军蓝",
+            "value": "rgb(58, 96, 122)"
+          }
+        ]
+      },
+      {
+        "optionType": "image",
+        "optionName": "图案",
+        "options": [
+          {
+            "id": "0",
+            "name": "自定义图片",
+            "customImage": true,
+            "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
+          },
+          {
+            "id": "1",
+            "name": "海贼王",
+            "icon": "https://pic.bbtkids.cn/FmoEnKfigOSaVFYgjFsc17_mY1ZM",
+            "map": "https://pic.bbtkids.cn/FpVP0KawhsDAebnY8Wsk-OcYW_xK"
+          },
+          {
+            "id": "2",
+            "name": "棋盘格",
+            "icon": "https://pic.bbtkids.cn/Fqzf4BXE4duwYjhmb1-PhgiFNx20",
+            "map": "https://pic.bbtkids.cn/FobniaQbsZX1ReOCrG6TIJnKcYaC"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "滚边",
+    "part": "binding",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "赛车红",
+            "value": "rgb(201, 24, 57)"
+          },
+          {
+            "id": "2",
+            "name": "暗红色",
+            "value": "rgb(88, 51, 62)"
+          },
+          {
+            "id": "3",
+            "name": "姜黄色",
+            "value": "rgb(125, 62, 21)"
+          },
+          {
+            "id": "4",
+            "name": "亮棕色",
+            "value": "rgb(77, 46, 27)"
+          },
+          {
+            "id": "5",
+            "name": "天蓝色",
+            "value": "rgb(142, 158, 194)"
+          },
+          {
+            "id": "6",
+            "name": "藏青色",
+            "value": "rgb(39, 51, 71)"
+          },
+          {
+            "id": "7",
+            "name": "纯白色",
+            "value": "rgb(237, 239, 237)"
+          },
+          {
+            "id": "8",
+            "name": "米白色",
+            "value": "rgb(233, 234, 218)"
+          },
+          {
+            "id": "9",
+            "name": "霜灰色",
+            "value": "rgb(132, 132, 135)"
+          },
+          {
+            "id": "10",
+            "name": "木炭灰",
+            "value": "rgb(84, 82, 82)"
+          },
+          {
+            "id": "11",
+            "name": "黑色",
+            "value": "rgb(0, 0, 0)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋舌",
+    "part": "tongue",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "珍珠白",
+            "value": "rgb(235, 215, 209)"
+          },
+          {
+            "id": "2",
+            "name": "苔藓绿",
+            "value": "rgb(51, 53, 34)"
+          },
+          {
+            "id": "3",
+            "name": "青绿色",
+            "value": "rgb(0, 124, 100)"
+          },
+          {
+            "id": "4",
+            "name": "薄荷绿",
+            "value": "rgb(0, 175, 172)"
+          },
+          {
+            "id": "5",
+            "name": "浅绿色",
+            "value": "rgb(152, 226, 207)"
+          },
+          {
+            "id": "6",
+            "name": "帝王蓝",
+            "value": "rgb(0, 89, 154)"
+          },
+          {
+            "id": "7",
+            "name": "海军蓝",
+            "value": "rgb(58, 96, 122)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋眼",
+    "part": "eyelets",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "赛车红",
+            "value": "rgb(201, 24, 57)"
+          },
+          {
+            "id": "2",
+            "name": "暗红色",
+            "value": "rgb(88, 51, 62)"
+          },
+          {
+            "id": "3",
+            "name": "姜黄色",
+            "value": "rgb(125, 62, 21)"
+          },
+          {
+            "id": "4",
+            "name": "亮棕色",
+            "value": "rgb(77, 46, 27)"
+          },
+          {
+            "id": "5",
+            "name": "天蓝色",
+            "value": "rgb(142, 158, 194)"
+          },
+          {
+            "id": "6",
+            "name": "藏青色",
+            "value": "rgb(39, 51, 71)"
+          },
+          {
+            "id": "7",
+            "name": "纯白色",
+            "value": "rgb(237, 239, 237)"
+          },
+          {
+            "id": "8",
+            "name": "米白色",
+            "value": "rgb(233, 234, 218)"
+          },
+          {
+            "id": "9",
+            "name": "霜灰色",
+            "value": "rgb(132, 132, 135)"
+          },
+          {
+            "id": "10",
+            "name": "木炭灰",
+            "value": "rgb(84, 82, 82)"
+          },
+          {
+            "id": "11",
+            "name": "黑色",
+            "value": "rgb(0, 0, 0)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "护条",
+    "part": "foxing",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "珍珠白",
+            "value": "rgb(235, 215, 209)"
+          },
+          {
+            "id": "2",
+            "name": "苔藓绿",
+            "value": "rgb(51, 53, 34)"
+          },
+          {
+            "id": "3",
+            "name": "青绿色",
+            "value": "rgb(0, 124, 100)"
+          },
+          {
+            "id": "4",
+            "name": "薄荷绿",
+            "value": "rgb(0, 175, 172)"
+          },
+          {
+            "id": "5",
+            "name": "浅绿色",
+            "value": "rgb(152, 226, 207)"
+          },
+          {
+            "id": "6",
+            "name": "帝王蓝",
+            "value": "rgb(0, 89, 154)"
+          },
+          {
+            "id": "7",
+            "name": "海军蓝",
+            "value": "rgb(58, 96, 122)"
+          }
+        ]
+      },
+      {
+        "optionType": "image",
+        "optionName": "图案",
+        "options": [
+          {
+            "id": "1",
+            "name": "火焰",
+            "icon": "https://pic.bbtkids.cn/Fhbr5kyJ3MarW7WXK8ZGfe8mmkQC",
+            "image": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "护条线",
+    "part": "foxingStripe",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "赛车红",
+            "value": "rgb(201, 24, 57)"
+          },
+          {
+            "id": "2",
+            "name": "暗红色",
+            "value": "rgb(88, 51, 62)"
+          },
+          {
+            "id": "3",
+            "name": "姜黄色",
+            "value": "rgb(125, 62, 21)"
+          },
+          {
+            "id": "4",
+            "name": "亮棕色",
+            "value": "rgb(77, 46, 27)"
+          },
+          {
+            "id": "5",
+            "name": "天蓝色",
+            "value": "rgb(142, 158, 194)"
+          },
+          {
+            "id": "6",
+            "name": "藏青色",
+            "value": "rgb(39, 51, 71)"
+          },
+          {
+            "id": "7",
+            "name": "纯白色",
+            "value": "rgb(237, 239, 237)"
+          },
+          {
+            "id": "8",
+            "name": "米白色",
+            "value": "rgb(233, 234, 218)"
+          },
+          {
+            "id": "9",
+            "name": "霜灰色",
+            "value": "rgb(132, 132, 135)"
+          },
+          {
+            "id": "10",
+            "name": "木炭灰",
+            "value": "rgb(84, 82, 82)"
+          },
+          {
+            "id": "11",
+            "name": "黑色",
+            "value": "rgb(0, 0, 0)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋带",
+    "part": "laces",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "1",
+            "name": "珍珠白",
+            "value": "rgb(235, 215, 209)"
+          },
+          {
+            "id": "2",
+            "name": "苔藓绿",
+            "value": "rgb(51, 53, 34)"
+          },
+          {
+            "id": "3",
+            "name": "青绿色",
+            "value": "rgb(0, 124, 100)"
+          },
+          {
+            "id": "4",
+            "name": "薄荷绿",
+            "value": "rgb(0, 175, 172)"
+          },
+          {
+            "id": "5",
+            "name": "浅绿色",
+            "value": "rgb(152, 226, 207)"
+          },
+          {
+            "id": "6",
+            "name": "帝王蓝",
+            "value": "rgb(0, 89, 154)"
+          },
+          {
+            "id": "7",
+            "name": "海军蓝",
+            "value": "rgb(58, 96, 122)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋跟文字",
+    "part": "font",
+    "optionList": [
+      {
+        "optionType": "customFont",
+        "optionName": "文字",
+        "options": [
+          {
+            "id": "1",
+            "name": "黑色",
+            "value": "rgb(0, 0, 0)"
+          },
+          {
+            "id": "2",
+            "name": "白色",
+            "value": "rgb(255, 255, 255)"
+          }
+        ]
+      },
+      {
+        "optionType": "clearFont",
+        "optionName": "空白",
+        "options": []
+      }
+    ]
+  }
+]

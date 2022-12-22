@@ -3,10 +3,10 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import customizer from './customizer'
+
 export default new Vuex.Store({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    customizer,
+  },
 })
