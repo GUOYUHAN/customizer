@@ -28,5 +28,4 @@ import ImageCustomizer from './ImageCustomizer'
 
 export default {
   components: { FontCustomizer, ImageCustomizer, CustomizerView, OpBar },
-  created() {},
 }

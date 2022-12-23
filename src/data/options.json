@@ -395,7 +395,8 @@
             "id": "1",
             "name": "火焰",
             "icon": "https://pic.bbtkids.cn/Fhbr5kyJ3MarW7WXK8ZGfe8mmkQC",
-            "image": ""
+            "map": "",
+            "normalMap": ""
           }
         ]
       }
