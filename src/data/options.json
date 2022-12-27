@@ -1,7 +1,7 @@
 [
   {
     "partName": "鞋头",
-    "part": "toe",
+    "part": "vamp",
     "optionList": [
       {
         "optionType": "color",
@@ -78,13 +78,68 @@
             "id": "1",
             "name": "课堂白日梦",
             "icon": "https://pic.bbtkids.cn/FqKzbeoQixnWcZQRMa3rKJevVHZY",
-            "map": "https://pic.bbtkids.cn/FgeFcHoVaTh7HCOo8TFtNgg3lU8w"
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    5,
+                    5
+                  ],
+                  "offset": [
+                    0.6,
+                    -0.1
+                  ],
+                  "flipY": false
+                },
+                "image_url": "https://pic.bbtkids.cn/FgeFcHoVaTh7HCOo8TFtNgg3lU8w"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
           },
           {
             "id": "2",
             "name": "未知的未来",
             "icon": "https://pic.bbtkids.cn/FpSbiOG7eh0U1vhX71qo85pYkwdq",
-            "map": "https://pic.bbtkids.cn/FrMdnGVqp0358xVcAMZrjEV1tGFf"
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    5,
+                    5
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FrMdnGVqp0358xVcAMZrjEV1tGFf"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
           }
         ]
       }
@@ -149,13 +204,72 @@
             "id": "1",
             "name": "海贼王",
             "icon": "https://pic.bbtkids.cn/FmoEnKfigOSaVFYgjFsc17_mY1ZM",
-            "map": "https://pic.bbtkids.cn/FpVP0KawhsDAebnY8Wsk-OcYW_xK"
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    5,
+                    5
+                  ],
+                  "offset": [
+                    0.1,
+                    0.2
+                  ],
+                  "flipY": false
+                },
+                "image_url": "https://pic.bbtkids.cn/FpVP0KawhsDAebnY8Wsk-OcYW_xK"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
           },
           {
             "id": "2",
             "name": "棋盘格",
             "icon": "https://pic.bbtkids.cn/Fqzf4BXE4duwYjhmb1-PhgiFNx20",
-            "map": "https://pic.bbtkids.cn/FobniaQbsZX1ReOCrG6TIJnKcYaC"
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    12,
+                    12
+                  ],
+                  "offset": [
+                    0,
+                    0
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FobniaQbsZX1ReOCrG6TIJnKcYaC"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
           }
         ]
       }
@@ -395,8 +509,43 @@
             "id": "1",
             "name": "火焰",
             "icon": "https://pic.bbtkids.cn/Fhbr5kyJ3MarW7WXK8ZGfe8mmkQC",
-            "map": "",
-            "normalMap": ""
+            "mesh_options": {
+              "color": "#f1f2f1",
+              "emissive": "#3D3D3D",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    1,
+                    1
+                  ],
+                  "flipY": false
+                },
+                "image_url": "https://pic.bbtkids.cn/Fv9Ob6K9rT0EVCIW5oCK2LVlsMI4"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    22,
+                    22
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FlKtBOKulMFKAW6ayWGBibMBN6Yr"
+              },
+              "emissiveMap": {
+                "options": {
+                  "repeat": [
+                    1,
+                    1
+                  ],
+                  "flipY": false
+                },
+                "image_url": "https://pic.bbtkids.cn/FuMcrsHg8ZyhLbLvR8CzLLq_D5YG"
+              }
+            }
           }
         ]
       }
@@ -404,7 +553,7 @@
   },
   {
     "partName": "护条线",
-    "part": "foxingStripe",
+    "part": "foxing_stripe",
     "optionList": [
       {
         "optionType": "color",

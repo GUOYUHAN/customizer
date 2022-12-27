@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import * as THREE from 'three'
 
 var r =
@@ -25,6 +27,7 @@ function i(t, e) {
 }
 
 export const customShader = function (t) {
+  console.log(t)
   var e = t.material,
     n = t.shaders,
     o = t.uniforms,

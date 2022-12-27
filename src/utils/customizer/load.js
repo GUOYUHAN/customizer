@@ -6,14 +6,13 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { setMaterial } from '../utils'
 
 let theModel
-let foxing_normal_txt, default_toe_txt, default_insole_normal_txt, default_insole_txt, default_tip_txt, default_tip_txt_roughness, default_foxing_txt
+let foxing_normal_txt, default_vamp_txt, default_insole_normal_txt, default_insole_txt, default_tip_txt, default_tip_txt_roughness, default_foxing_txt
+
+let txtLoader = new THREE.TextureLoader()
 
 export const initialLoad = async () => {
-  // let theModel
-
   // Load models and texture
   let loader = new GLTFLoader()
-  let txtLoader = new THREE.TextureLoader()
 
   // Draco loader
   let dracoLoader = new DRACOLoader()
@@ -38,14 +37,14 @@ export const initialLoad = async () => {
   })
   const models = results.slice(0, 5)
   const textures = results.slice(5)
-  for (let i = 0; i < textures.length - 1; i++) {
+  for (let i = 0; i < textures.length; i++) {
     textures[i].wrapS = THREE.RepeatWrapping
     textures[i].wrapT = THREE.RepeatWrapping
   }
   theModel = results[0].scene
   foxing_normal_txt = textures[0]
   default_insole_txt = textures[1]
-  default_toe_txt = textures[2]
+  default_vamp_txt = textures[2]
   default_foxing_txt = textures[3]
   default_insole_normal_txt = textures[4]
   default_tip_txt_roughness = textures[5]
@@ -55,18 +54,39 @@ export const initialLoad = async () => {
   return { models, textures }
 }
 
+export const loadTexture = async textures => {
+  let result = {}
+  await Promise.all(
+    Object.keys(textures).map(one => {
+      console.log(one)
+      const txt = txtLoader.load(textures[one].image_url)
+      txt.wrapS = txt.wrapT = THREE.RepeatWrapping
+      txt.repeat.set(textures[one].options.repeat[0], textures[one].options.repeat[1])
+      if (textures[one].options.offset) {
+        console.log('offset', textures[one].options.offset[0])
+        txt.offset.set(textures[one].options.offset[0], textures[one].options.offset[1])
+      }
+      txt.flipY = textures[one].options.flipY === false ? false : true
+      result[one] = txt
+    })
+  ).catch(err => {
+    console.log('promise all load models error:', err)
+  })
+  return result
+}
+
 const setDefaultTexture = () => {
-  default_toe_txt.repeat.set(28, 28)
+  default_vamp_txt.repeat.set(28, 28)
   let default_vamp_mtl = {
-    normalMap: default_toe_txt,
+    normalMap: default_vamp_txt,
     color: 0xffffff
   }
 
-  setMaterial(theModel.children[0], 'vamp', default_vamp_mtl, false)
-  setMaterial(theModel.children[0], 'quarters', default_vamp_mtl, false)
-  setMaterial(theModel.children[0], 'binding', default_vamp_mtl, false)
-  setMaterial(theModel.children[0], 'tongue', default_vamp_mtl, false)
-  setMaterial(theModel.children[0], 'lining', default_vamp_mtl, false)
+  setMaterial(theModel.children[0], 'vamp', default_vamp_mtl)
+  setMaterial(theModel.children[0], 'quarters', default_vamp_mtl)
+  setMaterial(theModel.children[0], 'binding', default_vamp_mtl)
+  setMaterial(theModel.children[0], 'tongue', default_vamp_mtl)
+  setMaterial(theModel.children[0], 'lining', default_vamp_mtl)
 
   default_insole_normal_txt.repeat.set(2, 2)
 
@@ -77,7 +97,7 @@ const setDefaultTexture = () => {
     normalMap: default_insole_normal_txt
   }
 
-  setMaterial(theModel.children[0], 'insole', default_insole_mtl, false)
+  setMaterial(theModel.children[0], 'insole', default_insole_mtl)
 
   default_foxing_txt.repeat.set(22, 22)
   foxing_normal_txt.repeat.set(22, 22)
@@ -102,7 +122,7 @@ const setDefaultTexture = () => {
     color: 0xffffff
   }
 
-  setMaterial(theModel.children[0], 'foxing', default_foxing_mtl, false)
-  setMaterial(theModel.children[0], 'foxing_tip', default_tip_mtl, false)
-  setMaterial(theModel.children[0], 'foxing_upper', default_upper_mtl, false)
+  setMaterial(theModel.children[0], 'foxing', default_foxing_mtl)
+  setMaterial(theModel.children[0], 'foxing_tip', default_tip_mtl)
+  setMaterial(theModel.children[0], 'foxing_upper', default_upper_mtl)
 }

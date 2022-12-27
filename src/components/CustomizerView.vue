@@ -23,7 +23,8 @@
 import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { initialLoad } from '../utils/customizer/load.js'
+import { initialLoad, loadTexture } from '../utils/customizer/load.js'
+import { setMaterial } from '../utils/utils.js'
 
 const { mapState } = createNamespacedHelpers('customizer')
 let scene, ground
@@ -33,7 +34,8 @@ export default {
     return {
       renderer: null,
       loader: null,
-      controls: null
+      controls: null,
+      theModel: null
     }
   },
   mounted() {
@@ -41,6 +43,25 @@ export default {
   },
   computed: {
     ...mapState(['selectedOptions'])
+  },
+  watch: {
+    async selectedOptions(newVal, oldVal) {
+      console.log('oldVal', oldVal)
+      console.log('newVal', newVal)
+      let new_params
+      if (newVal.currentType === 'color') {
+        new_params = {
+          color: newVal[newVal.currentPart].color.value
+        }
+      } else if (newVal.currentType === 'image') {
+        const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
+        new_params = {
+          ...txtures,
+          mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+        }
+      }
+      setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
+    }
   },
   methods: {
     async init() {
@@ -109,13 +130,14 @@ export default {
       this.controls.enableDamping = true
       this.controls.dampingFactor = 0.05
       this.controls.zoomSpeed = 0.5
-      this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
+      // this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
       this.controls.maxDistance = 7
-      this.controls.minDistance = 3
+      // this.controls.minDistance = 3
       this.controls.target = new THREE.Vector3(0, 0.5, 0)
       this.controls.update()
 
       const { models, textures } = await initialLoad()
+      this.theModel = models[0].scene
       for (let i = 0; i < models.length; i++) {
         scene.add(models[i].scene)
       }
