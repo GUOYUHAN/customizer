@@ -10,15 +10,15 @@ let foxing_normal_txt, default_vamp_txt, default_insole_normal_txt, default_inso
 
 let txtLoader = new THREE.TextureLoader()
 
+// Load models and texture
+let loader = new GLTFLoader()
+
+// Draco loader
+let dracoLoader = new DRACOLoader()
+dracoLoader.setDecoderPath('/static/decoder/')
+loader.setDRACOLoader(dracoLoader)
+
 export const initialLoad = async () => {
-  // Load models and texture
-  let loader = new GLTFLoader()
-
-  // Draco loader
-  let dracoLoader = new DRACOLoader()
-  dracoLoader.setDecoderPath('/static/decoder/')
-  loader.setDRACOLoader(dracoLoader)
-
   const results = await Promise.all([
     loader.loadAsync('/static/models/authentic-classic-9.0.glb'),
     loader.loadAsync('/static/models/binding_stitches.glb'),
@@ -58,12 +58,10 @@ export const loadTexture = async textures => {
   let result = {}
   await Promise.all(
     Object.keys(textures).map(one => {
-      console.log(one)
       const txt = txtLoader.load(textures[one].image_url)
       txt.wrapS = txt.wrapT = THREE.RepeatWrapping
       txt.repeat.set(textures[one].options.repeat[0], textures[one].options.repeat[1])
       if (textures[one].options.offset) {
-        console.log('offset', textures[one].options.offset[0])
         txt.offset.set(textures[one].options.offset[0], textures[one].options.offset[1])
       }
       txt.flipY = textures[one].options.flipY === false ? false : true
@@ -73,6 +71,11 @@ export const loadTexture = async textures => {
     console.log('promise all load models error:', err)
   })
   return result
+}
+
+export const loadPersonalization = async () => {
+  const result = await Promise.all([loader.loadAsync('/static/models/personalization.glb')])
+  return result[0].scene
 }
 
 const setDefaultTexture = () => {

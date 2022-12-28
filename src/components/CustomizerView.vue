@@ -23,8 +23,8 @@
 import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { initialLoad, loadTexture } from '../utils/customizer/load.js'
-import { setMaterial } from '../utils/utils.js'
+import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
+import { setMaterial, getTextCanvas } from '../utils/utils.js'
 
 const { mapState } = createNamespacedHelpers('customizer')
 let scene, ground
@@ -35,39 +35,55 @@ export default {
       renderer: null,
       loader: null,
       controls: null,
-      theModel: null
+      theModel: null,
+      personalization: null
     }
   },
   mounted() {
-    this.init()
+    this.draw()
   },
   computed: {
     ...mapState(['selectedOptions'])
   },
   watch: {
-    async selectedOptions(newVal, oldVal) {
-      console.log('oldVal', oldVal)
-      console.log('newVal', newVal)
-      let new_params
-      if (newVal.currentType === 'color') {
-        new_params = {
-          color: newVal[newVal.currentPart].color.value
+    selectedOptions: {
+      async handler(newVal, oldVal) {
+        console.log('oldVal', oldVal)
+        console.log('newVal', newVal)
+        let new_params
+        if (newVal.currentType === 'color') {
+          new_params = {
+            color: newVal[newVal.currentPart].color.value
+          }
+        } else if (newVal.currentType === 'image') {
+          const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
+          new_params = {
+            ...txtures,
+            mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+          }
+        } else if (newVal.currentType === 'customFont') {
+          if (!oldVal.font) {
+            this.personalization = await loadPersonalization()
+            scene.add(this.personalization)
+          }
+          this.personalization.children[0].traverse(child => {
+            if (child.isMesh) {
+              child.material.transparent = true
+              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR, newVal[newVal.currentPart].customFont.value))
+              text.flipY = false
+              text.repeat.set(1, 1)
+              text.offset.set(0, 0.05)
+              child.material.map = text
+            }
+          })
         }
-      } else if (newVal.currentType === 'image') {
-        const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
-        new_params = {
-          ...txtures,
-          mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
-        }
-      }
-      setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
+        setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
+      },
+      deep: true
     }
   },
   methods: {
-    async init() {
-      scene = new THREE.Scene()
-      this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / (window.innerHeight - 260), 0.1, 1000)
-
+    initRender() {
       this.renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true,
@@ -78,11 +94,22 @@ export default {
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.renderer.setSize(window.innerWidth, window.innerHeight - 260)
       document.getElementById('model-container').appendChild(this.renderer.domElement)
+    },
+    initScene() {
+      scene = new THREE.Scene()
 
       // helper
       const axesHelper = new THREE.AxesHelper(10)
       scene.add(axesHelper)
+    },
+    initCamera() {
+      this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / (window.innerHeight - 260), 0.1, 1000)
 
+      this.camera.position.set(1.5, 1, 3)
+      this.camera.lookAt(0, 0.5, 0)
+      this.camera.updateProjectionMatrix()
+    },
+    initLight() {
       // lights
       this.renderer.shadowMap.enabled = true
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap // default THREE.PCFShadowMap
@@ -108,7 +135,8 @@ export default {
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.55)
       scene.add(ambientLight)
-
+    },
+    initGround() {
       // create ground
       const geometry = new THREE.PlaneGeometry(10000, 10000)
       const material = new THREE.ShadowMaterial({ color: 0x000000, transparent: false })
@@ -119,11 +147,8 @@ export default {
       ground.receiveShadow = true
 
       scene.add(ground)
-
-      this.camera.position.set(1.5, 1, 3)
-      this.camera.lookAt(0, 0.5, 0)
-      this.camera.updateProjectionMatrix()
-
+    },
+    initControls() {
       // Enable this.controls
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.enablePan = true
@@ -135,13 +160,20 @@ export default {
       // this.controls.minDistance = 3
       this.controls.target = new THREE.Vector3(0, 0.5, 0)
       this.controls.update()
+    },
+    async draw() {
+      this.initRender()
+      this.initScene()
+      this.initCamera()
+      this.initLight()
+      this.initGround()
+      this.initControls()
 
       const { models, textures } = await initialLoad()
       this.theModel = models[0].scene
       for (let i = 0; i < models.length; i++) {
         scene.add(models[i].scene)
       }
-      console.log('ignore', textures)
       this.animate()
     },
     animate() {
