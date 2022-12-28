@@ -2,7 +2,7 @@
   <van-overlay :show="imageCustomizerShow && fileSelected" @click="toggleCustomizer({ type: 'image', flag: false })">
     <input v-show="false" ref="fileRef" type="file" @change="fileChange" />
 
-    <div class="wrapper" @click.stop>
+    <div class="wrapper">
       <div class="image-win" id="image-win"></div>
     </div>
   </van-overlay>
@@ -12,27 +12,27 @@
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 
-// import '../utils/pintura/pintura.css'
 import { appendDefaultEditor } from '../utils/pintura/pintura.js'
+import '../utils/pintura/pintura.css'
 
 export default {
   data() {
     return {
       fileSelected: false,
       w: 0,
-      h: 0
+      h: 0,
     }
   },
   computed: {
-    ...mapState(['imageCustomizerShow'])
+    ...mapState(['imageCustomizerShow']),
   },
   watch: {
     imageCustomizerShow: {
       handler() {
         console.log('imageCustomizerShow')
         this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
-      }
-    }
+      },
+    },
   },
   mounted() {},
   methods: {
@@ -57,7 +57,7 @@ export default {
           [undefined, 'Auto'],
           [[128, 128], 'Small'],
           [[512, 512], 'Medium'],
-          [[1024, 1024], 'Large']
+          [[1024, 1024], 'Large'],
         ],
 
         cropSelectPresetOptions: [
@@ -67,31 +67,34 @@ export default {
               [undefined, 'Custom'],
               [1, 'Square'],
               [4 / 3, 'Landscape'],
-              [3 / 4, 'Portrait']
-            ]
-          ]
-        ]
+              [3 / 4, 'Portrait'],
+            ],
+          ],
+        ],
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  width: 60%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
 }
 
 .image-win {
-  margin-top: 10vh;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 90%;
   padding: 20px;
   background: #fff;
+}
+
+::v-deep(.PinturaRoot) {
+  background: #fff !important;
 }
 </style>
