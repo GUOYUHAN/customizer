@@ -23,7 +23,7 @@ import WCustomizer from './components/WCustomizer'
 export default {
   name: 'App',
   components: {
-    WCustomizer,
-  },
+    WCustomizer
+  }
 }
 </script>

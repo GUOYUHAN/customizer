@@ -14,7 +14,6 @@
 
 <template>
   <div id="view">
-    <!-- {{ selectedOptions }} -->
     <div id="model-container"></div>
   </div>
 </template>
