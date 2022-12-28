@@ -114,7 +114,7 @@ const { mapState, mapGetters, mapActions } = createNamespacedHelpers('customizer
 export default {
   computed: {
     ...mapState(['fontCustomizerShow', 'selectedOptions', 'options']),
-    ...mapGetters(['customFont']),
+    ...mapGetters(['customFont'])
   },
   methods: {
     ...mapActions(['toggleCustomizer', 'clearCustomFont', 'setOptionsState', 'setOption']),
@@ -123,7 +123,7 @@ export default {
       if (this.customFont) {
         // 输入过文字，弹出用户提示
         p = Dialog.confirm({
-          message: '关闭页面会清空文字，确认关闭么？',
+          message: '关闭页面会清空文字，确认关闭么？'
         })
       } else {
         // 没有输入文字，直接关闭
@@ -132,7 +132,7 @@ export default {
       p.then(() => {
         this.clearCustomFont()
         this.setOptionsState({
-          font: 1,
+          font: 1
         })
         this.toggleCustomizer({ type: 'font', flag: false })
       })
@@ -140,20 +140,20 @@ export default {
     save() {
       if (!this.customFont) return
       if (!this.selectedOptions.font) {
-        let fontObj = this.options.filter((one) => one.part === 'font')[0]
+        let fontObj = this.options.filter(one => one.part === 'font')[0]
         if (fontObj) {
-          let typeOpt = (fontObj.optionList || []).filter((one) => one.optionType === 'customFont')[0]
+          let typeOpt = (fontObj.optionList || []).filter(one => one.optionType === 'customFont')[0]
           if (typeOpt) {
             this.setOption({
               part: 'font',
               type: 'customFont',
-              option: typeOpt.options[0],
+              option: typeOpt.options[0]
             })
           }
         }
       }
       this.toggleCustomizer({ type: 'font', flag: false })
-    },
-  },
+    }
+  }
 }
 </script>

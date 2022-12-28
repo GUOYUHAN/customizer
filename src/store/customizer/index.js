@@ -11,16 +11,18 @@ export default {
     selectedOptions: {
       customFontL: '',
       customFontR: '',
+      currentPart: '',
+      currentType: ''
     },
     // 不同部分定制类型状态记录
     optionsState: {},
     // 浮层展示状态
     fontCustomizerShow: false,
-    imageCustomizerShow: false,
+    imageCustomizerShow: false
   }),
   getters: {
     // 是否设置了刺绣文字
-    customFont: (state) => state.selectedOptions.customFontL || state.selectedOptions.customFontR,
+    customFont: state => state.selectedOptions.customFontL || state.selectedOptions.customFontR
   },
   mutations: {},
   actions: {
@@ -44,15 +46,18 @@ export default {
     setOption({ state }, payload) {
       state.history.push(payload)
       const { part, type, option } = payload
+      console.log('payload', payload)
       delete option.style
       delete option.showName
 
       let selectedOptions = Object.assign({}, state.selectedOptions)
+      selectedOptions.currentPart = part
+      selectedOptions.currentType = type
       selectedOptions[part] = selectedOptions[part] || {}
       selectedOptions[part] = {
-        [type]: option,
+        [type]: option
       }
       state.selectedOptions = selectedOptions
-    },
-  },
+    }
+  }
 }

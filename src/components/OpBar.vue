@@ -72,6 +72,7 @@
   color: #555;
   border-radius: 20px;
   border: 1px solid #aaa;
+  cursor: pointer;
 }
 .type__el.active {
   color: #000;
@@ -150,7 +151,7 @@ export default {
   data() {
     return {
       visible: true,
-      currentPartIndex: 0,
+      currentPartIndex: 0
     }
   },
   computed: {
@@ -196,9 +197,9 @@ export default {
     currentTypeList() {
       if (!this.currentPartObj) return []
       let optionList = this.currentPartObj.optionList
-      return optionList.map((one) => ({
+      return optionList.map(one => ({
         name: one.optionName,
-        type: one.optionType,
+        type: one.optionType
       }))
     },
 
@@ -212,21 +213,21 @@ export default {
       let selectedOption = selectedPart[this.currentType] || {}
       let selectedId = selectedOption.id
 
-      return option.options.map((one) => {
+      return option.options.map(one => {
         one.selected = one.id === selectedId
 
         if (one.icon) {
           one.style = {
-            backgroundImage: `url('${one.icon}')`,
+            backgroundImage: `url('${one.icon}')`
           }
         } else if (one.value) {
           one.style = {
-            backgroundColor: one.value,
+            backgroundColor: one.value
           }
         }
         return one
       })
-    },
+    }
   },
   methods: {
     ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'clearCustomFont']),
@@ -243,7 +244,6 @@ export default {
 
       this.currentPartIndex = index
       this.restorePartType()
-
       setTimeout(() => {
         this.visible = true
       }, 100)
@@ -285,12 +285,12 @@ export default {
       this.setOption({
         part: this.currentPart,
         type: this.currentType,
-        option,
+        option
       })
-    },
+    }
   },
   mounted() {
     this.changePartIndex(0)
-  },
+  }
 }
 </script>
