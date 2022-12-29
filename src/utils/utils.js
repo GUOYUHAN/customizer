@@ -5,67 +5,54 @@ import uv1 from './customizer/shader_uv.json'
 export const setMaterial = (parent, part, obj, type) => {
   parent.traverse(child => {
     if (child.isMesh && child.name != null && child.name === part) {
-      if (type === 'color' || !type) {
-        // if (modified) {
-        //   let mtl = {}
-        //   Object.keys(obj).forEach(k => {
-        //     mtl[k] = child.material[k]
-        //   })
-        // }
-        child.material.color = obj.color ? new THREE.Color(obj.color) : child.material.color
-        child.material.emissive = obj.emissive ? new THREE.Color(obj.emissive) : child.material.emissive
-        child.material.metalness = obj.metalness ? obj.metalness : child.material.metalness
-        child.material.roughness = obj.roughness ? obj.roughness : child.material.roughness
-        child.material.map = obj.map ? obj.map : child.material.map
-        child.material.normalMap = obj.normalMap ? obj.normalMap : child.material.normalMap
-        child.material.roughnessMap = obj.roughnessMap ? obj.roughnessMap : child.material.roughnessMap
-        child.material.emissiveMap = obj.emissiveMap ? obj.emissiveMap : child.material.emissiveMap
-      } else if (type === 'image') {
+      if (type === 'image' || type === 'color' || !type) {
         let material = new THREE.MeshStandardMaterial()
         material.transparent = true
-        material.color = new THREE.Color(obj.mesh_options?.color ? obj.mesh_options?.color : '#f1f2f1')
-        material.emissive = new THREE.Color(obj.mesh_options?.emissive ? obj.mesh_options?.emissive : '#3d3d3d')
+        material.color = new THREE.Color(obj.mesh_options?.color ? obj.mesh_options?.color : '##010101')
+        material.emissive = new THREE.Color(obj.mesh_options?.emissive ? obj.mesh_options?.emissive : '#000000')
         material.roughness = obj.mesh_options?.roughness ? obj.mesh_options?.roughness : child.material.roughness
         material.metalness = obj.mesh_options?.metalness ? obj.mesh_options?.metalness : child.material.metalness
 
-        material.normalMap = obj.normalMap
+        material.normalMap = obj.normalMap ? obj.normalMap : child.material.normalMap
         material.map = obj.map
         material.emissiveMap = obj.emissiveMap ? obj.emissiveMap : child.material.emissiveMap
-
-        const r = customShader({
-          shaders: uv1,
-          material,
-          uniforms: {
-            highLightAlpha: {
-              type: 'f',
-              value: 0
-            },
-            highLightColor: {
-              type: 'c',
-              value: {
-                r: 1,
-                g: 0,
-                b: 0
+        console.log(child.name, child.material.emissive)
+        if (obj.map && obj.normalMap) {
+          const r = customShader({
+            shaders: uv1,
+            material,
+            uniforms: {
+              highLightAlpha: {
+                type: 'f',
+                value: 0
+              },
+              highLightColor: {
+                type: 'c',
+                value: {
+                  r: 1,
+                  g: 0,
+                  b: 0
+                }
+              },
+              normalRepeat: {
+                type: 'f',
+                value: 16
+              },
+              stitchColor: {
+                type: 'c',
+                value: {
+                  r: 1,
+                  g: 1,
+                  b: 1
+                }
+              },
+              useHighLight: {
+                type: 'i',
+                value: 0
               }
-            },
-            normalRepeat: {
-              type: 'f',
-              value: 16
-            },
-            stitchColor: {
-              type: 'c',
-              value: {
-                r: 1,
-                g: 1,
-                b: 1
-              }
-            },
-            useHighLight: {
-              type: 'i',
-              value: 0
             }
-          }
-        })
+          })
+        }
         child.material = material
       }
     }

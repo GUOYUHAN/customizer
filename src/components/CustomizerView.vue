@@ -52,7 +52,10 @@ export default {
         let new_params
         if (newVal.currentType === 'color') {
           new_params = {
-            color: newVal[newVal.currentPart].color.value
+            map: null,
+            mesh_options: {
+              color: newVal[newVal.currentPart].color.value
+            }
           }
         } else if (newVal.currentType === 'image') {
           const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
@@ -75,6 +78,7 @@ export default {
               child.material.map = text
             }
           })
+          return
         }
         setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
       },
