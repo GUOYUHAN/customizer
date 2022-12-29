@@ -25,7 +25,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 
-const { mapState } = createNamespacedHelpers('customizer')
+const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
 
 export default {
@@ -34,7 +34,6 @@ export default {
       renderer: null,
       loader: null,
       controls: null,
-      theModel: null,
       personalization: null
     }
   },
@@ -42,7 +41,7 @@ export default {
     this.draw()
   },
   computed: {
-    ...mapState(['selectedOptions'])
+    ...mapState(['selectedOptions', 'theModel'])
   },
   watch: {
     selectedOptions: {
@@ -79,6 +78,8 @@ export default {
             }
           })
           return
+        } else if (newVal.currentType === 'customImage') {
+          return
         }
         setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
       },
@@ -86,6 +87,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setTheModel']),
     initRender() {
       this.renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -173,7 +175,7 @@ export default {
       this.initControls()
 
       const { models, textures } = await initialLoad()
-      this.theModel = models[0].scene
+      this.setTheModel(models[0].scene)
       for (let i = 0; i < models.length; i++) {
         scene.add(models[i].scene)
       }

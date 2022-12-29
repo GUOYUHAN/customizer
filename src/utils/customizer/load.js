@@ -12,6 +12,7 @@ let txtLoader = new THREE.TextureLoader()
 
 // Load models and texture
 let loader = new GLTFLoader()
+loader.setCrossOrigin('')
 
 // Draco loader
 let dracoLoader = new DRACOLoader()

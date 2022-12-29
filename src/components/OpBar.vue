@@ -230,7 +230,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'clearCustomFont']),
+    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'clearCustomFont']),
     // 切换定制部位
     changePartIndex(step) {
       this.visible = false
@@ -279,6 +279,10 @@ export default {
     selectOption(option) {
       // 上传图片
       if (option.customImage) {
+        this.setCurrent({
+          part: this.currentPart,
+          type: 'customImage'
+        })
         this.toggleCustomizer({ type: 'image', flag: true })
         return
       }
