@@ -104,13 +104,13 @@ export default {
       scene = new THREE.Scene()
 
       // helper
-      const axesHelper = new THREE.AxesHelper(10)
-      scene.add(axesHelper)
+      // const axesHelper = new THREE.AxesHelper(10)
+      // scene.add(axesHelper)
     },
     initCamera() {
       this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / (window.innerHeight - 260), 0.1, 1000)
 
-      this.camera.position.set(1.5, 1, 3)
+      this.camera.position.set(2.5, 1, 4)
       this.camera.lookAt(0, 0.5, 0)
       this.camera.updateProjectionMatrix()
     },
@@ -160,9 +160,9 @@ export default {
       this.controls.enableDamping = true
       this.controls.dampingFactor = 0.05
       this.controls.zoomSpeed = 0.5
-      // this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
+      this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
       this.controls.maxDistance = 7
-      // this.controls.minDistance = 3
+      this.controls.minDistance = 4
       this.controls.target = new THREE.Vector3(0, 0.5, 0)
       this.controls.update()
     },
