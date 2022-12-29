@@ -8,6 +8,7 @@
   height: 260px;
   border-radius: 30px 30px 0 0;
   box-shadow: 0 0 10px rgba(200, 200, 200, 0.7);
+  background-color: #fff;
 }
 
 .part {

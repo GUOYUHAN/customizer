@@ -58,15 +58,15 @@ export const setMaterial = (parent, part, obj, type) => {
 
 export const getTextCanvas = (text, color) => {
   let canvas = document.createElement('canvas')
-  canvas.width = 3000
-  canvas.height = 1250
+  canvas.width = 1200
+  canvas.height = 1200
   let ctx = canvas.getContext('2d')
   ctx.fillStyle = 'rgba(225,225,225,0)'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
-  ctx.font = 'small-caps 400px bold sans-serif'
+  ctx.font = '170px bold sans-serif'
   ctx.fillStyle = color
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.fillText(text, 1500, 625)
+  ctx.fillText(text, 600, 600)
   return canvas
 }

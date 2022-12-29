@@ -46,8 +46,8 @@ export default {
   watch: {
     selectedOptions: {
       async handler(newVal, oldVal) {
-        console.log('oldVal', oldVal)
-        console.log('newVal', newVal)
+        console.log('oldVal', oldVal.customFontR)
+        console.log('newVal', newVal.customFontR)
         let new_params
         if (newVal.currentType === 'color') {
           new_params = {
@@ -70,7 +70,7 @@ export default {
           this.personalization.children[0].traverse(child => {
             if (child.isMesh) {
               child.material.transparent = true
-              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR, newVal[newVal.currentPart].customFont.value))
+              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR.replace(/[\W]/g, '').slice(0, 5).toUpperCase(), newVal[newVal.currentPart].customFont.value))
               text.flipY = false
               text.repeat.set(1, 1)
               text.offset.set(0, 0.05)
@@ -156,13 +156,13 @@ export default {
     initControls() {
       // Enable this.controls
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      this.controls.enablePan = true
+      // this.controls.enablePan = true
       this.controls.enableDamping = true
-      this.controls.dampingFactor = 0.05
-      this.controls.zoomSpeed = 0.5
+      this.controls.dampingFactor = 0.02
+      this.controls.zoomSpeed = 0.2
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
       this.controls.maxDistance = 7
-      this.controls.minDistance = 4
+      this.controls.minDistance = 2
       this.controls.target = new THREE.Vector3(0, 0.5, 0)
       this.controls.update()
     },
