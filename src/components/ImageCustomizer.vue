@@ -173,7 +173,7 @@ export default {
   height: 100%;
   transform: scale(0.6, 0.6);
   opacity: 0.6;
-  z-index: 1;
+  z-index: 4;
   pointer-events: none;
 }
 .customizer-svg.vamp {

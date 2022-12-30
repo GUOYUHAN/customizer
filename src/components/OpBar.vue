@@ -9,6 +9,7 @@
   border-radius: 30px 30px 0 0;
   box-shadow: 0 0 10px rgba(200, 200, 200, 0.7);
   background-color: #fff;
+  z-index: 1;
 }
 
 .part {
@@ -234,25 +235,20 @@ export default {
     ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'clearCustomFont']),
     // 切换定制部位
     changePartIndex(step) {
-      try {
-        this.visible = false
-        let index = this.currentPartIndex
-        index += step
-        if (index > this.partMaxIndex) {
-          index = 0
-        } else if (index < 0) {
-          index = this.partMaxIndex
-        }
-
-        this.currentPartIndex = index
-        this.restorePartType()
-        setTimeout(() => {
-          this.visible = true
-        }, 100)
-        alert('changePartIndex ok')
-      } catch (e) {
-        alert('changePartIndex', e)
+      this.visible = false
+      let index = this.currentPartIndex
+      index += step
+      if (index > this.partMaxIndex) {
+        index = 0
+      } else if (index < 0) {
+        index = this.partMaxIndex
       }
+
+      this.currentPartIndex = index
+      this.restorePartType()
+      setTimeout(() => {
+        this.visible = true
+      }, 100)
     },
     // 还原当前部位定制的类型
     restorePartType() {
@@ -300,12 +296,7 @@ export default {
     }
   },
   mounted() {
-    try {
-      alert('mounted ok')
-      this.changePartIndex(0)
-    } catch (e) {
-      alert('mounted', e)
-    }
+    this.changePartIndex(0)
   }
 }
 </script>
