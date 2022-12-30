@@ -234,20 +234,25 @@ export default {
     ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'clearCustomFont']),
     // 切换定制部位
     changePartIndex(step) {
-      this.visible = false
-      let index = this.currentPartIndex
-      index += step
-      if (index > this.partMaxIndex) {
-        index = 0
-      } else if (index < 0) {
-        index = this.partMaxIndex
-      }
+      try {
+        this.visible = false
+        let index = this.currentPartIndex
+        index += step
+        if (index > this.partMaxIndex) {
+          index = 0
+        } else if (index < 0) {
+          index = this.partMaxIndex
+        }
 
-      this.currentPartIndex = index
-      this.restorePartType()
-      setTimeout(() => {
-        this.visible = true
-      }, 100)
+        this.currentPartIndex = index
+        this.restorePartType()
+        setTimeout(() => {
+          this.visible = true
+        }, 100)
+        alert('changePartIndex ok')
+      } catch (e) {
+        alert('changePartIndex', e)
+      }
     },
     // 还原当前部位定制的类型
     restorePartType() {
@@ -295,7 +300,12 @@ export default {
     }
   },
   mounted() {
-    this.changePartIndex(0)
+    try {
+      alert('mounted ok')
+      this.changePartIndex(0)
+    } catch (e) {
+      alert('mounted', e)
+    }
   }
 }
 </script>
