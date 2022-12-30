@@ -18,7 +18,9 @@ export default {
     optionsState: {},
     // 浮层展示状态
     fontCustomizerShow: false,
-    imageCustomizerShow: false
+    imageCustomizerShow: false,
+    // 帆布鞋模型
+    theModel: null
   }),
   getters: {
     // 是否设置了刺绣文字
@@ -37,9 +39,23 @@ export default {
       state.selectedOptions.customFontL = state.selectedOptions.customFontR = ''
     },
 
+    // 更新模型
+    setTheModel({ state }, theModel) {
+      state.theModel = theModel
+    },
+
     // 不同部分定制类型的选择状态记录
     setOptionsState({ state }, optionsState) {
       state.optionsState = { ...optionsState }
+    },
+
+    // 设置当前定制部门和类型
+    setCurrent({ state }, payload) {
+      const { part, type } = payload
+      let selectedOptions = Object.assign({}, state.selectedOptions)
+      selectedOptions.currentPart = part
+      selectedOptions.currentType = type
+      state.selectedOptions = selectedOptions
     },
 
     // 设置具体样式

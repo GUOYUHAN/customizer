@@ -12,6 +12,7 @@ let txtLoader = new THREE.TextureLoader()
 
 // Load models and texture
 let loader = new GLTFLoader()
+loader.setCrossOrigin('')
 
 // Draco loader
 let dracoLoader = new DRACOLoader()
@@ -82,7 +83,9 @@ const setDefaultTexture = () => {
   default_vamp_txt.repeat.set(28, 28)
   let default_vamp_mtl = {
     normalMap: default_vamp_txt,
-    color: 0xffffff
+    mesh_options: {
+      color: 0xffffff
+    }
   }
 
   setMaterial(theModel.children[0], 'vamp', default_vamp_mtl)
@@ -95,7 +98,9 @@ const setDefaultTexture = () => {
 
   default_insole_txt.repeat.set(2, 2)
   let default_insole_mtl = {
-    color: parseInt('0xc4bcb5'),
+    mesh_options: {
+      color: parseInt('0xc4bcb5')
+    },
     map: default_insole_txt,
     normalMap: default_insole_normal_txt
   }
@@ -107,7 +112,9 @@ const setDefaultTexture = () => {
   let default_foxing_mtl = {
     map: default_foxing_txt,
     normalMap: foxing_normal_txt,
-    emissive: 0x3d3d3d
+    mesh_options: {
+      emissive: 0x3d3d3d
+    }
   }
 
   default_tip_txt_roughness.repeat.set(2, 2)
@@ -115,14 +122,18 @@ const setDefaultTexture = () => {
   let default_tip_mtl = {
     roughnessMap: default_tip_txt_roughness,
     normalMap: default_tip_txt,
-    emissive: 0x222222,
-    metalness: 0.05
+    mesh_options: {
+      emissive: 0x222222,
+      metalness: 0.05
+    }
   }
 
   let default_upper_mtl = {
-    emissive: 0x151515,
-    metalness: 0.05,
-    color: 0xffffff
+    mesh_options: {
+      emissive: 0x151515,
+      metalness: 0.05,
+      color: 0xffffff
+    }
   }
 
   setMaterial(theModel.children[0], 'foxing', default_foxing_mtl)
