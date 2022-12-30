@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       fileSelected: false,
+      fileCancel: false,
       w: 0,
       h: 0
     }
@@ -35,7 +36,7 @@ export default {
       handler(newVal, oldVal) {
         if (newVal) {
           console.log('imageCustomizerShow')
-          this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
+          this.onUploadClick()
         }
       }
     }
@@ -43,9 +44,26 @@ export default {
   mounted() {},
   methods: {
     ...mapActions(['toggleCustomizer', 'setOption']),
+    onUploadClick() {
+      this.fileCancel = true
+      this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
+      window.addEventListener(
+        'focus',
+        () => {
+          setTimeout(() => {
+            if (this.fileCancel) {
+              console.log('cancellalalal')
+              this.toggleCustomizer({ type: 'image', flag: false })
+            }
+          }, 500)
+        },
+        { once: true }
+      )
+    },
     fileChange(e) {
       console.log('file change', e.target.files[0])
 
+      this.fileCancel = false
       this.fileSelected = true
 
       const pintura = appendDefaultEditor('#image-win', {

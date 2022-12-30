@@ -67,6 +67,8 @@ export const getTextCanvas = (text, color) => {
   ctx.fillStyle = color
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.fillText(text, 600, 600)
+  if (text) {
+    ctx.fillText(text, 600, 600)
+  }
   return canvas
 }

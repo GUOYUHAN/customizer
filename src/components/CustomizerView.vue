@@ -2,6 +2,8 @@
 #view {
   flex: 1;
   width: 100%;
+  height: 20%;
+  height: -webkit-calc(100vh - 260px);
   height: calc(100vh - 260px);
   top: 0;
   left: 0;
@@ -46,8 +48,8 @@ export default {
   watch: {
     selectedOptions: {
       async handler(newVal, oldVal) {
-        console.log('oldVal', oldVal.customFontR)
-        console.log('newVal', newVal.customFontR)
+        console.log('oldVal', oldVal)
+        console.log('newVal', newVal)
         let new_params
         if (newVal.currentType === 'color') {
           new_params = {
@@ -63,20 +65,23 @@ export default {
             mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
           }
         } else if (newVal.currentType === 'customFont') {
-          if (!oldVal.font) {
+          if (!this.personalization) {
             this.personalization = await loadPersonalization()
             scene.add(this.personalization)
           }
-          this.personalization.children[0].traverse(child => {
-            if (child.isMesh) {
-              child.material.transparent = true
-              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR.replace(/[\W]/g, '').slice(0, 5).toUpperCase(), newVal[newVal.currentPart].customFont.value))
-              text.flipY = false
-              text.repeat.set(1, 1)
-              text.offset.set(0, 0.05)
-              child.material.map = text
-            }
-          })
+          if (newVal.font) {
+            this.personalization.children[0].traverse(child => {
+              if (child.isMesh) {
+                child.material.transparent = true
+                let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR.replace(/[\W]/g, '').slice(0, 5).toUpperCase(), newVal[newVal.currentPart].customFont.value))
+                text.flipY = false
+                text.repeat.set(1, 1)
+                text.offset.set(0, 0.05)
+                child.renderOrder = 1
+                child.material.map = text
+              }
+            })
+          }
           return
         } else if (newVal.currentType === 'customImage') {
           return
@@ -156,7 +161,7 @@ export default {
     initControls() {
       // Enable this.controls
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      // this.controls.enablePan = true
+      this.controls.enablePan = false
       this.controls.enableDamping = true
       this.controls.dampingFactor = 0.02
       this.controls.zoomSpeed = 0.2
