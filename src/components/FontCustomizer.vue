@@ -91,11 +91,11 @@
         <div class="win__desc">数字与大写字母</div>
         <div class="input__wrapper">
           <div class="input__el">
-            <input id="l" class="custom-font" v-model="selectedOptions.customFontL" type="text" placeholder="ABC123" />
+            <input id="l" class="custom-font" v-model="selectedOptions.customFontL" type="text" placeholder="ABC123" onkeyup="value=value.replace(/[\W]/g,'').toUpperCase().slice(0,5)" />
             <label class="win__label" for="l">左</label>
           </div>
           <div class="input__el">
-            <input id="r" class="custom-font" v-model="selectedOptions.customFontR" type="text" placeholder="ABC123" />
+            <input id="r" class="custom-font" v-model="selectedOptions.customFontR" type="text" placeholder="ABC123" onkeyup="value=value.replace(/[\W]/g,'').slice(0,5).toUpperCase()" />
             <label class="win__label" for="r">右</label>
           </div>
         </div>
