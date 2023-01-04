@@ -91,11 +91,11 @@
         <div class="win__desc">数字与大写字母</div>
         <div class="input__wrapper">
           <div class="input__el">
-            <input id="l" class="custom-font" v-model="selectedOptions.customFontL" type="text" placeholder="ABC123" onkeyup="value=value.replace(/[\W]/g,'').toUpperCase().slice(0,5)" />
+            <input id="l" class="custom-font" v-model="inputValueL" type="text" placeholder="ABC123" maxlength="5" />
             <label class="win__label" for="l">左</label>
           </div>
           <div class="input__el">
-            <input id="r" class="custom-font" v-model="selectedOptions.customFontR" type="text" placeholder="ABC123" onkeyup="value=value.replace(/[\W]/g,'').slice(0,5).toUpperCase()" />
+            <input id="r" class="custom-font" v-model="inputValueR" type="text" placeholder="ABC123" maxlength="5" />
             <label class="win__label" for="r">右</label>
           </div>
         </div>
@@ -112,9 +112,26 @@ import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('customizer')
 
 export default {
+  data() {
+    return {
+      inputValueL: '',
+      inputValueR: ''
+    }
+  },
   computed: {
     ...mapState(['fontCustomizerShow', 'selectedOptions', 'options']),
     ...mapGetters(['customFont'])
+  },
+  watch: {
+    inputValueR(val) {
+      this.inputValueR = val.replace(/[\W]/g, '').toUpperCase()
+      this.selectedOptions.customFontR = this.inputValueR
+    },
+    inputValueL(val) {
+      this.inputValueL = val.replace(/[\W]/g, '').toUpperCase()
+      this.selectedOptions.customFontL = this.inputValueL
+    },
+    immediate: true
   },
   methods: {
     ...mapActions(['toggleCustomizer', 'clearCustomFont', 'setOptionsState', 'setOption']),

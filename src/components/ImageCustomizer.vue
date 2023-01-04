@@ -68,23 +68,15 @@ export default {
 
       const pintura = appendDefaultEditor('#image-win', {
         src: e.target.files[0],
-        resizeSizePresetOptions: [
-          [undefined, 'Auto'],
-          [[128, 128], 'Small'],
-          [[512, 512], 'Medium'],
-          [[1024, 1024], 'Large']
-        ],
-        cropSelectPresetOptions: [
-          [
-            'Crop',
-            [
-              [undefined, 'Custom'],
-              [1, 'Square'],
-              [4 / 3, 'Landscape'],
-              [3 / 4, 'Portrait']
-            ]
-          ]
-        ]
+
+        // cropEnableImageSelection: false,
+        imageCropLimitToImage: false,
+
+        cropEnableCenterImageSelection: false,
+        cropAutoCenterImageSelectionTimeout: 50,
+        cropImageSelectionCornerStyle: 'hook',
+        cropEnableInfoIndicator: true,
+        cropEnableRotateMatchImageAspectRatio: 'always'
       })
       pintura.on('process', async imageState => {
         let c = document.createElement('canvas')
@@ -157,7 +149,9 @@ export default {
 }
 
 .image-win {
+  position: relative;
   width: 90%;
+  max-width: 480px;
   height: 90%;
   padding: 20px;
   background: #fff;
@@ -168,10 +162,9 @@ export default {
 
 .customizer-svg {
   position: absolute;
-  top: 15vh;
-  width: 100%;
-  height: 100%;
-  transform: scale(0.6, 0.6);
+  top: 33vh;
+  width: 60%;
+  height: 60%;
   opacity: 0.6;
   z-index: 4;
   pointer-events: none;

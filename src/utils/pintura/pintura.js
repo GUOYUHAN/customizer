@@ -25773,8 +25773,8 @@ var ay = {
     cropLabelCropBoundary: 'Crop boundary',
     cropLabelCropBoundaryEdge: 'Edge of image',
     cropLabelCropBoundaryNone: 'None',
-    cropLabelTabRotation: 'Rotation',
-    cropLabelTabZoom: 'Zoom'
+    cropLabelTabRotation: '旋转',
+    cropLabelTabZoom: '缩放'
   },
   sy = {
     frameLabel: 'Frame',
