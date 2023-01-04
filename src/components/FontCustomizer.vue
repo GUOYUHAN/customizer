@@ -131,6 +131,16 @@ export default {
       this.inputValueL = val.replace(/[\W]/g, '').toUpperCase()
       this.selectedOptions.customFontL = this.inputValueL
     },
+    'selectedOptions.customFontR'() {
+      if (!this.selectedOptions.customFontR) {
+        this.inputValueR = ''
+      }
+    },
+    'selectedOptions.customFontL'() {
+      if (!this.selectedOptions.customFontL) {
+        this.inputValueL = ''
+      }
+    },
     immediate: true
   },
   methods: {

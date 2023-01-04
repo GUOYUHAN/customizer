@@ -70,7 +70,6 @@ export default {
             scene.add(this.personalization)
           }
           if (newVal.font) {
-            console.log('custom here')
             this.personalization.children[0].traverse(child => {
               if (child.isMesh) {
                 child.material.transparent = true
