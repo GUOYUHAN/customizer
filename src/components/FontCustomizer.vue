@@ -91,11 +91,11 @@
         <div class="win__desc">数字与大写字母</div>
         <div class="input__wrapper">
           <div class="input__el">
-            <input id="l" class="custom-font" v-model="inputValueL" type="text" placeholder="ABC123" maxlength="5" />
+            <input id="l" class="custom-font" v-model="selectedOptions.customFontL" type="text" placeholder="ABC123" maxlength="5" />
             <label class="win__label" for="l">左</label>
           </div>
           <div class="input__el">
-            <input id="r" class="custom-font" v-model="inputValueR" type="text" placeholder="ABC123" maxlength="5" />
+            <input id="r" class="custom-font" v-model="selectedOptions.customFontR" type="text" placeholder="ABC123" maxlength="5" />
             <label class="win__label" for="r">右</label>
           </div>
         </div>
@@ -123,23 +123,18 @@ export default {
     ...mapGetters(['customFont'])
   },
   watch: {
-    inputValueR(val) {
-      this.inputValueR = val.replace(/[\W]/g, '').toUpperCase()
-      this.selectedOptions.customFontR = this.inputValueR
-    },
-    inputValueL(val) {
-      this.inputValueL = val.replace(/[\W]/g, '').toUpperCase()
-      this.selectedOptions.customFontL = this.inputValueL
-    },
-    'selectedOptions.customFontR'() {
-      if (!this.selectedOptions.customFontR) {
-        this.inputValueR = ''
+    fontCustomizerShow(val) {
+      if (val) {
+        console.log('open')
+        this.inputValueL = this.selectedOptions.customFontL
+        this.inputValueR = this.selectedOptions.customFontR
       }
     },
-    'selectedOptions.customFontL'() {
-      if (!this.selectedOptions.customFontL) {
-        this.inputValueL = ''
-      }
+    'selectedOptions.customFontR'(val) {
+      this.selectedOptions.customFontR = val.replace(/[\W]/g, '').toUpperCase()
+    },
+    'selectedOptions.customFontL'(val) {
+      this.selectedOptions.customFontL = val.replace(/[\W]/g, '').toUpperCase()
     },
     immediate: true
   },
@@ -147,20 +142,45 @@ export default {
     ...mapActions(['toggleCustomizer', 'clearCustomFont', 'setOptionsState', 'setOption']),
     close() {
       let p
+      let clear = true,
+        restore = false
       if (this.customFont) {
-        // 输入过文字，弹出用户提示
-        p = Dialog.confirm({
-          message: '关闭页面会清空文字，确认关闭么？'
-        })
+        if (this.inputValueL === this.selectedOptions.customFontL && this.inputValueR === this.selectedOptions.customFontR) {
+          // 输入过文字，和上次一样
+          clear = false
+          p = Promise.resolve()
+        } else {
+          // 输入过文字，和上次不一样
+          p = Dialog.confirm({
+            message: '关闭页面会清空文字，确认关闭么？'
+          })
+        }
       } else {
-        // 没有输入文字，直接关闭
-        p = Promise.resolve()
+        if (this.inputValueL || this.inputValueR) {
+          // 没有输入文字，上次有文字
+          clear = false
+          restore = true
+          p = Dialog.confirm({
+            message: '将会还原上次的文字，确认关闭么？'
+          })
+        } else {
+          // 没有输入文字，上次没有文字
+          p = Promise.resolve()
+        }
       }
+
       p.then(() => {
-        this.clearCustomFont()
-        this.setOptionsState({
-          font: 1
-        })
+        console.log(clear)
+        if (restore) {
+          this.selectedOptions.customFontL = this.inputValueL
+          this.selectedOptions.customFontR = this.inputValueR
+        }
+        if (clear) {
+          this.clearCustomFont()
+          this.setOptionsState({
+            font: 1
+          })
+        }
         this.toggleCustomizer({ type: 'font', flag: false })
       })
     },

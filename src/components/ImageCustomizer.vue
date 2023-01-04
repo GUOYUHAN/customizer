@@ -52,7 +52,6 @@ export default {
         () => {
           setTimeout(() => {
             if (this.fileCancel) {
-              console.log('cancellalalal')
               this.toggleCustomizer({ type: 'image', flag: false })
             }
           }, 500)

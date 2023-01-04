@@ -69,19 +69,17 @@ export default {
             this.personalization = await loadPersonalization()
             scene.add(this.personalization)
           }
-          if (newVal.font) {
-            this.personalization.children[0].traverse(child => {
-              if (child.isMesh) {
-                child.material.transparent = true
-                let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR, newVal[newVal.currentPart].customFont.value))
-                text.flipY = false
-                text.repeat.set(1, 1)
-                text.offset.set(0, 0.05)
-                child.renderOrder = 1
-                child.material.map = text
-              }
-            })
-          }
+          this.personalization.children[0].traverse(child => {
+            if (child.isMesh) {
+              child.material.transparent = true
+              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR, newVal[newVal.currentPart]?.customFont?.value))
+              text.flipY = false
+              text.repeat.set(1, 1)
+              text.offset.set(0, 0.05)
+              child.renderOrder = 1
+              child.material.map = text
+            }
+          })
           return
         } else if (newVal.currentType === 'customImage') {
           return
