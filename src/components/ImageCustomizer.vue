@@ -18,6 +18,8 @@ import { appendDefaultEditor } from '../utils/pintura/pintura.js'
 import '../utils/pintura/pintura.css'
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
+import {getFileSize} from '../utils/customizer/imageTools'
+
 
 export default {
   data() {
@@ -25,11 +27,11 @@ export default {
       fileSelected: false,
       fileCancel: false,
       w: 0,
-      h: 0
+      h: 0,
     }
   },
   computed: {
-    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel'])
+    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel']),
   },
   watch: {
     imageCustomizerShow: {
@@ -38,8 +40,8 @@ export default {
           console.log('imageCustomizerShow')
           this.onUploadClick()
         }
-      }
-    }
+      },
+    },
   },
   mounted() {},
   methods: {
@@ -61,61 +63,103 @@ export default {
       )
     },
     fileChange(e) {
-      console.log('file change', e.target.files[0])
+      const file = e.target.files[0]
+
+      console.log('file change', file)
 
       this.fileCancel = false
       this.fileSelected = true
 
-      const pintura = appendDefaultEditor('#image-win', {
-        src: e.target.files[0],
-        resizeSizePresetOptions: [
-          [undefined, 'Auto'],
-          [[128, 128], 'Small'],
-          [[512, 512], 'Medium'],
-          [[1024, 1024], 'Large']
-        ],
-        cropSelectPresetOptions: [
-          [
-            'Crop',
-            [
-              [undefined, 'Custom'],
-              [1, 'Square'],
-              [4 / 3, 'Landscape'],
-              [3 / 4, 'Portrait']
-            ]
-          ]
-        ]
-      })
-      pintura.on('process', async imageState => {
-        let c = document.createElement('canvas')
-        c.width = 1024
-        c.height = 1024
-        const userCanvas = await this.imageProcess(imageState, c, this.selectedOptions.currentPart)
-        const userImgURL = userCanvas.toDataURL('image/jpeg')
-        const txtures = await loadTexture({
-          map: {
-            options: {
-              repeat: [5, 5],
-              flipY: false,
-              offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.2] : [0, 0.25]
-            },
-            image_url: userImgURL
-          },
-          normalMap: {
-            options: {
-              repeat: [28, 28]
-            },
-            image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'
+      getFileSize(file).then((res) => {
+        let {width: imgW, height: imgH} = res
+
+        const pintura = appendDefaultEditor('#image-win', {
+          src: file,
+          resizeSizePresetOptions: [
+            [undefined, 'Auto'],
+            [[128, 128], 'Small'],
+            [[512, 512], 'Medium'],
+            [[1024, 1024], 'Large'],
+          ],
+          cropEnableImageSelection: false,
+          imageCropLimitToImage: false,
+          imageCropAspectRatio: 1.5,
+        })
+
+        let manifest = 0
+        pintura.on('loadpreview', (imageData) => {
+          console.log('loadpreview', imageData) // imageData
+          manifest = 100
+        })
+
+        pintura.on('load', (e) => {
+          // e.size.width = imgW
+          // e.size.height = imgH
+        })
+
+        pintura.on('update', (e) => {
+          if (!e.crop) return
+          if (imgW < 0) return
+          if (manifest >= 100) {
+            console.log('update', e)
+            // e.crop = {x: 40, y: -93, width: 619, height: 478}
+            return
+          }
+          console.log('update', e)
+          if (manifest === 0) {
+            e.imageSize = {
+              width: imgW,
+              height: imgH
+            }
+            // e.crop = {x: 0, y: 0, width: 723, height: 482}
+            e.crop = {x: 0, y: 0, width: 750, height: 500}
+            console.log(e, '>>>>>>>')
+            // manifest = 1
+          } else if (manifest === 1) {
+            console.log(e, '<<<<<<<')
+            manifest = 2
           }
         })
 
-        let new_params = {
-          ...txtures
-        }
-        setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
-        document.getElementById('userFile').value = ''
-        this.fileSelected = false
-        this.toggleCustomizer({ type: 'image', flag: false })
+        pintura.on('process', async (imageState) => {
+          // new ObjectUrl(imageState.dest)
+
+          let c = document.createElement('canvas')
+          c.width = 1024
+          c.height = 1024
+          const userCanvas = await this.imageProcess(imageState, c, this.selectedOptions.currentPart)
+          const userImgURL = userCanvas.toDataURL('image/jpeg')
+          // console.log(userImgURL)
+
+          // TODO
+          document.querySelector('#before').src = URL.createObjectURL(imageState.dest)
+          document.querySelector('#after').src = userImgURL
+
+          const txtures = await loadTexture({
+            map: {
+              options: {
+                repeat: [5, 5],
+                flipY: false,
+                offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.2] : [0, 0.25],
+              },
+              image_url: userImgURL,
+            },
+            normalMap: {
+              options: {
+                repeat: [28, 28],
+              },
+              image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl',
+            },
+          })
+
+          let new_params = {
+            ...txtures,
+          }
+          setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
+          document.getElementById('userFile').value = ''
+          this.fileSelected = false
+          this.toggleCustomizer({ type: 'image', flag: false })
+        })
       })
     },
     imageProcess(imageState, c, part) {
@@ -141,8 +185,8 @@ export default {
           }
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
