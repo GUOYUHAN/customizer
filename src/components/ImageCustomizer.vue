@@ -18,7 +18,7 @@ import { appendDefaultEditor } from '../utils/pintura/pintura.js'
 import '../utils/pintura/pintura.css'
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
-import {getFileSize} from '../utils/customizer/imageTools'
+import { getFileSize, getCropProperty } from '../utils/customizer/imageTools'
 
 
 export default {
@@ -72,6 +72,7 @@ export default {
 
       getFileSize(file).then((res) => {
         let {width: imgW, height: imgH} = res
+        const {cropRatio, cropX, cropY, cropW, cropH} = getCropProperty({imgW, imgH, cropRatio: 1.29460581})
 
         const pintura = appendDefaultEditor('#image-win', {
           src: file,
@@ -83,40 +84,27 @@ export default {
           ],
           cropEnableImageSelection: false,
           imageCropLimitToImage: false,
-          imageCropAspectRatio: 1.29460581,
+          imageCropAspectRatio: cropRatio,
         })
 
         let manifest = 0
         pintura.on('loadpreview', (imageData) => {
           console.log('loadpreview', imageData) // imageData
+          console.log(imageData)
           manifest = 100
-        })
-
-        pintura.on('load', (e) => {
-          // e.size.width = imgW
-          // e.size.height = imgH
         })
 
         pintura.on('update', (e) => {
           if (!e.crop) return
           if (imgW < 0) return
-          if (manifest >= 100) {
-            console.log('update', e)
-            // e.crop = {x: 40, y: -93, width: 619, height: 478}
-            return
-          }
+          if (manifest >= 100) return
           console.log('update', e)
           if (manifest === 0) {
             e.imageSize = {
               width: imgW,
               height: imgH
             }
-            e.crop = {x: 0, y: 0, width: 624, height: 482}
-            console.log(e, '>>>>>>>')
-            // manifest = 1
-          } else if (manifest === 1) {
-            console.log(e, '<<<<<<<')
-            manifest = 2
+            e.crop = {x: cropX, y: cropY, width: cropW, height: cropH}
           }
         })
 
