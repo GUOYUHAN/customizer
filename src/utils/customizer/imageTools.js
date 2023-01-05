@@ -1,7 +1,6 @@
-const _defaultW = 750
-// const _defaultW = 723
-const _defaultH = 500
-// const _defaultH = 482
+const _defaultW = 624
+const _defaultH = 482
+
 export const getFileSize = file => {
   let imgW, imgH
   return new Promise((resolve, reject) => {

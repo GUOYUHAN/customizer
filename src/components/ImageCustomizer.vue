@@ -2,9 +2,9 @@
   <van-overlay :show="imageCustomizerShow && fileSelected">
     <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" />
 
-    <div class="wrapper">
+    <div class="wrapper" :class="selectedOptions.currentPart === 'vamp' ? 'vamp' : 'quarters'">
       <div class="image-win" id="image-win" v-if="imageCustomizerShow">
-        <div class="customizer-svg" :class="selectedOptions.currentPart === 'vamp' ? 'vamp' : 'quarters'"></div>
+        <!-- <div class="customizer-svg" :class="selectedOptions.currentPart === 'vamp' ? 'vamp' : 'quarters'"></div> -->
       </div>
     </div>
   </van-overlay>
@@ -83,7 +83,7 @@ export default {
           ],
           cropEnableImageSelection: false,
           imageCropLimitToImage: false,
-          imageCropAspectRatio: 1.5,
+          imageCropAspectRatio: 1.29460581,
         })
 
         let manifest = 0
@@ -111,8 +111,7 @@ export default {
               width: imgW,
               height: imgH
             }
-            // e.crop = {x: 0, y: 0, width: 723, height: 482}
-            e.crop = {x: 0, y: 0, width: 750, height: 500}
+            e.crop = {x: 0, y: 0, width: 624, height: 482}
             console.log(e, '>>>>>>>')
             // manifest = 1
           } else if (manifest === 1) {
@@ -131,9 +130,6 @@ export default {
           const userImgURL = userCanvas.toDataURL('image/jpeg')
           // console.log(userImgURL)
 
-          // TODO
-          document.querySelector('#before').src = URL.createObjectURL(imageState.dest)
-          document.querySelector('#after').src = userImgURL
 
           const txtures = await loadTexture({
             map: {
@@ -220,11 +216,11 @@ export default {
   z-index: 4;
   pointer-events: none;
 }
-.customizer-svg.vamp {
-  background: url('https://pic.wanwustore.cn/ww_customizer/vamp.svg') no-repeat;
+.vamp ::v-deep(.PinturaStage) {
+  background: url('https://pic.wanwustore.cn/ww_customizer/vamp.svg') no-repeat center/100% auto;
 }
-.customizer-svg.quarters {
-  background: url('https://pic.wanwustore.cn/ww_customizer/quarters.svg') no-repeat;
+.quarters ::v-deep(.PinturaStage) {
+  background: url('https://pic.wanwustore.cn/ww_customizer/quarters.svg') no-repeat center/100% auto;
 }
 
 ::v-deep(.PinturaRoot) {
