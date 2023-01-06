@@ -2,10 +2,8 @@
   <van-overlay :show="imageCustomizerShow && fileSelected">
     <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" />
 
-    <div class="wrapper">
-      <div class="image-win" id="image-win" v-if="imageCustomizerShow">
-        <div class="customizer-svg" :class="selectedOptions.currentPart === 'vamp' ? 'vamp' : 'quarters'"></div>
-      </div>
+    <div class="wrapper" :style="[{ '--bg': svgStyle }]">
+      <div class="image-win" id="image-win" v-if="imageCustomizerShow"></div>
     </div>
   </van-overlay>
 </template>
@@ -18,18 +16,23 @@ import { appendDefaultEditor } from '../utils/pintura/pintura.js'
 import '../utils/pintura/pintura.css'
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
+import { getFileSize, getCropProperty } from '../utils/customizer/imageTools'
 
 export default {
   data() {
     return {
       fileSelected: false,
       fileCancel: false,
-      w: 0,
-      h: 0
+      vampSvgStyle: 'url("https://pic.wanwustore.cn/ww_customizer/vamp.svg")no-repeat center/100% auto',
+      quartersSvgStyle: 'url("https://pic.wanwustore.cn/ww_customizer/quarters.svg") no-repeat center/100% auto'
     }
   },
   computed: {
-    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel'])
+    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel']),
+    svgStyle() {
+      let key = this.selectedOptions.currentPart
+      return this[`${key}SvgStyle`]
+    }
   },
   watch: {
     imageCustomizerShow: {
@@ -59,24 +62,49 @@ export default {
         { once: true }
       )
     },
-    fileChange(e) {
+    async fileChange(e) {
       console.log('file change', e.target.files[0])
+      const file = e.target.files[0]
 
       this.fileCancel = false
       this.fileSelected = true
 
+      const { width: imgW, height: imgH } = await getFileSize(file)
+      const { cropRatio, cropX, cropY, cropW, cropH } = getCropProperty({ imgW, imgH, cropRatio: 1.29460581 })
+
       const pintura = appendDefaultEditor('#image-win', {
         src: e.target.files[0],
+        imageBackgroundColor: [255, 255, 255],
 
-        // cropEnableImageSelection: false,
-        imageCropLimitToImage: false,
-
-        cropEnableCenterImageSelection: false,
-        cropAutoCenterImageSelectionTimeout: 50,
-        cropImageSelectionCornerStyle: 'hook',
         cropEnableInfoIndicator: true,
-        cropEnableRotateMatchImageAspectRatio: 'always'
+        cropEnableRotateMatchImageAspectRatio: 'always',
+
+        cropEnableImageSelection: false,
+        imageCropLimitToImage: false,
+        imageCropAspectRatio: cropRatio
       })
+
+      let manifest = 0
+      pintura.on('loadpreview', imageData => {
+        console.log('loadpreview', imageData) // imageData
+        console.log(imageData)
+        manifest = 100
+      })
+      pintura.on('update', e => {
+        if (!e.crop) return
+        if (imgW < 0) return
+        if (manifest >= 100) return
+        console.log('update', e)
+        if (manifest === 0) {
+          e.crop = { x: cropX, y: cropY, width: cropW, height: cropH }
+        }
+      })
+
+      pintura.on('processstart', imageState => {
+        let pinturaCanvas = document.getElementsByClassName('PinturaCanvas')
+        console.log('processstart', pinturaCanvas)
+      })
+
       pintura.on('process', async imageState => {
         let c = document.createElement('canvas')
         c.width = 1024
@@ -88,7 +116,7 @@ export default {
             options: {
               repeat: [5, 5],
               flipY: false,
-              offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.2] : [0, 0.25]
+              offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25]
             },
             image_url: userImgURL
           },
@@ -104,6 +132,7 @@ export default {
           ...txtures
         }
         setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
+
         document.getElementById('userFile').value = ''
         this.fileSelected = false
         this.toggleCustomizer({ type: 'image', flag: false })
@@ -168,11 +197,9 @@ export default {
   z-index: 4;
   pointer-events: none;
 }
-.customizer-svg.vamp {
-  background: url('https://pic.wanwustore.cn/ww_customizer/vamp.svg') no-repeat;
-}
-.customizer-svg.quarters {
-  background: url('https://pic.wanwustore.cn/ww_customizer/quarters.svg') no-repeat;
+
+::v-deep(.PinturaStage) {
+  background: var(--bg);
 }
 
 ::v-deep(.PinturaRoot) {

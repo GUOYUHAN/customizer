@@ -248,7 +248,6 @@ pintura-editor {
   display: flex;
   align-self: stretch;
   flex: 1;
-  /* background: center/70% url('https://pic.wanwustore.cn/ww_customizer/vamp.svg') no-repeat; */
 }
 .PinturaRoot .PinturaStage[tabindex='-1'] {
   outline: none;
