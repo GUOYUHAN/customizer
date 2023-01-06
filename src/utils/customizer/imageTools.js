@@ -64,3 +64,24 @@ export const getCropProperty = function (info) {
     cropH
   }
 }
+
+export const getSvgSize = file => {
+  let svgW, svgH
+  return new Promise((resolve, reject) => {
+    try {
+      let request = new XMLHttpRequest()
+      request.open('GET', file)
+      request.setRequestHeader('Content-Type', 'image/svg+xml')
+      request.addEventListener('load', function (event) {
+        let response = event.target.responseText
+        let doc = new DOMParser()
+        let xml = doc.parseFromString(response, 'image/svg+xml')
+        let viewBox = xml.getElementsByTagName('svg')[0].attributes
+        console.log(viewBox)
+      })
+      request.send()
+    } catch (e) {
+      resolve({})
+    }
+  })
+}

@@ -195,6 +195,12 @@
         "optionName": "图案",
         "options": [
           {
+            "id": "0",
+            "name": "自定义图片",
+            "customImage": true,
+            "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
+          },
+          {
             "id": "1",
             "name": "海贼王",
             "icon": "https://pic.bbtkids.cn/FmoEnKfigOSaVFYgjFsc17_mY1ZM",

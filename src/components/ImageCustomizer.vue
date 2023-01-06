@@ -18,20 +18,26 @@ import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
 import { getFileSize, getCropProperty } from '../utils/customizer/imageTools'
 
+import svgList from '../data/svgList.json'
+
 export default {
   data() {
     return {
       fileSelected: false,
       fileCancel: false,
-      vampSvgStyle: 'url("https://pic.wanwustore.cn/ww_customizer/vamp.svg")no-repeat center/100% auto',
-      quartersSvgStyle: 'url("https://pic.wanwustore.cn/ww_customizer/quarters.svg") no-repeat center/100% auto'
+      size: ''
     }
   },
   computed: {
     ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel']),
+    svgUrl() {
+      return svgList[0][this.selectedOptions.currentPart]?.url || ''
+    },
+    svgRatio() {
+      return svgList[0][this.selectedOptions.currentPart].width / svgList[0][this.selectedOptions.currentPart].height
+    },
     svgStyle() {
-      let key = this.selectedOptions.currentPart
-      return this[`${key}SvgStyle`]
+      return `url(${this.svgUrl}) no-repeat center/100% auto`
     }
   },
   watch: {
@@ -68,9 +74,8 @@ export default {
 
       this.fileCancel = false
       this.fileSelected = true
-
       const { width: imgW, height: imgH } = await getFileSize(file)
-      const { cropRatio, cropX, cropY, cropW, cropH } = getCropProperty({ imgW, imgH, cropRatio: 1.29460581 })
+      const { cropRatio, cropX, cropY, cropW, cropH } = getCropProperty({ imgW, imgH, cropRatio: this.svgRatio })
 
       const pintura = appendDefaultEditor('#image-win', {
         src: e.target.files[0],
@@ -86,23 +91,16 @@ export default {
 
       let manifest = 0
       pintura.on('loadpreview', imageData => {
-        console.log('loadpreview', imageData) // imageData
-        console.log(imageData)
         manifest = 100
       })
       pintura.on('update', e => {
         if (!e.crop) return
         if (imgW < 0) return
         if (manifest >= 100) return
-        console.log('update', e)
+        // console.log('update', e)
         if (manifest === 0) {
           e.crop = { x: cropX, y: cropY, width: cropW, height: cropH }
         }
-      })
-
-      pintura.on('processstart', imageState => {
-        let pinturaCanvas = document.getElementsByClassName('PinturaCanvas')
-        console.log('processstart', pinturaCanvas)
       })
 
       pintura.on('process', async imageState => {
@@ -153,9 +151,9 @@ export default {
               ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
             } else if (part === 'quarters') {
               ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
-              ctx.drawImage(img, 0, 391.5, 1024, (1024 / this.width) * this.height)
+              ctx.drawImage(img, 0, 633, 1024, (1024 / this.width) * this.height)
               ctx.fillStyle = '#fff'
-              ctx.fillRect(0, 391.5, c.width, 241)
+              ctx.fillRect(0, 391, c.width, 242)
             }
             resolve(c)
           }
