@@ -171,6 +171,7 @@ export default {
     confirm() {
       this.fileSelected = false
       this.toggleCustomizer({ type: 'image', flag: false })
+      this.step = '1'
     }
   }
 }
