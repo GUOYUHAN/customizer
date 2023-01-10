@@ -1,3 +1,28 @@
+export const imageProcess = (imageState, c, part) => {
+  return new Promise((resolve, reject) => {
+    let ctx = c.getContext('2d')
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(0, 0, c.width, c.height)
+    let reader = new FileReader()
+    reader.readAsDataURL(imageState.dest)
+    reader.onload = function (r) {
+      let img = new Image()
+      img.src = r.target.result
+      img.onload = function () {
+        if (part === 'vamp') {
+          ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
+        } else if (part === 'quarters') {
+          ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
+          ctx.drawImage(img, 0, 633, 1024, (1024 / this.width) * this.height)
+          ctx.fillStyle = '#fff'
+          ctx.fillRect(0, 391, c.width, 242)
+        }
+        resolve(c)
+      }
+    }
+  })
+}
+
 export const getFileSize = file => {
   let imgW, imgH
   return new Promise((resolve, reject) => {

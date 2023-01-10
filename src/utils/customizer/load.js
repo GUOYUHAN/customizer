@@ -21,11 +21,11 @@ loader.setDRACOLoader(dracoLoader)
 
 export const initialLoad = async () => {
   const results = await Promise.all([
-    loader.loadAsync('/static/models/authentic-classic-9.0.glb'),
-    loader.loadAsync('/static/models/binding_stitches.glb'),
-    loader.loadAsync('/static/models/lining_stitches.glb'),
-    loader.loadAsync('/static/models/quarters_stitches.glb'),
-    loader.loadAsync('/static/models/vamp_stitches.glb'),
+    loader.loadAsync('https://down.bbtkids.cn/wwcustomer/vans/9.0/authentic-classic-9.0.glb'),
+    loader.loadAsync('https://down.bbtkids.cn/wwcustomer/vans/9.0/binding_stitches.glb'),
+    loader.loadAsync('https://down.bbtkids.cn/wwcustomer/vans/9.0/lining_stitches.glb'),
+    loader.loadAsync('https://down.bbtkids.cn/wwcustomer/vans/9.0/quarters_stitches.glb'),
+    loader.loadAsync('https://down.bbtkids.cn/wwcustomer/vans/9.0/vamp_stitches.glb'),
     txtLoader.load('https://pic.bbtkids.cn/FlKtBOKulMFKAW6ayWGBibMBN6Yr'),
     txtLoader.load('https://pic.bbtkids.cn/Fi3FCwy0ROc_IdCPtuf_QmL2MlHw'),
     txtLoader.load('https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'),
