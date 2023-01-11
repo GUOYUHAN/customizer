@@ -259,6 +259,10 @@ export default {
     changeTypeIndex(i, opt = {}) {
       // 定制文字
       if (this.currentPart === 'font') {
+        this.setCurrent({
+          part: this.currentPart,
+          type: 'customFont'
+        })
         // 清空文字
         if (i === 1) {
           this.clearCustomFont()

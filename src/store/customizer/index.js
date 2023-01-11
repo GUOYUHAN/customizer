@@ -11,8 +11,8 @@ export default {
     selectedOptions: {
       customFontL: '',
       customFontR: '',
-      currentPart: '',
-      currentType: ''
+      currentPart: 'vamp',
+      currentType: 'color'
     },
     // 不同部分定制类型状态记录
     optionsState: {},

@@ -2,9 +2,17 @@
   <van-overlay :show="imageCustomizerShow && fileSelected">
     <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" />
 
-    <div class="wrapper">
+    <div class="wrapper" :style="[{ '--bg': svgStyle }]">
       <div class="image-win" id="image-win" v-if="imageCustomizerShow">
-        <div class="customizer-svg" :class="selectedOptions.currentPart === 'vamp' ? 'vamp' : 'quarters'"></div>
+        <div class="top-nav">
+          <div class="current-step">{{ step + '. ' + selectedOptions.currentPart }}</div>
+        </div>
+
+        <div class="w-editor" v-if="step === '1'"><div class="w-editor__container" id="w-editor__container"></div></div>
+
+        <div class="confirm" v-if="step === '2'">确认你的设计</div>
+
+        <div class="next-step" @click="step === '1' ? next() : confirm()">{{ step === '1' ? '下 一 步 ->' : '完成' }}</div>
       </div>
     </div>
   </van-overlay>
@@ -14,22 +22,38 @@
 import { createNamespacedHelpers } from 'vuex'
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 
-import { appendDefaultEditor } from '../utils/pintura/pintura.js'
+import { appendDefaultEditor, processImage } from '../utils/pintura/pintura.js'
 import '../utils/pintura/pintura.css'
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
+import { imageProcess, checkBoundingBox, getFileSize, getCropProperty } from '../utils/customizer/imageTools'
+
+import svgList from '../data/svgList.json'
+import { Dialog } from 'vant'
 
 export default {
   data() {
     return {
+      pintura: null,
       fileSelected: false,
       fileCancel: false,
-      w: 0,
-      h: 0
+      step: '1',
+      imgW: 0,
+      imgH: 0,
+      size: ''
     }
   },
   computed: {
-    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel'])
+    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel']),
+    svgUrl() {
+      return svgList[0][this.selectedOptions.currentPart]?.url || ''
+    },
+    svgRatio() {
+      return svgList[0][this.selectedOptions.currentPart].width / svgList[0][this.selectedOptions.currentPart].height
+    },
+    svgStyle() {
+      return `url(${this.svgUrl}) no-repeat center/100% auto`
+    }
   },
   watch: {
     imageCustomizerShow: {
@@ -52,7 +76,6 @@ export default {
         () => {
           setTimeout(() => {
             if (this.fileCancel) {
-              console.log('cancellalalal')
               this.toggleCustomizer({ type: 'image', flag: false })
             }
           }, 500)
@@ -60,87 +83,104 @@ export default {
         { once: true }
       )
     },
-    fileChange(e) {
+    async fileChange(e) {
       console.log('file change', e.target.files[0])
+      const file = e.target.files[0]
 
       this.fileCancel = false
       this.fileSelected = true
+      let fileSize = await getFileSize(file)
+      this.imgW = fileSize.width
+      this.imgH = fileSize.height
 
-      const pintura = appendDefaultEditor('#image-win', {
-        src: e.target.files[0],
-        resizeSizePresetOptions: [
-          [undefined, 'Auto'],
-          [[128, 128], 'Small'],
-          [[512, 512], 'Medium'],
-          [[1024, 1024], 'Large']
-        ],
-        cropSelectPresetOptions: [
-          [
-            'Crop',
-            [
-              [undefined, 'Custom'],
-              [1, 'Square'],
-              [4 / 3, 'Landscape'],
-              [3 / 4, 'Portrait']
-            ]
-          ]
-        ]
+      this.createEditor(file)
+    },
+    createEditor(file) {
+      const { cropRatio, cropX, cropY, cropW, cropH } = getCropProperty({ imgW: this.imgW, imgH: this.imgH, cropRatio: this.svgRatio })
+
+      this.pintura = appendDefaultEditor('#w-editor__container', {
+        src: file,
+        imageBackgroundColor: [255, 255, 255],
+
+        cropEnableInfoIndicator: true,
+        cropEnableRotateMatchImageAspectRatio: 'always',
+
+        cropEnableImageSelection: false,
+        imageCropLimitToImage: false,
+        imageCropAspectRatio: cropRatio
       })
-      pintura.on('process', async imageState => {
-        let c = document.createElement('canvas')
-        c.width = 1024
-        c.height = 1024
-        const userCanvas = await this.imageProcess(imageState, c, this.selectedOptions.currentPart)
-        const userImgURL = userCanvas.toDataURL('image/jpeg')
-        const txtures = await loadTexture({
-          map: {
-            options: {
-              repeat: [5, 5],
-              flipY: false,
-              offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.2] : [0, 0.25]
-            },
-            image_url: userImgURL
-          },
-          normalMap: {
-            options: {
-              repeat: [28, 28]
-            },
-            image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'
-          }
-        })
 
-        let new_params = {
-          ...txtures
+      let manifest = 0
+      this.pintura.on('loadpreview', imageData => {
+        manifest = 100
+      })
+      this.pintura.on('update', e => {
+        console.log(e.crop)
+        if (!e.crop) return
+        if (this.imgW < 0) return
+        if (manifest >= 100) return
+        if (manifest === 0) {
+          e.crop = { x: cropX, y: cropY, width: cropW, height: cropH }
         }
-        setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
-        document.getElementById('userFile').value = ''
-        this.fileSelected = false
-        this.toggleCustomizer({ type: 'image', flag: false })
       })
     },
-    imageProcess(imageState, c, part) {
-      return new Promise((resolve, reject) => {
-        let ctx = c.getContext('2d')
-        ctx.fillStyle = '#fff'
-        ctx.fillRect(0, 0, c.width, c.height)
-        let reader = new FileReader()
-        reader.readAsDataURL(imageState.dest)
-        reader.onload = function (r) {
-          let img = new Image()
-          img.src = r.target.result
-          img.onload = function () {
-            if (part === 'vamp') {
-              ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
-            } else if (part === 'quarters') {
-              ctx.drawImage(img, 0, 0, 1024, (1024 / this.width) * this.height)
-              ctx.drawImage(img, 0, 391.5, 1024, (1024 / this.width) * this.height)
-              ctx.fillStyle = '#fff'
-              ctx.fillRect(0, 391.5, c.width, 241)
+    next() {
+      let d = Promise.resolve()
+
+      const params = {
+        W: this.imgW,
+        H: this.imgH,
+        cropW: this.pintura.imageCropSize.width,
+        cropH: this.pintura.imageCropSize.height,
+        x: this.pintura.imageState.crop.x,
+        y: this.pintura.imageState.crop.y,
+        deg: this.pintura.imageState.rotation
+      }
+
+      if (!checkBoundingBox(params)) {
+        d = Dialog.confirm({
+          message: '看起来您的设计没有填满模板或已超出范围,您可以后退并使用工具移动或缩放您的设计来填满模板或者选择维持原样，由您决定！'
+        })
+      }
+
+      d.then(() => {
+        this.pintura.processImage().then(async imageState => {
+          let c = document.createElement('canvas')
+          c.width = 1024
+          c.height = 1024
+          const userCanvas = await imageProcess(imageState, c, this.selectedOptions.currentPart)
+          const userImgURL = userCanvas.toDataURL('image/jpeg')
+          const txtures = await loadTexture({
+            map: {
+              options: {
+                repeat: [5, 5],
+                flipY: false,
+                offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25]
+              },
+              image_url: userImgURL
+            },
+            normalMap: {
+              options: {
+                repeat: [28, 28]
+              },
+              image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'
             }
-            resolve(c)
+          })
+
+          let new_params = {
+            ...txtures
           }
-        }
+          setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
+
+          document.getElementById('userFile').value = ''
+          this.step = '2'
+        })
       })
+    },
+    confirm() {
+      this.fileSelected = false
+      this.toggleCustomizer({ type: 'image', flag: false })
+      this.step = '1'
     }
   }
 }
@@ -157,33 +197,71 @@ export default {
 }
 
 .image-win {
+  position: relative;
   width: 90%;
+  max-width: 480px;
   height: 90%;
-  padding: 20px;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-nav {
+  width: 100%;
+  height: 5%;
+  border-bottom: 1px solid rgb(200, 200, 200);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.customizer-svg {
-  position: absolute;
-  top: 15vh;
+.current-step {
+  font-weight: 600;
+}
+
+.w-editor {
+  width: 100%;
+  height: 85%;
+  padding: 20px;
+}
+
+.w-editor__container {
   width: 100%;
   height: 100%;
-  transform: scale(0.6, 0.6);
-  opacity: 0.6;
-  z-index: 4;
-  pointer-events: none;
 }
-.customizer-svg.vamp {
-  background: url('https://pic.wanwustore.cn/ww_customizer/vamp.svg') no-repeat;
+
+.next-step {
+  width: 100%;
+  height: 7%;
+  background: #c9192e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #fff;
 }
-.customizer-svg.quarters {
-  background: url('https://pic.wanwustore.cn/ww_customizer/quarters.svg') no-repeat;
+
+.confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+::v-deep(.PinturaStage) {
+  background: var(--bg);
+  // transform: scaleX(-1);
 }
 
 ::v-deep(.PinturaRoot) {
   background: #fff !important;
+}
+
+::v-deep(.PinturaButtonExport) {
+  visibility: hidden;
+  pointer-events: none;
 }
 </style>

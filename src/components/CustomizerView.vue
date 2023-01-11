@@ -59,29 +59,34 @@ export default {
             }
           }
         } else if (newVal.currentType === 'image') {
-          const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
-          new_params = {
-            ...txtures,
-            mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+          if (newVal[newVal.currentPart].image.clear) {
+            new_params = {
+              map: null,
+              mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+            }
+          } else {
+            const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
+            new_params = {
+              ...txtures,
+              mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+            }
           }
         } else if (newVal.currentType === 'customFont') {
           if (!this.personalization) {
             this.personalization = await loadPersonalization()
             scene.add(this.personalization)
           }
-          if (newVal.font) {
-            this.personalization.children[0].traverse(child => {
-              if (child.isMesh) {
-                child.material.transparent = true
-                let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR.replace(/[\W]/g, '').slice(0, 5).toUpperCase(), newVal[newVal.currentPart].customFont.value))
-                text.flipY = false
-                text.repeat.set(1, 1)
-                text.offset.set(0, 0.05)
-                child.renderOrder = 1
-                child.material.map = text
-              }
-            })
-          }
+          this.personalization.children[0].traverse(child => {
+            if (child.isMesh) {
+              child.material.transparent = true
+              let text = new THREE.CanvasTexture(getTextCanvas(newVal.customFontR, newVal[newVal.currentPart]?.customFont?.value))
+              text.flipY = false
+              text.repeat.set(1, 1)
+              text.offset.set(0, 0.05)
+              child.renderOrder = 1
+              child.material.map = text
+            }
+          })
           return
         } else if (newVal.currentType === 'customImage') {
           return
@@ -163,8 +168,8 @@ export default {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.enablePan = false
       this.controls.enableDamping = true
-      this.controls.dampingFactor = 0.02
-      this.controls.zoomSpeed = 0.2
+      this.controls.dampingFactor = 0.03
+      this.controls.zoomSpeed = 0.25
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
       this.controls.maxDistance = 7
       this.controls.minDistance = 2

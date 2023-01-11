@@ -64,7 +64,7 @@ export const getTextCanvas = (text, color) => {
   ctx.fillStyle = 'rgba(225,225,225,0)'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
   ctx.font = '170px bold sans-serif'
-  ctx.fillStyle = color
+  ctx.fillStyle = color ? color : '#ffffff'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   if (text) {

@@ -25765,16 +25765,16 @@ var ay = {
       return `<g fill="currentColor">\n            <rect opacity="${o}" x="2" y="3" width="20" height="20" rx="1"/>\n            <rect opacity="${i}" x="7" y="8" width="10" height="10" rx="1"/>\n            <rect opacity="${n}" x="4" y="8" width="14" height="14" rx="1"/>\n            <rect opacity="${r}" x="12" y="4" width="10" height="10" rx="1"/>\n        </g>`
     },
     cropLabelButtonRecenter: 'Recenter',
-    cropLabelButtonRotateLeft: 'Rotate left',
-    cropLabelButtonRotateRight: 'Rotate right',
-    cropLabelButtonFlipHorizontal: 'Flip horizontal',
-    cropLabelButtonFlipVertical: 'Flip vertical',
+    cropLabelButtonRotateLeft: '向左旋转',
+    cropLabelButtonRotateRight: '向右旋转',
+    cropLabelButtonFlipHorizontal: '水平翻转',
+    cropLabelButtonFlipVertical: '垂直翻转',
     cropLabelSelectPreset: 'Crop shape',
     cropLabelCropBoundary: 'Crop boundary',
     cropLabelCropBoundaryEdge: 'Edge of image',
     cropLabelCropBoundaryNone: 'None',
-    cropLabelTabRotation: 'Rotation',
-    cropLabelTabZoom: 'Zoom'
+    cropLabelTabRotation: '旋转',
+    cropLabelTabZoom: '缩放'
   },
   sy = {
     frameLabel: 'Frame',
