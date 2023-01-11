@@ -23,6 +23,12 @@ export const imageProcess = (imageState, c, part) => {
   })
 }
 
+export const checkBoundingBox = params => {
+  // TODO complete bounding box check logic
+  const { W, H, cropW, cropH, x, y, deg } = params
+  return true
+}
+
 export const getFileSize = file => {
   let imgW, imgH
   return new Promise((resolve, reject) => {

@@ -26,7 +26,7 @@ import { appendDefaultEditor, processImage } from '../utils/pintura/pintura.js'
 import '../utils/pintura/pintura.css'
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
-import { imageProcess, getFileSize, getCropProperty } from '../utils/customizer/imageTools'
+import { imageProcess, checkBoundingBox, getFileSize, getCropProperty } from '../utils/customizer/imageTools'
 
 import svgList from '../data/svgList.json'
 import { Dialog } from 'vant'
@@ -115,7 +115,7 @@ export default {
         manifest = 100
       })
       this.pintura.on('update', e => {
-        // console.log(e.crop)
+        console.log(e.crop)
         if (!e.crop) return
         if (this.imgW < 0) return
         if (manifest >= 100) return
@@ -127,8 +127,17 @@ export default {
     next() {
       let d = Promise.resolve()
 
-      // TODO complete bounding box check logic
-      if (this.pintura.imageCropSize.width > this.imgW || this.pintura.imageCropSize.height > this.imgH) {
+      const params = {
+        W: this.imgW,
+        H: this.imgH,
+        cropW: this.pintura.imageCropSize.width,
+        cropH: this.pintura.imageCropSize.height,
+        x: this.pintura.imageState.crop.x,
+        y: this.pintura.imageState.crop.y,
+        deg: this.pintura.imageState.rotation
+      }
+
+      if (!checkBoundingBox(params)) {
         d = Dialog.confirm({
           message: '看起来您的设计没有填满模板或已超出范围,您可以后退并使用工具移动或缩放您的设计来填满模板或者选择维持原样，由您决定！'
         })

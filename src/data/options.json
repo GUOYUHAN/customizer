@@ -8,6 +8,11 @@
         "optionName": "颜色",
         "options": [
           {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
+          {
             "id": "1",
             "name": "赛车红",
             "value": "rgb(201, 24, 57)"
@@ -70,12 +75,21 @@
         "options": [
           {
             "id": "0",
+            "name": "清空",
+            "clear": true,
+            "value": "rgb(255,255,255)",
+            "mesh_options": {
+              "color": "#fff"
+            }
+          },
+          {
+            "id": "1",
             "name": "自定义图片",
             "customImage": true,
             "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
           },
           {
-            "id": "1",
+            "id": "2",
             "name": "课堂白日梦",
             "icon": "https://pic.bbtkids.cn/FqKzbeoQixnWcZQRMa3rKJevVHZY",
             "mesh_options": {
@@ -111,7 +125,7 @@
             }
           },
           {
-            "id": "2",
+            "id": "3",
             "name": "未知的未来",
             "icon": "https://pic.bbtkids.cn/FpSbiOG7eh0U1vhX71qo85pYkwdq",
             "mesh_options": {
@@ -153,6 +167,11 @@
         "optionType": "color",
         "optionName": "颜色",
         "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
           {
             "id": "1",
             "name": "珍珠白",
@@ -196,12 +215,21 @@
         "options": [
           {
             "id": "0",
+            "name": "清空",
+            "clear": true,
+            "value": "rgb(255,255,255)",
+            "mesh_options": {
+              "color": "#fff"
+            }
+          },
+          {
+            "id": "1",
             "name": "自定义图片",
             "customImage": true,
             "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
           },
           {
-            "id": "1",
+            "id": "2",
             "name": "海贼王",
             "icon": "https://pic.bbtkids.cn/FmoEnKfigOSaVFYgjFsc17_mY1ZM",
             "mesh_options": {
@@ -237,7 +265,7 @@
             }
           },
           {
-            "id": "2",
+            "id": "3",
             "name": "棋盘格",
             "icon": "https://pic.bbtkids.cn/Fqzf4BXE4duwYjhmb1-PhgiFNx20",
             "mesh_options": {
@@ -283,6 +311,11 @@
         "optionType": "color",
         "optionName": "颜色",
         "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
           {
             "id": "1",
             "name": "赛车红",
@@ -351,6 +384,11 @@
         "optionName": "颜色",
         "options": [
           {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
+          {
             "id": "1",
             "name": "珍珠白",
             "value": "rgb(235, 215, 209)"
@@ -397,6 +435,11 @@
         "optionType": "color",
         "optionName": "颜色",
         "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
           {
             "id": "1",
             "name": "赛车红",
@@ -465,6 +508,11 @@
         "optionName": "颜色",
         "options": [
           {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
+          {
             "id": "1",
             "name": "珍珠白",
             "value": "rgb(235, 215, 209)"
@@ -505,6 +553,15 @@
         "optionType": "image",
         "optionName": "图案",
         "options": [
+          {
+            "id": "0",
+            "name": "清空",
+            "clear": true,
+            "value": "rgb(255,255,255)",
+            "mesh_options": {
+              "color": "#fff"
+            }
+          },
           {
             "id": "1",
             "name": "火焰",
@@ -559,6 +616,11 @@
         "optionType": "color",
         "optionName": "颜色",
         "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
           {
             "id": "1",
             "name": "赛车红",
@@ -626,6 +688,11 @@
         "optionType": "color",
         "optionName": "颜色",
         "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
           {
             "id": "1",
             "name": "珍珠白",

@@ -59,10 +59,17 @@ export default {
             }
           }
         } else if (newVal.currentType === 'image') {
-          const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
-          new_params = {
-            ...txtures,
-            mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+          if (newVal[newVal.currentPart].image.clear) {
+            new_params = {
+              map: null,
+              mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+            }
+          } else {
+            const txtures = await loadTexture(newVal[newVal.currentPart].image.textures)
+            new_params = {
+              ...txtures,
+              mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+            }
           }
         } else if (newVal.currentType === 'customFont') {
           if (!this.personalization) {
