@@ -2,11 +2,11 @@
 const PROD = 1
 const DEV = 0
 
-// const ENV = DEV
-const ENV = PROD
+const ENV = DEV
+// const ENV = PROD
 
 // 项目
-let baseUrls = 'http://54.223.126.169:8081/'
+let baseUrls = 'api'
 
 if (ENV === DEV) {
   baseUrls = 'api'
