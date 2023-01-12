@@ -26,6 +26,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
+import API from '../api/api'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
@@ -190,6 +191,8 @@ export default {
         scene.add(models[i].scene)
       }
       this.animate()
+      let res = await API.test()
+      console.log(res)
     },
     animate() {
       this.renderer.render(scene, this.camera)
