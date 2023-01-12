@@ -2,14 +2,14 @@
 const PROD = 1
 const DEV = 0
 
-const ENV = DEV
-// const ENV = PROD
+// const ENV = DEV
+const ENV = PROD
 
 // 项目
-let baseUrls = 'api'
+let baseUrls = '/'
 
 if (ENV === DEV) {
-  baseUrls = 'api'
+  baseUrls = '/api'
 }
 
 console.group('环境')
