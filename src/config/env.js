@@ -6,10 +6,10 @@ const DEV = 0
 const ENV = PROD
 
 // 项目
-let baseUrls = '/'
+let baseUrls = 'http://54.223.126.169:8081/'
 
 if (ENV === DEV) {
-  baseUrls = '/api'
+  baseUrls = 'api'
 }
 
 console.group('环境')

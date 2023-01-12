@@ -15,16 +15,11 @@ module.exports = defineConfig({
     proxy: {
       '^/api': {
         target: 'http://54.223.126.169:8081/', //接口前缀
-        ws: true, //代理websocked
+        ws: false, //代理websocked
         changeOrigin: true, //虚拟的站点需要更管origin
         pathRewrite: {
           '^/api': '' //重写路径
         }
-      },
-      '/': {
-        target: 'http://54.223.126.169:8081/', //接口前缀
-        ws: true, //代理websocked
-        changeOrigin: true //虚拟的站点需要更管origin
       }
     }
   }
