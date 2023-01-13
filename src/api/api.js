@@ -2,11 +2,18 @@ import { request } from '../utils/request.js'
 
 export const URL = {
   test: '/1.0/uiforum/xphTestDemo',
-  getModels: ''
+  getModelInfo: '',
+  getOptionList: '',
+  getSvgs: '',
+  saveCustom: ''
 }
 
 const api = {
-  getModels: param => request.get(URL.getModels, param),
+  getModelInfo: param => request.get(URL.getModels, param),
+  getOptionList: param => request.get(URL.getModels, param),
+  getSvgs: param => request.get(URL.getModels, param),
+  saveCustom: param => request.post(URL.getModels, param),
+
   test: param => request.get(URL.test, param)
 }
 

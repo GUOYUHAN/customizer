@@ -16,7 +16,7 @@ module.exports = defineConfig({
       '^/api': {
         target: 'http://54.223.126.169:8081/', //接口前缀
         ws: false, //代理websocked
-        changeOrigin: true, //虚拟的站点需要更管origin
+        changeOrigin: true,
         pathRewrite: {
           '^/api': '' //重写路径
         }

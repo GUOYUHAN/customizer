@@ -1,6 +1,6 @@
 <template>
   <van-overlay :show="imageCustomizerShow && fileSelected">
-    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" />
+    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" capture="camera" accept="image/*" />
 
     <div class="wrapper" :style="[{ '--bg': svgStyle }]">
       <div class="image-win" id="image-win" v-if="imageCustomizerShow">
@@ -107,7 +107,11 @@ export default {
 
         cropEnableImageSelection: false,
         imageCropLimitToImage: false,
-        imageCropAspectRatio: cropRatio
+        imageCropAspectRatio: cropRatio,
+
+        utils: ['crop', 'filter', 'finetune', 'annotate', 'frame'],
+        enableButtonRevert: false,
+        enableButtonExport: false
       })
 
       let manifest = 0
@@ -260,8 +264,8 @@ export default {
   background: #fff !important;
 }
 
-::v-deep(.PinturaButtonExport) {
-  visibility: hidden;
-  pointer-events: none;
-}
+// ::v-deep(.PinturaButtonExport) {
+//   visibility: hidden;
+//   pointer-events: none;
+// }
 </style>
