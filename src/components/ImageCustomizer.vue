@@ -1,6 +1,6 @@
 <template>
   <van-overlay :show="imageCustomizerShow && fileSelected">
-    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" capture="camera" accept="image/*" />
+    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" accept="image/*" />
 
     <div class="wrapper" :style="[{ '--bg': svgStyle }]">
       <div class="image-win" id="image-win" v-if="imageCustomizerShow">
