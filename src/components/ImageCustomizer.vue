@@ -58,7 +58,11 @@ export default {
   watch: {
     imageCustomizerShow(val) {
       if (val) {
-        this.onUploadClick()
+        try {
+          this.onUploadClick()
+        } catch (e) {
+          alert('image err', e)
+        }
       }
     },
     immediate: true
