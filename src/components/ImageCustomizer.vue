@@ -76,13 +76,14 @@ export default {
       window.addEventListener(
         'focus',
         () => {
+          alert('focus')
           setTimeout(() => {
             if (this.fileCancel && !this.fileSelected) {
               this.fileCancel = false
               document.getElementById('userFile').value = ''
               this.toggleCustomizer({ type: 'image', flag: false })
             }
-          }, 500)
+          }, 700)
         },
         { once: true }
       )
