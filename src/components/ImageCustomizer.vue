@@ -56,14 +56,12 @@ export default {
     }
   },
   watch: {
-    imageCustomizerShow: {
-      handler(newVal, oldVal) {
-        if (newVal) {
-          console.log('imageCustomizerShow')
-          this.onUploadClick()
-        }
+    imageCustomizerShow(val) {
+      if (val) {
+        this.onUploadClick()
       }
-    }
+    },
+    immediate: true
   },
   mounted() {},
   methods: {
@@ -75,7 +73,9 @@ export default {
         'focus',
         () => {
           setTimeout(() => {
-            if (this.fileCancel) {
+            if (this.fileCancel && !this.fileSelected) {
+              this.fileCancel = false
+              document.getElementById('userFile').value = ''
               this.toggleCustomizer({ type: 'image', flag: false })
             }
           }, 500)
@@ -262,10 +262,6 @@ export default {
 
 ::v-deep(.PinturaRoot) {
   background: #fff !important;
+  overflow: auto !important;
 }
-
-// ::v-deep(.PinturaButtonExport) {
-//   visibility: hidden;
-//   pointer-events: none;
-// }
 </style>
