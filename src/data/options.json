@@ -160,7 +160,151 @@
     ]
   },
   {
-    "partName": "鞋腰",
+    "partName": "鞋腰右脚 - 内侧 ",
+    "part": "quarters",
+    "optionList": [
+      {
+        "optionType": "color",
+        "optionName": "颜色",
+        "options": [
+          {
+            "id": "0",
+            "name": "默认",
+            "value": "rgb(255,255,255)"
+          },
+          {
+            "id": "1",
+            "name": "珍珠白",
+            "value": "rgb(235, 215, 209)"
+          },
+          {
+            "id": "2",
+            "name": "苔藓绿",
+            "value": "rgb(51, 53, 34)"
+          },
+          {
+            "id": "3",
+            "name": "青绿色",
+            "value": "rgb(0, 124, 100)"
+          },
+          {
+            "id": "4",
+            "name": "薄荷绿",
+            "value": "rgb(0, 175, 172)"
+          },
+          {
+            "id": "5",
+            "name": "浅绿色",
+            "value": "rgb(152, 226, 207)"
+          },
+          {
+            "id": "6",
+            "name": "帝王蓝",
+            "value": "rgb(0, 89, 154)"
+          },
+          {
+            "id": "7",
+            "name": "海军蓝",
+            "value": "rgb(58, 96, 122)"
+          }
+        ]
+      },
+      {
+        "optionType": "image",
+        "optionName": "图案",
+        "options": [
+          {
+            "id": "0",
+            "name": "清空",
+            "clear": true,
+            "value": "rgb(255,255,255)",
+            "mesh_options": {
+              "color": "#fff"
+            }
+          },
+          {
+            "id": "1",
+            "name": "自定义图片",
+            "customImage": true,
+            "icon": "https://pic.bbtkids.cn/FiI34hxJih-cVQcV5Nwm-q3bxBAy"
+          },
+          {
+            "id": "2",
+            "name": "海贼王",
+            "icon": "https://pic.bbtkids.cn/FmoEnKfigOSaVFYgjFsc17_mY1ZM",
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    5,
+                    5
+                  ],
+                  "offset": [
+                    0.1,
+                    0.2
+                  ],
+                  "flipY": false
+                },
+                "image_url": "https://pic.bbtkids.cn/FpVP0KawhsDAebnY8Wsk-OcYW_xK"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
+          },
+          {
+            "id": "3",
+            "name": "棋盘格",
+            "icon": "https://pic.bbtkids.cn/Fqzf4BXE4duwYjhmb1-PhgiFNx20",
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    12,
+                    12
+                  ],
+                  "offset": [
+                    0,
+                    0
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FobniaQbsZX1ReOCrG6TIJnKcYaC"
+              },
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    28,
+                    28
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "partName": "鞋腰右脚 - 外侧 ",
     "part": "quarters",
     "optionList": [
       {

@@ -7,8 +7,20 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       ComponentsPlugin({
-        resolvers: [VantResolver()],
-      }),
-    ],
+        resolvers: [VantResolver()]
+      })
+    ]
   },
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://54.223.126.169:8081/', //接口前缀
+        ws: false, //代理websocked
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '' //重写路径
+        }
+      }
+    }
+  }
 })

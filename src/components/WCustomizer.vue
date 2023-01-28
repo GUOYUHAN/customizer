@@ -10,6 +10,8 @@
 
 <template>
   <div class="container">
+    <!-- 顶部操作栏 -->
+    <!-- <top-bar /> -->
     <!-- 3D 效果图 -->
     <customizer-view />
     <!-- 底部操作栏 -->
@@ -22,6 +24,7 @@
 </template>
 
 <script>
+import TopBar from './TopBar'
 import CustomizerView from './CustomizerView'
 import OpBar from './OpBar'
 import FontCustomizer from './FontCustomizer'

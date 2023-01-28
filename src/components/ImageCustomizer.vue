@@ -1,9 +1,9 @@
 <template>
   <van-overlay :show="imageCustomizerShow && fileSelected">
-    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" />
+    <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" accept="image/*" />
 
     <div class="wrapper" :style="[{ '--bg': svgStyle }]">
-      <div class="image-win" id="image-win" v-if="imageCustomizerShow">
+      <div class="image-win" id="image-win" v-if="fileSelected">
         <div class="top-nav">
           <div class="current-step">{{ step + '. ' + selectedOptions.currentPart }}</div>
         </div>
@@ -56,36 +56,28 @@ export default {
     }
   },
   watch: {
-    imageCustomizerShow: {
-      handler(newVal, oldVal) {
-        if (newVal) {
-          console.log('imageCustomizerShow')
-          this.onUploadClick()
-        }
+    imageCustomizerShow(val) {
+      console.log('show', val)
+      if (val) {
+        this.onUploadClick()
       }
-    }
+    },
+    immediate: true
   },
   mounted() {},
   methods: {
     ...mapActions(['toggleCustomizer', 'setOption']),
     onUploadClick() {
-      this.fileCancel = true
-      this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
-      window.addEventListener(
-        'focus',
-        () => {
-          setTimeout(() => {
-            if (this.fileCancel) {
-              this.toggleCustomizer({ type: 'image', flag: false })
-            }
-          }, 500)
-        },
-        { once: true }
-      )
+      if (!this.fileSelected) {
+        this.fileCancel = true
+        this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
+        this.toggleCustomizer({ type: 'image', flag: false })
+      }
     },
     async fileChange(e) {
       console.log('file change', e.target.files[0])
       const file = e.target.files[0]
+      this.toggleCustomizer({ type: 'image', flag: true })
 
       this.fileCancel = false
       this.fileSelected = true
@@ -107,7 +99,11 @@ export default {
 
         cropEnableImageSelection: false,
         imageCropLimitToImage: false,
-        imageCropAspectRatio: cropRatio
+        imageCropAspectRatio: cropRatio,
+
+        utils: ['crop', 'filter', 'finetune', 'annotate', 'frame'],
+        enableButtonRevert: false,
+        enableButtonExport: false
       })
 
       let manifest = 0
@@ -115,7 +111,7 @@ export default {
         manifest = 100
       })
       this.pintura.on('update', e => {
-        console.log(e.crop)
+        // console.log(e.crop)
         if (!e.crop) return
         if (this.imgW < 0) return
         if (manifest >= 100) return
@@ -258,10 +254,6 @@ export default {
 
 ::v-deep(.PinturaRoot) {
   background: #fff !important;
-}
-
-::v-deep(.PinturaButtonExport) {
-  visibility: hidden;
-  pointer-events: none;
+  // overflow: auto !important;
 }
 </style>
