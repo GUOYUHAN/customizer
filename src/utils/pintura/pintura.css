@@ -556,7 +556,8 @@ pintura-editor {
   padding-right: 1em;
 }
 .PinturaRoot > .PinturaMain {
-  max-width: 100vw;
+  /* max-width: 100vw; */
+  max-width: 100%;
 }
 .PinturaRoot:not([data-env~='has-toolbar']) .PinturaUtilHeader {
   padding-top: 0;
