@@ -3,7 +3,7 @@
     <input v-show="false" ref="fileRef" type="file" id="userFile" @change="fileChange" accept="image/*" />
 
     <div class="wrapper" :style="[{ '--bg': svgStyle }]">
-      <div class="image-win" id="image-win" v-if="imageCustomizerShow">
+      <div class="image-win" id="image-win" v-if="fileSelected">
         <div class="top-nav">
           <div class="current-step">{{ step + '. ' + selectedOptions.currentPart }}</div>
         </div>
@@ -57,12 +57,9 @@ export default {
   },
   watch: {
     imageCustomizerShow(val) {
+      console.log('show', val)
       if (val) {
-        try {
-          this.onUploadClick()
-        } catch (e) {
-          alert('image err', e)
-        }
+        this.onUploadClick()
       }
     },
     immediate: true
@@ -71,26 +68,32 @@ export default {
   methods: {
     ...mapActions(['toggleCustomizer', 'setOption']),
     onUploadClick() {
-      this.fileCancel = true
-      this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
-      window.addEventListener(
-        'focus',
-        () => {
-          alert('focus')
-          setTimeout(() => {
-            if (this.fileCancel && !this.fileSelected) {
-              this.fileCancel = false
-              document.getElementById('userFile').value = ''
-              this.toggleCustomizer({ type: 'image', flag: false })
-            }
-          }, 700)
-        },
-        { once: true }
-      )
+      if (!this.fileSelected) {
+        this.fileCancel = true
+        this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
+        this.toggleCustomizer({ type: 'image', flag: false })
+      }
+      // this.fileCancel = true
+      // this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
+      // window.addEventListener(
+      //   'focus',
+      //   () => {
+      //     alert('focus')
+      //     setTimeout(() => {
+      //       if (this.fileCancel && !this.fileSelected) {
+      //         this.fileCancel = false
+      //         document.getElementById('userFile').value = ''
+      //         this.toggleCustomizer({ type: 'image', flag: false })
+      //       }
+      //     }, 700)
+      //   },
+      //   { once: true }
+      // )
     },
     async fileChange(e) {
       console.log('file change', e.target.files[0])
       const file = e.target.files[0]
+      this.toggleCustomizer({ type: 'image', flag: true })
 
       this.fileCancel = false
       this.fileSelected = true
@@ -124,7 +127,7 @@ export default {
         manifest = 100
       })
       this.pintura.on('update', e => {
-        console.log(e.crop)
+        // console.log(e.crop)
         if (!e.crop) return
         if (this.imgW < 0) return
         if (manifest >= 100) return
@@ -267,6 +270,6 @@ export default {
 
 ::v-deep(.PinturaRoot) {
   background: #fff !important;
-  overflow: auto !important;
+  // overflow: auto !important;
 }
 </style>

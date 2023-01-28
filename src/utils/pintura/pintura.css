@@ -157,6 +157,7 @@ pintura-editor {
   --transition-duration-10: calc(var(--transition-duration-multiplier, 0) * 0.1s);
   --transition-duration-25: calc(var(--transition-duration-multiplier, 0) * 0.25s);
   --transition-duration-50: calc(var(--transition-duration-multiplier, 0) * 0.5s);
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: var(--editor-width, 100%);
   height: var(--editor-height, 100%);
@@ -187,6 +188,7 @@ pintura-editor {
   transition: background-color 1ms, outline-color 1ms, color var(--transition-duration-10) ease-in-out;
 }
 .PinturaRoot * {
+  -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
 .PinturaRoot button,
@@ -446,6 +448,7 @@ pintura-editor {
 }
 .PinturaRoot > .PinturaNavTools {
   max-width: 100%;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   pointer-events: none;
 }
@@ -1378,6 +1381,7 @@ pintura-editor {
   -webkit-appearance: none;
   appearance: none;
   -moz-appearance: textfield;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-variant-numeric: tabular-nums;
   padding: 0.625em 0 0.625em 0.625em;
@@ -1476,6 +1480,7 @@ pintura-editor {
   z-index: 2147483646;
 }
 .PinturaModal[style*='--viewport-pad-footer:1'] {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -1490,6 +1495,7 @@ pintura-editor {
 .PinturaDocumentLock body {
   height: calc(var(--pintura-document-height) - 1px);
   overflow-y: hidden;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 .PinturaDocumentLock body {
@@ -2966,6 +2972,7 @@ pintura-editor {
 }
 .PinturaInputForm input,
 .PinturaInputForm textarea {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   resize: none;
   border: none;
