@@ -73,22 +73,6 @@ export default {
         this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
         this.toggleCustomizer({ type: 'image', flag: false })
       }
-      // this.fileCancel = true
-      // this.$refs.fileRef.dispatchEvent(new MouseEvent('click'))
-      // window.addEventListener(
-      //   'focus',
-      //   () => {
-      //     alert('focus')
-      //     setTimeout(() => {
-      //       if (this.fileCancel && !this.fileSelected) {
-      //         this.fileCancel = false
-      //         document.getElementById('userFile').value = ''
-      //         this.toggleCustomizer({ type: 'image', flag: false })
-      //       }
-      //     }, 700)
-      //   },
-      //   { once: true }
-      // )
     },
     async fileChange(e) {
       console.log('file change', e.target.files[0])

@@ -188,8 +188,8 @@ pintura-editor {
   transition: background-color 1ms, outline-color 1ms, color var(--transition-duration-10) ease-in-out;
 }
 .PinturaRoot * {
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
+  -webkit-box-sizing: content-box !important;
+  box-sizing: content-box !important;
 }
 .PinturaRoot button,
 .PinturaRoot fieldset,
