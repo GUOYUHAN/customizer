@@ -7,6 +7,7 @@
   height: calc(100vh - 260px);
   top: 0;
   left: 0;
+  touch-action: none;
 }
 #model-container {
   width: 100%;
@@ -228,7 +229,7 @@ export default {
 
       this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
-      this.controls.touches.two = CameraControls.ACTION.TOUCH_ZOOM
+      this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
       this.controls.touches.three = CameraControls.ACTION.NONE
     },
     async draw() {
