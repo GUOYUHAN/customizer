@@ -280,8 +280,8 @@ export default {
         azimuthAngle: azimuthDeg * THREE.MathUtils.DEG2RAD,
         polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
         distance: 4,
-        duration: 5,
-        ease: 'elastic.inOut(1.5, 1)',
+        duration: 3,
+        ease: 'back.inOut(4)',
         paused: true
       })
       tween.play(0)
