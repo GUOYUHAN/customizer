@@ -10,6 +10,7 @@
   box-shadow: 0 0 10px rgba(200, 200, 200, 0.7);
   background-color: #fff;
   z-index: 1;
+  touch-action: none;
 }
 
 .part {
