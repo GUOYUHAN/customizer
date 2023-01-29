@@ -189,6 +189,9 @@ export default {
 
       this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
+      this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
+      this.controls.touches.three = CameraControls.ACTION.NONE
+
       // this.controls.enablePan = false
       // this.controls.enableDamping = true
       // this.controls.dampingFactor = 0.03
@@ -213,8 +216,6 @@ export default {
         scene.add(models[i].scene)
       }
       this.animate()
-      let res = await API.test()
-      console.log(res)
 
       // initial rotation
       const tween = gsap.fromTo(
@@ -231,6 +232,9 @@ export default {
         }
       )
       tween.play(0)
+
+      let res = await API.test()
+      console.log(res)
     },
     animate() {
       const delta = this.clock.getDelta()
