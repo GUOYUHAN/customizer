@@ -183,7 +183,7 @@ export default {
 
       this.controls.maxDistance = 7
       this.controls.minDistance = 2
-      this.controls.dollySpeed = 0.03
+      this.controls.dollySpeed = 0.3
       this.controls.azimuthRotateSpeed = 0.6
       this.controls.polarRotateSpeed = 0.6
 
@@ -279,6 +279,7 @@ export default {
       const tween = gsap.to(this.controls, {
         azimuthAngle: azimuthDeg * THREE.MathUtils.DEG2RAD,
         polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
+        distance: 4,
         duration: 5,
         ease: 'elastic.inOut(1.5, 1)',
         paused: true
