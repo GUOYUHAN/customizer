@@ -23,7 +23,9 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import CameraControls from 'camera-controls'
+import gsap from 'gsap'
+// import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import API from '../api/api'
@@ -37,6 +39,7 @@ export default {
       renderer: null,
       loader: null,
       controls: null,
+      clock: null,
       personalization: null
     }
   },
@@ -44,7 +47,7 @@ export default {
     this.draw()
   },
   computed: {
-    ...mapState(['selectedOptions', 'theModel'])
+    ...mapState(['selectedOptions', 'theModel', 'selectedPart'])
   },
   watch: {
     selectedOptions: {
@@ -95,6 +98,11 @@ export default {
         setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
       },
       deep: true
+    },
+    selectedPart: {
+      handler(newVal, oldVal) {
+        this.rotateTo(newVal)
+      }
     }
   },
   methods: {
@@ -121,8 +129,8 @@ export default {
     initCamera() {
       this.camera = new THREE.PerspectiveCamera(40, window.innerWidth / (window.innerHeight - 260), 0.1, 1000)
 
-      this.camera.position.set(2.5, 1, 4)
-      this.camera.lookAt(0, 0.5, 0)
+      // this.camera.position.set(2.5, 1, 4)
+      // this.camera.lookAt(0, 0.5, 0)
       this.camera.updateProjectionMatrix()
     },
     initLight() {
@@ -166,16 +174,30 @@ export default {
     },
     initControls() {
       // Enable this.controls
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      this.controls.enablePan = false
-      this.controls.enableDamping = true
+      CameraControls.install({ THREE: THREE })
+      this.clock = new THREE.Clock()
+      this.controls = new CameraControls(this.camera, this.renderer.domElement)
+
       this.controls.dampingFactor = 0.03
-      this.controls.zoomSpeed = 0.25
-      this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
+      this.controls.maxPolarAngle = THREE.MathUtils.degToRad(87)
+
       this.controls.maxDistance = 7
       this.controls.minDistance = 2
-      this.controls.target = new THREE.Vector3(0, 0.5, 0)
-      this.controls.update()
+      this.controls.dollySpeed = 0.03
+      this.controls.azimuthRotateSpeed = 0.6
+      this.controls.polarRotateSpeed = 0.6
+
+      this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
+
+      // this.controls.enablePan = false
+      // this.controls.enableDamping = true
+      // this.controls.dampingFactor = 0.03
+      // this.controls.zoomSpeed = 0.25
+      // this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
+      // this.controls.maxDistance = 7
+      // this.controls.minDistance = 2
+      // this.controls.target = new THREE.Vector3(0, 0.5, 0)
+      // this.controls.update()
     },
     async draw() {
       this.initRender()
@@ -193,10 +215,71 @@ export default {
       this.animate()
       let res = await API.test()
       console.log(res)
+
+      // initial rotation
+      const tween = gsap.fromTo(
+        this.controls,
+        {
+          azimuthAngle: -328 * THREE.MathUtils.DEG2RAD
+        },
+        {
+          azimuthAngle: 32 * THREE.MathUtils.DEG2RAD,
+          distance: 4.5,
+          duration: 5,
+          ease: 'elastic.inOut(1.5, 1)',
+          paused: true
+        }
+      )
+      tween.play(0)
     },
     animate() {
-      this.renderer.render(scene, this.camera)
+      const delta = this.clock.getDelta()
+      this.controls.update(delta)
       requestAnimationFrame(this.animate)
+      this.renderer.render(scene, this.camera)
+    },
+    rotateTo(part) {
+      switch (part) {
+        case 'vamp':
+          this.rotate(32, 87)
+          break
+        case 'quarters':
+          this.rotate(0, 87)
+          break
+        case 'binding':
+          this.rotate(32, 87)
+          break
+        case 'tongue':
+          this.rotate(32, 45)
+          break
+        case 'eyelets':
+          this.rotate(32, 45)
+          break
+        case 'foxing':
+          this.rotate(32, 87)
+          break
+        case 'foxing_stripe':
+          this.rotate(32, 87)
+          break
+        case 'laces':
+          this.rotate(32, 45)
+          break
+        case 'font':
+          this.rotate(-60, 86)
+          break
+      }
+    },
+    rotate(azimuthDeg, polarDeg) {
+      // const normalizedDeg = THREE.MathUtils.euclideanModulo(this.controls.azimuthAngle, 360 * THREE.MathUtils.DEG2RAD)
+      // console.log(normalizedDeg)
+      const tween = gsap.to(this.controls, {
+        azimuthAngle: azimuthDeg * THREE.MathUtils.DEG2RAD,
+        polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
+        duration: 5,
+        ease: 'elastic.inOut(1.5, 1)',
+        paused: true
+      })
+      tween.play(0)
     }
   }
 }
