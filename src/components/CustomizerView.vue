@@ -12,11 +12,50 @@
   width: 100%;
   height: 100%;
 }
+.hide-slow {
+  width: 220px;
+  height: 60px;
+  position: absolute;
+  top: 33vh;
+  left: calc(50% - 110px);
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: 600;
+  animation: hidetip 1s 1;
+  animation-fill-mode: both;
+  animation-delay: 4s;
+  -webkit-animation: hidetip 1s 1;
+  -webkit-animation-fill-mode: both;
+  -webkit-animation-delay: 4s;
+}
+
+@keyframes hidetip {
+  from {
+    opcity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes hidetip {
+  from {
+    opcity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 </style>
 
 <template>
   <div id="view">
     <div id="model-container"></div>
+    <div class="hide-slow">拖动鞋子, 360度旋转</div>
   </div>
 </template>
 
@@ -191,16 +230,6 @@ export default {
 
       this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
       this.controls.touches.three = CameraControls.ACTION.NONE
-
-      // this.controls.enablePan = false
-      // this.controls.enableDamping = true
-      // this.controls.dampingFactor = 0.03
-      // this.controls.zoomSpeed = 0.25
-      // this.controls.maxPolarAngle = THREE.MathUtils.degToRad(90)
-      // this.controls.maxDistance = 7
-      // this.controls.minDistance = 2
-      // this.controls.target = new THREE.Vector3(0, 0.5, 0)
-      // this.controls.update()
     },
     async draw() {
       this.initRender()
@@ -226,8 +255,8 @@ export default {
         {
           azimuthAngle: 32 * THREE.MathUtils.DEG2RAD,
           distance: 4.5,
-          duration: 5,
-          ease: 'elastic.inOut(1.5, 1)',
+          duration: 3.5,
+          ease: 'back.inOut(2.5)',
           paused: true
         }
       )
@@ -274,8 +303,6 @@ export default {
       }
     },
     rotate(azimuthDeg, polarDeg) {
-      // const normalizedDeg = THREE.MathUtils.euclideanModulo(this.controls.azimuthAngle, 360 * THREE.MathUtils.DEG2RAD)
-      // console.log(normalizedDeg)
       const tween = gsap.to(this.controls, {
         azimuthAngle: azimuthDeg * THREE.MathUtils.DEG2RAD,
         polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
