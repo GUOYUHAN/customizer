@@ -229,7 +229,7 @@ export default {
 
       this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
-      // this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
+      this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
       this.controls.touches.three = CameraControls.ACTION.NONE
       this.controls.mouseButtons.right = CameraControls.ACTION.NONE
     },
@@ -305,8 +305,38 @@ export default {
       }
     },
     rotate(azimuthDeg, polarDeg) {
+      let theta = this.controls.azimuthAngle * (180 / Math.PI)
+      let thetaQuote = theta % 360
+      let delta = azimuthDeg,
+        deltaQuote
+      let azimuthRotation
+
+      if (theta >= 0) {
+        deltaQuote = azimuthDeg > 0 ? azimuthDeg : 360 - Math.abs(azimuthDeg)
+      } else {
+        thetaQuote = thetaQuote === 0 ? 0 : -thetaQuote
+        delta = delta === 0 ? 0 : -delta
+        deltaQuote = azimuthDeg > 0 ? 360 - azimuthDeg : Math.abs(azimuthDeg)
+      }
+
+      if (Math.abs(deltaQuote - thetaQuote) < 180) {
+        azimuthRotation = Math.abs(theta) + deltaQuote - thetaQuote
+      } else {
+        azimuthRotation = delta > 0 ? Math.abs(theta) + deltaQuote + 360 - thetaQuote : Math.abs(theta) - thetaQuote - Math.abs(delta)
+      }
+      // console.log('rrrrr', azimuthRotation)
+      if (azimuthRotation !== 0) {
+        azimuthRotation = theta < 0 ? -azimuthRotation : azimuthRotation
+      }
+      // console.log('theta', theta)
+      // console.log('thetaQue', thetaQuote)
+      // console.log('delta', delta)
+      // console.log('deltaQue', deltaQuote)
+      // console.log('rrrrr', azimuthRotation)
+      // console.log('----------------')
+
       const tween = gsap.to(this.controls, {
-        azimuthAngle: azimuthDeg * THREE.MathUtils.DEG2RAD,
+        azimuthAngle: azimuthRotation * THREE.MathUtils.DEG2RAD,
         polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
         distance: polarDeg > 45 ? 5 : 4,
         duration: 2,
