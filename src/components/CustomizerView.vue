@@ -229,8 +229,9 @@ export default {
 
       this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
-      this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
+      // this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
       this.controls.touches.three = CameraControls.ACTION.NONE
+      this.controls.mouseButtons.right = CameraControls.ACTION.NONE
     },
     async draw() {
       this.initRender()
@@ -309,7 +310,7 @@ export default {
         polarAngle: polarDeg * THREE.MathUtils.DEG2RAD,
         distance: polarDeg > 45 ? 5 : 4,
         duration: 2,
-        ease: 'back.inOut(3)',
+        ease: 'back.inOut(2)',
         paused: true
       })
       tween.play(0)
