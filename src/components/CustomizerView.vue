@@ -65,9 +65,9 @@ import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import gsap from 'gsap'
-// import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
+import { debounce } from '../utils/tools.js'
 import API from '../api/api'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
@@ -81,7 +81,7 @@ export default {
       controls: null,
       clock: null,
       personalization: null,
-      blinkDelay: 5,
+      blinkDelay: 4,
       default_vamp_txt: null
     }
   },
@@ -160,7 +160,17 @@ export default {
     selectedPart: {
       handler(newVal, oldVal) {
         this.rotateTo(newVal)
-        this.blink(newVal)
+        if (this.blinkDelay < 3) {
+          debounce(
+            () => {
+              this.blink(newVal)
+            },
+            1000,
+            {}
+          )()
+        } else {
+          this.blink(newVal)
+        }
       }
     }
   },
@@ -291,7 +301,7 @@ export default {
         }
       )
       tween.play(0)
-      this.blinkDelay = 1
+      this.blinkDelay = 0
 
       let res = await API.test()
       console.log(res)
