@@ -80,7 +80,8 @@ export default {
       loader: null,
       controls: null,
       clock: null,
-      personalization: null
+      personalization: null,
+      default_vamp_txt: null
     }
   },
   mounted() {
@@ -98,6 +99,7 @@ export default {
         if (newVal.currentType === 'color') {
           new_params = {
             map: null,
+            normalMap: this.default_vamp_txt.normalMap,
             mesh_options: {
               color: newVal[newVal.currentPart].color.value
             }
@@ -113,6 +115,21 @@ export default {
             new_params = {
               ...txtures,
               mesh_options: newVal[newVal.currentPart].image.mesh_options || {}
+            }
+          }
+        } else if (newVal.currentType === 'material') {
+          if (newVal[newVal.currentPart].material.clear) {
+            new_params = {
+              map: null,
+              normalMap: this.default_vamp_txt.normalMap,
+              mesh_options: newVal[newVal.currentPart].material.mesh_options || {}
+            }
+          } else {
+            const txtures = await loadTexture(newVal[newVal.currentPart].material.textures)
+
+            new_params = {
+              ...txtures,
+              mesh_options: newVal[newVal.currentPart].material.mesh_options || {}
             }
           }
         } else if (newVal.currentType === 'customFont') {
@@ -240,6 +257,15 @@ export default {
       this.initLight()
       this.initGround()
       this.initControls()
+
+      this.default_vamp_txt = await loadTexture({
+        normalMap: {
+          options: {
+            repeat: [28, 28]
+          },
+          image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'
+        }
+      })
 
       const { models, textures } = await initialLoad()
       this.setTheModel(models[0].scene)

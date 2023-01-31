@@ -9,7 +9,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -156,6 +156,90 @@
             }
           }
         ]
+      },
+      {
+        "optionType": "material",
+        "optionName": "材质",
+        "options": [
+          {
+            "id": "0",
+            "name": "清空",
+            "clear": true,
+            "value": "rgb(255,255,255)",
+            "mesh_options": {
+              "color": "#fff"
+            }
+          },
+          {
+            "id": "1",
+            "name": "赛车红",
+            "icon": "https://pic.bbtkids.cn/Foy5qeuBP0Pfn-AvaWrsj518CWro",
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    100,
+                    100
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FtpkTfAfAv7GR43sdfK6GfJz3Kcj"
+              },
+              "normalMap": null
+            }
+          },
+          {
+            "id": "2",
+            "name": "赭石色牛剖层革",
+            "icon": "https://pic.bbtkids.cn/Fub_e-P9RtCW06jSRBIU4-RiU0Q_",
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "map": {
+                "options": {
+                  "repeat": [
+                    100,
+                    100
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/Fsbl72Y9pUjlGGj5STRCCOejaiG3"
+              },
+              "normalMap": null
+            }
+          },
+          {
+            "id": "3",
+            "name": "皮革",
+            "icon": "https://pic.bbtkids.cn/FkBJVhvnUbqAou2QdMeajVTSJTbA",
+            "mesh_options": {
+              "color": "#FFFFFF",
+              "emissive": "#000000",
+              "metalness": 0,
+              "roughness": 1
+            },
+            "textures": {
+              "normalMap": {
+                "options": {
+                  "repeat": [
+                    20,
+                    20
+                  ]
+                },
+                "image_url": "https://pic.bbtkids.cn/FilEjdxbVnXlS_jqMdehV9JAp-ZM"
+              },
+              "map": null
+            }
+          }
+        ]
       }
     ]
   },
@@ -169,7 +253,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -313,7 +397,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -457,7 +541,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -529,7 +613,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -581,7 +665,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -653,7 +737,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -762,7 +846,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
@@ -834,7 +918,7 @@
         "options": [
           {
             "id": "0",
-            "name": "默认",
+            "name": "清空",
             "value": "rgb(255,255,255)"
           },
           {
