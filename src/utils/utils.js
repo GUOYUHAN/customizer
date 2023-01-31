@@ -12,7 +12,8 @@ export const setMaterial = (parent, part, obj, type) => {
       material.roughness = obj.mesh_options?.roughness ? obj.mesh_options?.roughness : child.material.roughness
       material.metalness = obj.mesh_options?.metalness ? obj.mesh_options?.metalness : child.material.metalness
 
-      material.normalMap = obj.normalMap ? obj.normalMap : child.material.normalMap
+      material.normalMap = 'normalMap' in obj ? obj.normalMap : child.material.normalMap
+
       material.map = obj.map
       material.emissiveMap = obj.emissiveMap ? obj.emissiveMap : child.material.emissiveMap
       if (obj.map && obj.normalMap) {

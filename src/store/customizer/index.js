@@ -14,6 +14,8 @@ export default {
       currentPart: 'vamp',
       currentType: 'color'
     },
+    // 当前停留的部位
+    selectedPart: 'vamp',
     // 不同部分定制类型状态记录
     optionsState: {},
     // 浮层展示状态
@@ -49,7 +51,11 @@ export default {
       state.optionsState = { ...optionsState }
     },
 
-    // 设置当前定制部门和类型
+    setPart({ state }, part) {
+      state.selectedPart = part
+    },
+
+    // 设置当前定制部位和类型
     setCurrent({ state }, payload) {
       const { part, type } = payload
       let selectedOptions = Object.assign({}, state.selectedOptions)

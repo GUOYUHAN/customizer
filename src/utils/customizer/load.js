@@ -59,6 +59,10 @@ export const loadTexture = async textures => {
   let result = {}
   await Promise.all(
     Object.keys(textures).map(one => {
+      if (!textures[one]) {
+        result[one] = null
+        return
+      }
       const txt = txtLoader.load(textures[one].image_url)
       txt.wrapS = txt.wrapT = THREE.RepeatWrapping
       txt.repeat.set(textures[one].options.repeat[0], textures[one].options.repeat[1])

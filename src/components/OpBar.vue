@@ -10,6 +10,7 @@
   box-shadow: 0 0 10px rgba(200, 200, 200, 0.7);
   background-color: #fff;
   z-index: 1;
+  touch-action: none;
 }
 
 .part {
@@ -232,7 +233,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'clearCustomFont']),
+    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'setPart', 'clearCustomFont']),
     // 切换定制部位
     changePartIndex(step) {
       this.visible = false
@@ -281,6 +282,7 @@ export default {
       optionsState[this.currentPart] = i
 
       this.setOptionsState(optionsState)
+      this.setPart(this.currentPart)
     },
     selectOption(option) {
       // 上传图片
