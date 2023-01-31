@@ -15,7 +15,7 @@ export default {
       currentType: 'color'
     },
     // 当前停留的部位
-    selectedPart: 'vamp',
+    selectedPart: '',
     // 不同部分定制类型状态记录
     optionsState: {},
     // 浮层展示状态

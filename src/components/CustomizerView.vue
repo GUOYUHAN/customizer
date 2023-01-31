@@ -81,6 +81,7 @@ export default {
       controls: null,
       clock: null,
       personalization: null,
+      blinkDelay: 5,
       default_vamp_txt: null
     }
   },
@@ -159,6 +160,7 @@ export default {
     selectedPart: {
       handler(newVal, oldVal) {
         this.rotateTo(newVal)
+        this.blink(newVal)
       }
     }
   },
@@ -289,6 +291,7 @@ export default {
         }
       )
       tween.play(0)
+      this.blinkDelay = 1
 
       let res = await API.test()
       console.log(res)
@@ -350,16 +353,10 @@ export default {
       } else {
         azimuthRotation = delta > 0 ? Math.abs(theta) + deltaQuote + 360 - thetaQuote : Math.abs(theta) - thetaQuote - Math.abs(delta)
       }
-      // console.log('rrrrr', azimuthRotation)
+
       if (azimuthRotation !== 0) {
         azimuthRotation = theta < 0 ? -azimuthRotation : azimuthRotation
       }
-      // console.log('theta', theta)
-      // console.log('thetaQue', thetaQuote)
-      // console.log('delta', delta)
-      // console.log('deltaQue', deltaQuote)
-      // console.log('rrrrr', azimuthRotation)
-      // console.log('----------------')
 
       const tween = gsap.to(this.controls, {
         azimuthAngle: azimuthRotation * THREE.MathUtils.DEG2RAD,
@@ -370,6 +367,35 @@ export default {
         paused: true
       })
       tween.play(0)
+    },
+    blink(part) {
+      setTimeout(() => {
+        this.theModel.children[0].traverse(child => {
+          if (child.isMesh && child.name === part) {
+            let initialEmissive = new THREE.Color(child.material.emissive.getHex())
+            let targetEmissive = new THREE.Color('#BA1B2E')
+            let initialColor = new THREE.Color(child.material.emissive.getHex())
+            let targetColor = new THREE.Color('#292421')
+
+            gsap.to(child.material.color, {
+              r: targetColor.r,
+              g: targetColor.g,
+              b: targetColor.b,
+              duration: 0.5,
+              yoyo: true,
+              repeat: 1
+            })
+            gsap.to(child.material.emissive, {
+              r: targetEmissive.r,
+              g: targetEmissive.g,
+              b: targetEmissive.b,
+              duration: 0.5,
+              yoyo: true,
+              repeat: 1
+            })
+          }
+        })
+      }, this.blinkDelay * 1000)
     }
   }
 }
