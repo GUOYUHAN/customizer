@@ -158,7 +158,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['options', 'selectedOptions', 'optionsState']),
+    ...mapState(['options', 'selectedOptions', 'optionsState', 'clickedPartIndex']),
     ...mapGetters(['customFont']),
     // 定制部位数量
     partLen() {
@@ -232,17 +232,30 @@ export default {
       })
     }
   },
+  watch: {
+    clickedPartIndex: {
+      handler(newVal, oldVal) {
+        this.changePartIndex(0, newVal)
+      }
+    }
+  },
   methods: {
     ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'setPart', 'clearCustomFont']),
     // 切换定制部位
-    changePartIndex(step) {
-      this.visible = false
+    changePartIndex(step, jump = -1) {
       let index = this.currentPartIndex
-      index += step
-      if (index > this.partMaxIndex) {
-        index = 0
-      } else if (index < 0) {
-        index = this.partMaxIndex
+
+      if (jump !== -1) {
+        this.visible = jump === index ? true : false
+        index = jump
+      } else {
+        this.visible = step === 0 ? true : false
+        index += step
+        if (index > this.partMaxIndex) {
+          index = 0
+        } else if (index < 0) {
+          index = this.partMaxIndex
+        }
       }
 
       this.currentPartIndex = index
