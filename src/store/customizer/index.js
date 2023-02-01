@@ -1,4 +1,5 @@
 import options from '../../data/options.json'
+import { partToIndex } from '../../constants/partToIndex.js'
 
 export default {
   namespaced: true,
@@ -15,7 +16,11 @@ export default {
       currentType: 'color'
     },
     // 当前停留的部位
-    selectedPart: 'vamp',
+    selectedPart: '',
+    // 当前点击模型选中的部位index
+    clickedPartIndex: -1,
+    // 是否为点击prev，next箭头
+    arrowClicked: false,
     // 不同部分定制类型状态记录
     optionsState: {},
     // 浮层展示状态
@@ -51,8 +56,25 @@ export default {
       state.optionsState = { ...optionsState }
     },
 
+    // 设置当前停留的部位
     setPart({ state }, part) {
       state.selectedPart = part
+    },
+
+    // 当前点击模型选中的部位index
+    setClickedPartIndex({ state }, part) {
+      let resultIndex = -1
+      Object.keys(partToIndex).map(one => {
+        if (part === partToIndex[one]) {
+          resultIndex = parseInt(one)
+        }
+      })
+      state.clickedPartIndex = resultIndex
+    },
+
+    // 设置是否为点击prev，next箭头
+    setArrowClicked({ state }, clicked) {
+      state.arrowClicked = clicked
     },
 
     // 设置当前定制部位和类型

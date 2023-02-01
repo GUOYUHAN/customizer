@@ -65,9 +65,9 @@ import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import gsap from 'gsap'
-// import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
+import { debounce } from '../utils/tools.js'
 import API from '../api/api'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
@@ -79,8 +79,12 @@ export default {
       renderer: null,
       loader: null,
       controls: null,
+      raycaster: null,
+      pointer: new THREE.Vector2(),
+      INTERSECTED: null,
       clock: null,
       personalization: null,
+      blinkDelay: 4,
       default_vamp_txt: null
     }
   },
@@ -88,7 +92,7 @@ export default {
     this.draw()
   },
   computed: {
-    ...mapState(['selectedOptions', 'theModel', 'selectedPart'])
+    ...mapState(['selectedOptions', 'theModel', 'selectedPart', 'arrowClicked'])
   },
   watch: {
     selectedOptions: {
@@ -158,12 +162,25 @@ export default {
     },
     selectedPart: {
       handler(newVal, oldVal) {
-        this.rotateTo(newVal)
+        if (this.arrowClicked) {
+          this.rotateTo(newVal)
+        }
+        if (this.blinkDelay < 3) {
+          debounce(
+            () => {
+              this.blink(newVal)
+            },
+            1000,
+            {}
+          )()
+        } else {
+          this.blink(newVal)
+        }
       }
     }
   },
   methods: {
-    ...mapActions(['setTheModel']),
+    ...mapActions(['setTheModel', 'setClickedPartIndex']),
     initRender() {
       this.renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -235,6 +252,7 @@ export default {
       this.clock = new THREE.Clock()
       this.controls = new CameraControls(this.camera, this.renderer.domElement)
 
+      // note: damping factor may out of date
       this.controls.dampingFactor = 0.03
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(87)
 
@@ -246,17 +264,23 @@ export default {
 
       this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
+      // change user input config
       this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
       this.controls.touches.three = CameraControls.ACTION.NONE
       this.controls.mouseButtons.right = CameraControls.ACTION.NONE
+    },
+    initRaycaster() {
+      this.raycaster = new THREE.Raycaster()
+      document.addEventListener('click', this.onPointerClick)
     },
     async draw() {
       this.initRender()
       this.initScene()
       this.initCamera()
       this.initLight()
-      this.initGround()
+      // this.initGround()
       this.initControls()
+      this.initRaycaster()
 
       this.default_vamp_txt = await loadTexture({
         normalMap: {
@@ -289,6 +313,7 @@ export default {
         }
       )
       tween.play(0)
+      this.blinkDelay = 0
 
       let res = await API.test()
       console.log(res)
@@ -299,7 +324,34 @@ export default {
       requestAnimationFrame(this.animate)
       this.renderer.render(scene, this.camera)
     },
+    onPointerClick(event) {
+      this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1
+      this.pointer.y = -(event.clientY / (window.innerHeight - 260)) * 2 + 1
+
+      this.raycaster.setFromCamera(this.pointer, this.camera)
+      const intersects = this.raycaster.intersectObjects(scene.children)
+
+      if (intersects.length > 0) {
+        if (this.INTERSECTED != intersects[0].object) {
+          if (this.INTERSECTED) {
+            // change to current object, so need to reset original object
+          }
+
+          this.INTERSECTED = intersects[0].object
+
+          // save current object state
+          // do something to current object
+          this.setClickedPartIndex(this.INTERSECTED.name)
+        }
+      } else {
+        if (this.INTERSECTED) {
+          // change to empty space, so need to reset original object
+        }
+        this.INTERSECTED = null
+      }
+    },
     rotateTo(part) {
+      // rotate according to absolute degree
       switch (part) {
         case 'vamp':
           this.rotate(32, 87)
@@ -331,12 +383,14 @@ export default {
       }
     },
     rotate(azimuthDeg, polarDeg) {
+      // compute cumulative degree according to current angle
       let theta = this.controls.azimuthAngle * (180 / Math.PI)
       let thetaQuote = theta % 360
       let delta = azimuthDeg,
         deltaQuote
       let azimuthRotation
 
+      // divided to 4 scenarios, theta <> 0 & (deltaQuote - thetaQuote) <> 180
       if (theta >= 0) {
         deltaQuote = azimuthDeg > 0 ? azimuthDeg : 360 - Math.abs(azimuthDeg)
       } else {
@@ -350,16 +404,10 @@ export default {
       } else {
         azimuthRotation = delta > 0 ? Math.abs(theta) + deltaQuote + 360 - thetaQuote : Math.abs(theta) - thetaQuote - Math.abs(delta)
       }
-      // console.log('rrrrr', azimuthRotation)
+
       if (azimuthRotation !== 0) {
         azimuthRotation = theta < 0 ? -azimuthRotation : azimuthRotation
       }
-      // console.log('theta', theta)
-      // console.log('thetaQue', thetaQuote)
-      // console.log('delta', delta)
-      // console.log('deltaQue', deltaQuote)
-      // console.log('rrrrr', azimuthRotation)
-      // console.log('----------------')
 
       const tween = gsap.to(this.controls, {
         azimuthAngle: azimuthRotation * THREE.MathUtils.DEG2RAD,
@@ -370,6 +418,35 @@ export default {
         paused: true
       })
       tween.play(0)
+    },
+    blink(part) {
+      setTimeout(() => {
+        this.theModel.children[0].traverse(child => {
+          if (child.isMesh && child.name === part) {
+            let initialEmissive = new THREE.Color(child.material.emissive.getHex())
+            let targetEmissive = new THREE.Color('#BA1B2E')
+            let initialColor = new THREE.Color(child.material.emissive.getHex())
+            let targetColor = new THREE.Color('#292421')
+
+            gsap.to(child.material.color, {
+              r: targetColor.r,
+              g: targetColor.g,
+              b: targetColor.b,
+              duration: 0.5,
+              yoyo: true,
+              repeat: 1
+            })
+            gsap.to(child.material.emissive, {
+              r: targetEmissive.r,
+              g: targetEmissive.g,
+              b: targetEmissive.b,
+              duration: 0.5,
+              yoyo: true,
+              repeat: 1
+            })
+          }
+        })
+      }, this.blinkDelay * 1000)
     }
   }
 }
