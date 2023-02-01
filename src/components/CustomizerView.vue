@@ -7,7 +7,7 @@
   height: calc(100vh - 260px);
   top: 0;
   left: 0;
-  touch-action: none;
+  /* touch-action: none; */
 }
 #model-container {
   width: 100%;
@@ -69,6 +69,7 @@ import { initialLoad, loadTexture, loadPersonalization } from '../utils/customiz
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import { debounce } from '../utils/tools.js'
 import API from '../api/api'
+import { partToIndex } from '../constants/partToIndex.js'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
@@ -165,7 +166,7 @@ export default {
         if (this.arrowClicked) {
           this.rotateTo(newVal)
         }
-        if (this.blinkDelay < 3) {
+        if (this.blinkDelay < 3 && this.arrowClicked) {
           debounce(
             () => {
               this.blink(newVal)
@@ -341,7 +342,16 @@ export default {
 
           // save current object state
           // do something to current object
-          this.setClickedPartIndex(this.INTERSECTED.name)
+
+          // recursively find deep mesh to check if the mesh is covered by idle mesh
+          for (let i = 0; i < intersects.length; i++) {
+            this.INTERSECTED = intersects[i].object
+            let checkResult = this.checkRaycaster(this.INTERSECTED.name)
+            if (checkResult[0]) {
+              this.setClickedPartIndex(checkResult[1])
+              break
+            }
+          }
         }
       } else {
         if (this.INTERSECTED) {
@@ -349,6 +359,15 @@ export default {
         }
         this.INTERSECTED = null
       }
+    },
+    checkRaycaster(part) {
+      let resultIndex = -1
+      Object.keys(partToIndex).map(one => {
+        if (part === partToIndex[one]) {
+          resultIndex = parseInt(one)
+        }
+      })
+      return [resultIndex === -1 ? false : true, resultIndex]
     },
     rotateTo(part) {
       // rotate according to absolute degree
