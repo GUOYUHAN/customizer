@@ -33,6 +33,8 @@
   -webkit-animation: hidetip 1s 1;
   -webkit-animation-fill-mode: both;
   -webkit-animation-delay: 4s;
+  touch-action: none;
+  pointer-events: none;
 }
 
 @keyframes hidetip {
@@ -254,7 +256,7 @@ export default {
       this.controls = new CameraControls(this.camera, this.renderer.domElement)
 
       // note: damping factor may out of date
-      this.controls.dampingFactor = 0.03
+      // this.controls.dampingFactor = 0.03
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(87)
 
       this.controls.maxDistance = 7

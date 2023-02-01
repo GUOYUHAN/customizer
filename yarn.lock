@@ -2129,10 +2129,10 @@ camelcase@^6.0.0:
   resolved "https://registry.npmmirror.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-camera-controls@^1.38.1:
-  version "1.38.1"
-  resolved "https://registry.npmmirror.com/camera-controls/-/camera-controls-1.38.1.tgz#9e732690ef1626840c71f5e69b8fff4f97df8a3e"
-  integrity sha512-kcryBJNEADrqSWjpBiEHSUWvJXSWBe2E9APlzGcW8/Zbjagl/hBI+lBAcC3peMcYKtGHD3s0svtxXFbNuYZgHA==
+camera-controls@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmmirror.com/camera-controls/-/camera-controls-2.0.1.tgz#051f6f5c9c2ea515250bf23b7e5bc0f0f12282c5"
+  integrity sha512-KYzlahxCFap5y+M3nkkzCYKAT1Rjh5jL7AOzFoDrygxrBiF+ffYzOridEywQBhqcUYU8hDErgqZNqFNUkkAzbQ==
 
 caniuse-api@^3.0.0:
   version "3.0.0"
