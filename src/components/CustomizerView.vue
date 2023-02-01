@@ -92,7 +92,7 @@ export default {
     this.draw()
   },
   computed: {
-    ...mapState(['selectedOptions', 'theModel', 'selectedPart'])
+    ...mapState(['selectedOptions', 'theModel', 'selectedPart', 'arrowClicked'])
   },
   watch: {
     selectedOptions: {
@@ -162,7 +162,9 @@ export default {
     },
     selectedPart: {
       handler(newVal, oldVal) {
-        this.rotateTo(newVal)
+        if (this.arrowClicked) {
+          this.rotateTo(newVal)
+        }
         if (this.blinkDelay < 3) {
           debounce(
             () => {

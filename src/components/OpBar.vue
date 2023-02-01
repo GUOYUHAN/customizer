@@ -240,7 +240,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'setPart', 'clearCustomFont']),
+    ...mapActions(['toggleCustomizer', 'setOptionsState', 'setOption', 'setCurrent', 'setPart', 'clearCustomFont', 'setArrowClicked']),
     // 切换定制部位
     changePartIndex(step, jump = -1) {
       let index = this.currentPartIndex
@@ -248,6 +248,7 @@ export default {
       if (jump !== -1) {
         this.visible = jump === index ? true : false
         index = jump
+        this.setArrowClicked(false)
       } else {
         this.visible = step === 0 ? true : false
         index += step
@@ -256,6 +257,7 @@ export default {
         } else if (index < 0) {
           index = this.partMaxIndex
         }
+        this.setArrowClicked(true)
       }
 
       this.currentPartIndex = index

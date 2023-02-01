@@ -19,6 +19,8 @@ export default {
     selectedPart: '',
     // 当前点击模型选中的部位index
     clickedPartIndex: -1,
+    // 是否为点击prev，next箭头
+    arrowClicked: false,
     // 不同部分定制类型状态记录
     optionsState: {},
     // 浮层展示状态
@@ -68,6 +70,11 @@ export default {
         }
       })
       state.clickedPartIndex = resultIndex
+    },
+
+    // 设置是否为点击prev，next箭头
+    setArrowClicked({ state }, clicked) {
+      state.arrowClicked = clicked
     },
 
     // 设置当前定制部位和类型
