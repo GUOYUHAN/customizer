@@ -1,5 +1,4 @@
 import options from '../../data/options.json'
-import { partToIndex } from '../../constants/partToIndex.js'
 
 export default {
   namespaced: true,
@@ -62,14 +61,8 @@ export default {
     },
 
     // 当前点击模型选中的部位index
-    setClickedPartIndex({ state }, part) {
-      let resultIndex = -1
-      Object.keys(partToIndex).map(one => {
-        if (part === partToIndex[one]) {
-          resultIndex = parseInt(one)
-        }
-      })
-      state.clickedPartIndex = resultIndex
+    setClickedPartIndex({ state }, index) {
+      state.clickedPartIndex = index
     },
 
     // 设置是否为点击prev，next箭头
