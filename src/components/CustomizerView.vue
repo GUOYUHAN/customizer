@@ -301,7 +301,9 @@ export default {
       }
 
       loadingManager.onLoad = () => {
-        this.isLoading = false
+        setTimeout(() => {
+          this.isLoading = false
+        }, 500)
         console.log('loading complete!')
       }
       loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
@@ -392,6 +394,23 @@ export default {
             }
           }
         }
+        // TODO 重复点击同一mesh闪烁
+        //  else {
+        //   debounce(
+        //     () => {
+        //       for (let i = 0; i < intersects.length; i++) {
+        //         this.INTERSECTED = intersects[i].object
+        //         let checkResult = this.checkRaycaster(this.INTERSECTED.name)
+        //         if (checkResult[0]) {
+        //           this.blink(this.INTERSECTED.name)
+        //           break
+        //         }
+        //       }
+        //     },
+        //     500,
+        //     {}
+        //   )()
+        // }
       } else {
         if (this.INTERSECTED) {
           // change to empty space, so need to reset original object
