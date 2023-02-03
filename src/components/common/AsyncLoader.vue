@@ -37,7 +37,7 @@
   border-radius: 11px;
   background: #f95555;
   // transition-property: width;
-  transition: width 0.2s;
+  // transition: width 0.2s;
 }
 </style>
 
@@ -65,7 +65,8 @@ export default {
       if (width === '100%') {
         transitionDuration = '0.2s'
       }
-      return `width: ${width};-webkit-transition-duration: ${transitionDuration};transition-duration: ${transitionDuration}`
+      return `width: ${width};`
+      // return `width: ${width};-webkit-transition-duration: ${transitionDuration};transition-duration: ${transitionDuration}`
     }
   }
 }
