@@ -6,7 +6,8 @@ export const setMaterial = (parent, part, obj, type) => {
   parent.traverse(child => {
     if (child.isMesh && child.name != null && child.name === part) {
       let material = new THREE.MeshStandardMaterial()
-      material.transparent = true
+      // TODO check if this cause glitch
+      // material.transparent = true
       material.color = new THREE.Color(obj.mesh_options?.color ? obj.mesh_options?.color : '#ffffff')
       material.emissive = new THREE.Color(obj.mesh_options?.emissive ? obj.mesh_options?.emissive : '#000000')
       material.roughness = obj.mesh_options?.roughness ? obj.mesh_options?.roughness : child.material.roughness

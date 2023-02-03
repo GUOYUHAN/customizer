@@ -53,10 +53,19 @@
     opacity: 0;
   }
 }
+
+.view-loading {
+  position: absolute;
+  top: 33vh;
+  left: calc(50% - 30px);
+  touch-action: none;
+  pointer-events: none;
+}
 </style>
 
 <template>
   <div id="view">
+    <van-loading class="view-loading" v-show="isLoading && !isInitial" color="#f95555" size="60px" />
     <div id="model-container"></div>
     <div class="hide-slow">拖动鞋子, 360度旋转</div>
   </div>
@@ -89,6 +98,8 @@ export default {
       personalization: null,
       blinkDelay: 4,
       progress: 0,
+      isInitial: true,
+      isLoading: false,
       default_vamp_txt: null
     }
   },
@@ -184,7 +195,7 @@ export default {
     },
     progress: {
       handler(newVal, oldVal) {
-        this.setLoading({ show: newVal !== 100 ? true : false, percentage: newVal })
+        this.setLoading({ show: newVal !== 100 && this.isInitial ? true : false, percentage: newVal })
       },
       immediate: true
     }
@@ -284,13 +295,19 @@ export default {
       document.addEventListener('click', this.onPointerClick)
     },
     initLoadingManager() {
-      loadingManager.onLoad = function () {
+      loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        this.isLoading = true
+      }
+
+      loadingManager.onLoad = () => {
+        this.isLoading = false
         console.log('loading complete!')
       }
       loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
         console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
         this.progress = 100 * (itemsLoaded / itemsTotal)
-        console.log(this.progress)
+        console.log(this.progress, this.isLoading)
       }
     },
     async draw() {
@@ -335,6 +352,8 @@ export default {
       )
       tween.play(0)
       this.blinkDelay = 0
+
+      this.isInitial = false
 
       let res = await API.test()
       console.log(res)
