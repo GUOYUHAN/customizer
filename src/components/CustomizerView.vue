@@ -67,7 +67,7 @@ import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import gsap from 'gsap'
-import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
+import { initialLoad, loadTexture, loadPersonalization, textureManager, modelManager } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import { debounce } from '../utils/tools.js'
 import API from '../api/api'
@@ -88,6 +88,7 @@ export default {
       clock: null,
       personalization: null,
       blinkDelay: 4,
+      progress: 0,
       default_vamp_txt: null
     }
   },
@@ -180,10 +181,16 @@ export default {
           this.blink(newVal)
         }
       }
+    },
+    progress: {
+      handler(newVal, oldVal) {
+        this.setLoading({ show: newVal !== 100 ? true : false, percentage: newVal })
+      },
+      immediate: true
     }
   },
   methods: {
-    ...mapActions(['setTheModel', 'setClickedPartIndex']),
+    ...mapActions(['setTheModel', 'setClickedPartIndex', 'setLoading']),
     initRender() {
       this.renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -276,6 +283,23 @@ export default {
       this.raycaster = new THREE.Raycaster()
       document.addEventListener('click', this.onPointerClick)
     },
+    initLoaderManager() {
+      textureManager.onLoad = function () {
+        console.log('textures loading complete!')
+      }
+      textureManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        this.progress = 50 * (itemsLoaded / itemsTotal)
+      }
+
+      modelManager.onLoad = function () {
+        console.log('model loading complete!')
+      }
+      modelManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        console.log('model Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        this.progress = 50 + 50 * (itemsLoaded / itemsTotal)
+      }
+    },
     async draw() {
       this.initRender()
       this.initScene()
@@ -284,6 +308,7 @@ export default {
       // this.initGround()
       this.initControls()
       this.initRaycaster()
+      this.initLoaderManager()
 
       this.default_vamp_txt = await loadTexture({
         normalMap: {

@@ -25,6 +25,11 @@ export default {
     // 浮层展示状态
     fontCustomizerShow: false,
     imageCustomizerShow: false,
+    // loading状态
+    loading: {
+      show: true,
+      percentage: 0
+    },
     // 帆布鞋模型
     theModel: null
   }),
@@ -95,6 +100,15 @@ export default {
         [type]: option
       }
       state.selectedOptions = selectedOptions
+    },
+
+    // 设置loading状态
+    setLoading({ state }, payload) {
+      const { show, percentage } = payload
+      let loading = Object.assign({}, state.loading)
+      loading.show = show
+      loading.percentage = percentage
+      state.loading = loading
     }
   }
 }
