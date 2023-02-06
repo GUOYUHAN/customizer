@@ -53,10 +53,19 @@
     opacity: 0;
   }
 }
+
+.view-loading {
+  position: absolute;
+  top: 33vh;
+  left: calc(50% - 30px);
+  touch-action: none;
+  pointer-events: none;
+}
 </style>
 
 <template>
   <div id="view">
+    <van-loading class="view-loading" v-show="isLoading && !isInitial" color="#f95555" size="60px" />
     <div id="model-container"></div>
     <div class="hide-slow">拖动鞋子, 360度旋转</div>
   </div>
@@ -67,7 +76,7 @@ import { createNamespacedHelpers } from 'vuex'
 import * as THREE from 'three'
 import CameraControls from 'camera-controls'
 import gsap from 'gsap'
-import { initialLoad, loadTexture, loadPersonalization } from '../utils/customizer/load.js'
+import { initialLoad, loadTexture, loadPersonalization, loadingManager } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import { debounce } from '../utils/tools.js'
 import API from '../api/api'
@@ -88,6 +97,9 @@ export default {
       clock: null,
       personalization: null,
       blinkDelay: 4,
+      progress: 0,
+      isInitial: true,
+      isLoading: false,
       default_vamp_txt: null
     }
   },
@@ -180,10 +192,16 @@ export default {
           this.blink(newVal)
         }
       }
+    },
+    progress: {
+      handler(newVal, oldVal) {
+        this.setLoading({ show: newVal !== 100 && this.isInitial ? true : false, percentage: newVal })
+      },
+      immediate: true
     }
   },
   methods: {
-    ...mapActions(['setTheModel', 'setClickedPartIndex']),
+    ...mapActions(['setTheModel', 'setClickedPartIndex', 'setLoading']),
     initRender() {
       this.renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -276,6 +294,24 @@ export default {
       this.raycaster = new THREE.Raycaster()
       document.addEventListener('click', this.onPointerClick)
     },
+    initLoadingManager() {
+      loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        this.isLoading = true
+      }
+
+      loadingManager.onLoad = () => {
+        setTimeout(() => {
+          this.isLoading = false
+        }, 500)
+        console.log('loading complete!')
+      }
+      loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        this.progress = 100 * (itemsLoaded / itemsTotal)
+        console.log(this.progress, this.isLoading)
+      }
+    },
     async draw() {
       this.initRender()
       this.initScene()
@@ -284,6 +320,7 @@ export default {
       // this.initGround()
       this.initControls()
       this.initRaycaster()
+      this.initLoadingManager()
 
       this.default_vamp_txt = await loadTexture({
         normalMap: {
@@ -317,6 +354,8 @@ export default {
       )
       tween.play(0)
       this.blinkDelay = 0
+
+      this.isInitial = false
 
       let res = await API.test()
       console.log(res)
@@ -355,6 +394,23 @@ export default {
             }
           }
         }
+        // TODO 重复点击同一mesh闪烁
+        //  else {
+        //   debounce(
+        //     () => {
+        //       for (let i = 0; i < intersects.length; i++) {
+        //         this.INTERSECTED = intersects[i].object
+        //         let checkResult = this.checkRaycaster(this.INTERSECTED.name)
+        //         if (checkResult[0]) {
+        //           this.blink(this.INTERSECTED.name)
+        //           break
+        //         }
+        //       }
+        //     },
+        //     500,
+        //     {}
+        //   )()
+        // }
       } else {
         if (this.INTERSECTED) {
           // change to empty space, so need to reset original object

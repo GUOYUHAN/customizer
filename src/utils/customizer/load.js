@@ -8,16 +8,18 @@ import { setMaterial } from '../utils'
 let theModel
 let foxing_normal_txt, default_vamp_txt, default_insole_normal_txt, default_insole_txt, default_tip_txt, default_tip_txt_roughness, default_foxing_txt
 
-let txtLoader = new THREE.TextureLoader()
+export const loadingManager = new THREE.LoadingManager()
 
 // Load models and texture
-let loader = new GLTFLoader()
+let loader = new GLTFLoader(loadingManager)
 loader.setCrossOrigin('')
 
 // Draco loader
 let dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('/static/decoder/')
 loader.setDRACOLoader(dracoLoader)
+
+let txtLoader = new THREE.TextureLoader(loadingManager)
 
 export const initialLoad = async () => {
   const results = await Promise.all([

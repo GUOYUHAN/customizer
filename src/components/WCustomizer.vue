@@ -10,6 +10,8 @@
 
 <template>
   <div class="container">
+    <!-- loading界面 -->
+    <async-loader :show="loading.show" :percentage="loading.percentage" />
     <!-- 顶部操作栏 -->
     <!-- <top-bar /> -->
     <!-- 3D 效果图 -->
@@ -24,12 +26,21 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
 import TopBar from './TopBar'
 import CustomizerView from './CustomizerView'
 import OpBar from './OpBar'
 import FontCustomizer from './FontCustomizer'
 import ImageCustomizer from './ImageCustomizer'
+import AsyncLoader from './common/AsyncLoader'
+
+const { mapState } = createNamespacedHelpers('customizer')
 
 export default {
-  components: { FontCustomizer, ImageCustomizer, CustomizerView, OpBar },
+  components: { FontCustomizer, ImageCustomizer, CustomizerView, OpBar, AsyncLoader },
+  computed: {
+    ...mapState(['loading'])
+  },
+  mounted() {}
 }
+</script>
