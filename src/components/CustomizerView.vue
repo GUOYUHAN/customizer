@@ -78,12 +78,15 @@ import CameraControls from 'camera-controls'
 import gsap from 'gsap'
 import { initialLoad, loadTexture, loadPersonalization, loadingManager } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
-import { debounce } from '../utils/tools.js'
 import API from '../api/api'
 import { partToIndex } from '../constants/partToIndex.js'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
+
+
+
+
 
 export default {
   data() {
@@ -100,7 +103,9 @@ export default {
       progress: 0,
       isInitial: true,
       isLoading: false,
-      default_vamp_txt: null
+      default_vamp_txt: null,
+
+      animateState: {},
     }
   },
   mounted() {
@@ -180,17 +185,7 @@ export default {
         if (this.arrowClicked) {
           this.rotateTo(newVal)
         }
-        if (this.blinkDelay < 3 && this.arrowClicked) {
-          debounce(
-            () => {
-              this.blink(newVal)
-            },
-            1000,
-            {}
-          )()
-        } else {
-          this.blink(newVal)
-        }
+        this.blink(newVal)
       }
     },
     progress: {
@@ -373,49 +368,39 @@ export default {
       this.raycaster.setFromCamera(this.pointer, this.camera)
       const intersects = this.raycaster.intersectObjects(scene.children)
 
-      if (intersects.length > 0) {
-        if (this.INTERSECTED != intersects[0].object) {
-          if (this.INTERSECTED) {
-            // change to current object, so need to reset original object
-          }
-
-          this.INTERSECTED = intersects[0].object
-
-          // save current object state
-          // do something to current object
-
-          // recursively find deep mesh to check if the mesh is covered by idle mesh
-          for (let i = 0; i < intersects.length; i++) {
-            this.INTERSECTED = intersects[i].object
-            let checkResult = this.checkRaycaster(this.INTERSECTED.name)
-            if (checkResult[0]) {
-              this.setClickedPartIndex(checkResult[1])
-              break
-            }
-          }
-        }
-        // TODO 重复点击同一mesh闪烁
-        //  else {
-        //   debounce(
-        //     () => {
-        //       for (let i = 0; i < intersects.length; i++) {
-        //         this.INTERSECTED = intersects[i].object
-        //         let checkResult = this.checkRaycaster(this.INTERSECTED.name)
-        //         if (checkResult[0]) {
-        //           this.blink(this.INTERSECTED.name)
-        //           break
-        //         }
-        //       }
-        //     },
-        //     500,
-        //     {}
-        //   )()
-        // }
-      } else {
+      if (!intersects || intersects.length === 0) {
         if (this.INTERSECTED) {
           // change to empty space, so need to reset original object
         }
         this.INTERSECTED = null
+        return
+      }
+
+      if (this.INTERSECTED != intersects[0].object) {
+        this.INTERSECTED = intersects[0].object
+
+        for (let i = 0; i < intersects.length; i++) {
+          this.INTERSECTED = intersects[i].object
+          let checkResult = this.checkRaycaster(this.INTERSECTED.name)
+          if (checkResult[0]) {
+            this.setClickedPartIndex(checkResult[1])
+            break
+          }
+        }
+      }
+      // TODO 重复点击同一mesh闪烁
+      else {
+        this.blinkSamePart(intersects)
+      }
+    },
+    blinkSamePart(intersects) {
+      for (let i = 0; i < intersects.length; i++) {
+        this.INTERSECTED = intersects[i].object
+        let checkResult = this.checkRaycaster(this.INTERSECTED.name)
+        if (checkResult[0]) {
+          this.blink(this.INTERSECTED.name)
+          break
+        }
       }
     },
     checkRaycaster(part) {
@@ -497,6 +482,12 @@ export default {
       tween.play(0)
     },
     blink(part) {
+      if (this.animateState[part])  return
+      this.animateState[part] = true
+      setTimeout(() => {
+        this.animateState[part] = false
+      }, (this.blinkDelay * 1000 + 1100))
+
       setTimeout(() => {
         this.theModel.children[0].traverse(child => {
           if (child.isMesh && child.name === part) {
