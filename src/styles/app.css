@@ -38,6 +38,8 @@ h5,
 h6,
 input,
 textarea,
+header,
+footer,
 p {
   margin: 0;
   padding: 0;

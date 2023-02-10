@@ -5,6 +5,7 @@
   width: 100%;
   height: 100%;
   background-color: #f1f2ed;
+  overflow: hidden;
 }
 </style>
 
@@ -13,7 +14,7 @@
     <!-- loading界面 -->
     <async-loader :show="loading.show" :percentage="loading.percentage" />
     <!-- 顶部操作栏 -->
-    <!-- <top-bar /> -->
+    <top-bar />
     <!-- 3D 效果图 -->
     <customizer-view />
     <!-- 底部操作栏 -->

@@ -112,8 +112,8 @@ export default {
   watch: {
     selectedOptions: {
       async handler(newVal, oldVal) {
-        console.log('oldVal', oldVal)
-        console.log('newVal', newVal)
+        // console.log('oldVal', oldVal)
+        // console.log('newVal', newVal)
         let new_params
         if (newVal.currentType === 'color') {
           new_params = {
@@ -307,9 +307,9 @@ export default {
         console.log('loading complete!')
       }
       loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
-        console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        // console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
         this.progress = 100 * (itemsLoaded / itemsTotal)
-        console.log(this.progress, this.isLoading)
+        // console.log(this.progress, this.isLoading)
       }
     },
     async draw() {

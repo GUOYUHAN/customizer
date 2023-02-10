@@ -1,26 +1,28 @@
 <style scoped lang="scss">
 .top-bar {
   position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   width: 100%;
-  height: 80px;
+  height: 60px;
   z-index: 1;
 }
 
 .save-custom {
-  width: 100px;
-  height: 40px;
-  margin-right: 20px;
-  border-radius: 10px;
-  background-color: #c9192e;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  margin-right: 10px;
+  padding: 0 16px;
+  height: 36px;
   color: #fff;
+  font-weight: 500;
   letter-spacing: 2px;
+  border-radius: 18px;
+  background-color: #f95555;
 }
 </style>
 
@@ -50,6 +52,5 @@ export default {
       await API.saveCustom()
     }
   },
-  mounted() {}
 }
 </script>
