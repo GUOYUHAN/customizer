@@ -61,10 +61,28 @@
   touch-action: none;
   pointer-events: none;
 }
+.download {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 20px;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 2px;
+  border-radius: 10px;
+  background-color: #f95555;
+  z-index: 1000;
+  cursor: pointer;
+}
 </style>
 
 <template>
   <div id="view">
+    <div class="download" @click="download()">下载</div>
     <van-loading class="view-loading" v-show="isLoading && !isInitial" color="#f95555" size="60px" />
     <div id="model-container"></div>
     <div class="hide-slow">拖动鞋子, 360度旋转</div>
@@ -80,13 +98,10 @@ import { initialLoad, loadTexture, loadPersonalization, loadingManager } from '.
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import API from '../api/api'
 import { partToIndex } from '../constants/partToIndex.js'
+import { exportGLTF } from '../utils/customizer/save.js'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
-
-
-
-
 
 export default {
   data() {
@@ -105,7 +120,7 @@ export default {
       isLoading: false,
       default_vamp_txt: null,
 
-      animateState: {},
+      animateState: {}
     }
   },
   mounted() {
@@ -482,11 +497,11 @@ export default {
       tween.play(0)
     },
     blink(part) {
-      if (this.animateState[part])  return
+      if (this.animateState[part]) return
       this.animateState[part] = true
       setTimeout(() => {
         this.animateState[part] = false
-      }, (this.blinkDelay * 1000 + 1100))
+      }, this.blinkDelay * 1000 + 1100)
 
       setTimeout(() => {
         this.theModel.children[0].traverse(child => {
@@ -515,6 +530,9 @@ export default {
           }
         })
       }, this.blinkDelay * 1000)
+    },
+    download() {
+      exportGLTF(scene)
     }
   }
 }
