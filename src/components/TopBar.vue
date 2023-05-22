@@ -44,13 +44,33 @@ export default {
     }
   },
   computed: {
-    ...mapState(['selectedOptions', 'optionsState'])
+    ...mapState(['selectedOptions', 'options'])
   },
   methods: {
     async saveCustom() {
-      console.log('save')
-      await API.saveCustom()
+      let customPartData = this.getCustomDataList()
+      console.log('customPartData', customPartData)
+
+      // await API.saveCustom()
+    },
+    getCustomDataList() {
+      console.log('selectedOptions', this.selectedOptions)
+      let resArr = []
+      if (!this.options && this.options.length == 0) return
+      for (let i = 0, len = this.options.length; i < len; i++) {
+        let { part } = this.options[i]
+        if (!this.selectedOptions[part]) break
+        let currentPart = this.selectedOptions[part]
+        let tempMap = {}
+        tempMap['position'] = part
+        for (let [key, value] of Object.entries(currentPart)) {
+          value = value['value']
+          tempMap[key] = value
+        }
+        resArr.push(tempMap)
+      }
+      return resArr
     }
-  },
+  }
 }
 </script>
