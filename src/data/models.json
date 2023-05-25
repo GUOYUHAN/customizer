@@ -2,26 +2,18 @@
   {
     "size": "5.5",
     "personalizationPosition": {},
-    "model_urls": {
-      "model": "",
-      "binding_stitches": "",
-      "lining_stitches": "",
-      "quarters_stitches": "",
-      "vamp_stitches": "",
-      "personalization": ""
-    }
+    "model_urls": []
   },
   {
     "size": "9.0",
     "personalizationPosition": {},
-    "model_urls": {
-      "model": "",
-      "binding_stitches": "",
-      "lining_stitches": "",
-      "quarters_stitches": "",
-      "vamp_stitches": "",
-      "personalization": ""
-    }
+    "model_urls": [
+      "https://down.bbtkids.cn/3dmodels/shoes.fbx",
+      "https://down.bbtkids.cn/wwcustomer/vans/9.0/binding_stitches.glb",
+      "https://down.bbtkids.cn/wwcustomer/vans/9.0/lining_stitches.glb",
+      "https://down.bbtkids.cn/wwcustomer/vans/9.0/quarters_stitches.glb",
+      "https://down.bbtkids.cn/wwcustomer/vans/9.0/vamp_stitches.glb"
+    ]
   },
   {
     "size": "14.0",

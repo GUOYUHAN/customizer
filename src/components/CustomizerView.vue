@@ -97,7 +97,7 @@ import gsap from 'gsap'
 import { initialLoad, loadTexture, loadPersonalization, loadingManager } from '../utils/customizer/load.js'
 import { setMaterial, getTextCanvas } from '../utils/utils.js'
 import API from '../api/api'
-import { partToIndex } from '../constants/partToIndex.js'
+import { partToIndex } from '../constants/constants.js'
 import { exportGLTF } from '../utils/customizer/save.js'
 
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
@@ -191,7 +191,7 @@ export default {
         } else if (newVal.currentType === 'customImage') {
           return
         }
-        setMaterial(this.theModel.children[0], newVal.currentPart, new_params, newVal.currentType)
+        setMaterial(this.theModel, newVal.currentPart, new_params, newVal.currentType)
       },
       deep: true
     },
@@ -287,13 +287,14 @@ export default {
       // this.controls.dampingFactor = 0.03
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(87)
 
-      this.controls.maxDistance = 7
-      this.controls.minDistance = 2
+      this.controls.maxDistance = 70
+      this.controls.minDistance = 10
       this.controls.dollySpeed = 0.5
       this.controls.azimuthRotateSpeed = 0.6
       this.controls.polarRotateSpeed = 0.6
 
-      this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
+      // this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
+      this.controls.setLookAt(37.5, 10, 6, 0, 7, 0, false)
 
       // change user input config
       this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
@@ -306,7 +307,7 @@ export default {
     },
     initLoadingManager() {
       loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
-        console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
+        // console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.')
         this.isLoading = true
       }
 
@@ -341,10 +342,11 @@ export default {
         }
       })
 
-      const { models, textures } = await initialLoad()
-      this.setTheModel(models[0].scene)
+      const { models } = await initialLoad()
+      this.setTheModel(models[0])
+
       for (let i = 0; i < models.length; i++) {
-        scene.add(models[i].scene)
+        scene.add(models[i].scene ? models[i].scene : models[i])
       }
       this.animate()
 
@@ -356,19 +358,19 @@ export default {
         },
         {
           azimuthAngle: 32 * THREE.MathUtils.DEG2RAD,
-          distance: 4.5,
+          distance: 40,
           duration: 3.5,
           ease: 'back.inOut(2.5)',
           paused: true
         }
       )
       tween.play(0)
-      this.blinkDelay = 0
 
+      this.blinkDelay = 0
       this.isInitial = false
 
-      let res = await API.test()
-      console.log(res)
+      // let res = await API.test()
+      // console.log(res)
     },
     animate() {
       const delta = this.clock.getDelta()
@@ -504,7 +506,7 @@ export default {
       }, this.blinkDelay * 1000 + 1100)
 
       setTimeout(() => {
-        this.theModel.children[0].traverse(child => {
+        this.theModel.traverse(child => {
           if (child.isMesh && child.name === part) {
             let initialEmissive = new THREE.Color(child.material.emissive.getHex())
             let targetEmissive = new THREE.Color('#BA1B2E')

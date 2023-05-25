@@ -27,7 +27,9 @@
 
 .queue__process {
   position: relative;
+  margin: auto;
   margin-top: 32px;
+  max-width: 450px;
   height: 10px;
   border-radius: 11px;
   background: #eee;

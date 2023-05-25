@@ -22,20 +22,20 @@ import WImageEditor from '@/components/wImageEditor/w-image-editor'
 
 export default {
   components: {
-    WImageEditor,
+    WImageEditor
   },
   computed: {
-    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel']),
+    ...mapState(['imageCustomizerShow', 'selectedOptions', 'theModel'])
   },
   watch: {
     imageCustomizerShow(selectImage) {
       selectImage && this.selectImage()
     },
-    immediate: true,
+    immediate: true
   },
   data() {
     return {
-      editorShow: false,
+      editorShow: false
     }
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
       this.$nextTick(() => {
         let imgUrl = URL.createObjectURL(file)
         this.$refs.imageEditor.openImageEditor(imgUrl, {
-          overlayObj,
+          overlayObj
         })
         e.target.value = '' // 可重复上传相同文件
       })
@@ -69,31 +69,41 @@ export default {
     async finish(imageData) {
       this.editorShow = false
 
-      const userImgURL = await generateOutputImage(imageData, {width: 1024, height: 1024, part: this.selectedOptions.currentPart})
+      const userImgURL = await generateOutputImage(imageData, { width: 1024, height: 1024, part: this.selectedOptions.currentPart })
+
+      // let img = document.createElement('img')
+      // let div = document.createElement('div')
+
+      // img.src = userImgURL
+      // img.style = 'background: #ffffff; width: 100%; object-fit: contain'
+      // div.style = 'background: #ff0000; width: 200px; height: 200px; z-index: 10009; top: 0; left: 0; position: absolute; display: flex;'
+      // div.appendChild(img)
+      // document.getElementById('view').appendChild(div)
 
       const txtures = await loadTexture({
         map: {
           options: {
-            repeat: [5, 5],
+            repeat: [2, 2],
             flipY: false,
-            offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25],
+            // offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25]
+            offset: this.selectedOptions.currentPart === 'xietou' ? [0, 0] : [0, 0.25]
           },
-          image_url: userImgURL,
+          image_url: userImgURL
         },
         normalMap: {
           options: {
-            repeat: [28, 28],
+            repeat: [28, 28]
           },
-          image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl',
-        },
+          image_url: 'https://pic.bbtkids.cn/FiQvFit0mQcImJR_W_YBXxlrAetl'
+        }
       })
 
       let new_params = {
-        ...txtures,
+        ...txtures
       }
-      setMaterial(this.theModel.children[0], this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
-    },
-  },
+      setMaterial(this.theModel, this.selectedOptions.currentPart, new_params, this.selectedOptions.currentType)
+    }
+  }
 }
 </script>
 

@@ -9,8 +9,8 @@ export const generateOutputImage = (imgData, dest) => {
 }
 
 function _getOutputImage(img, imgData, dest) {
-  const {dataURL, width, height} = imgData
-  let {width: destWidth, height: destHeight, part} = dest
+  const { dataURL, width, height } = imgData
+  let { width: destWidth, height: destHeight, part } = dest
 
   let canvas = document.createElement('canvas')
   canvas.width = destWidth
@@ -19,8 +19,8 @@ function _getOutputImage(img, imgData, dest) {
   ctx.fillStyle = '#fff'
 
   // 绘制不同部位的裁片图案
-  switch(part) {
-    case 'vamp':
+  switch (part) {
+    case 'xietou':
       ctx.drawImage(img, 0, 0, destWidth, (destWidth / width) * height)
       break
     case 'quarters':
@@ -31,7 +31,7 @@ function _getOutputImage(img, imgData, dest) {
       break
   }
   return new Promise(resolve => {
-    canvas.toBlob((r) => {
+    canvas.toBlob(r => {
       resolve(URL.createObjectURL(r))
     }, 'image/png')
   })
