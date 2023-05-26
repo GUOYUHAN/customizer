@@ -101,10 +101,10 @@
   margin-right: 40px;
 }
 .flip-x {
-  background-image: url('https://pic.bbtkids.cn/FkF4_WV-ZIALZhXBOPqIV3r28hur')
+  background-image: url('https://pic.bbtkids.cn/FkF4_WV-ZIALZhXBOPqIV3r28hur');
 }
 .flip-y {
-  background-image: url('https://pic.bbtkids.cn/FnxHJlsZ-wBM0yNfxBhNWRcm9zcH')
+  background-image: url('https://pic.bbtkids.cn/FnxHJlsZ-wBM0yNfxBhNWRcm9zcH');
 }
 /* 旋转 */
 .angle-bar {
@@ -138,14 +138,13 @@
   color: #888;
   font-size: 13px;
 }
-
 </style>
 
 <template>
   <div class="container">
     <header class="header">
       <div class="close" @click.stop="close"><van-icon name="cross" /></div>
-      
+
       <div class="finish" @click.stop="finish">完成</div>
     </header>
 
@@ -172,19 +171,17 @@
           <div class="btn__rotate" @click="setImageAngle(0)">重置</div>
         </div>
       </div>
-
     </footer>
     <footer class="toolbar">
-      <div v-for="(o, i) in tools" :key="i" class="tool" :class="{'tool--active': curOp === o.type}" @click="changeTool(o)">{{o.label}}</div>
+      <div v-for="(o, i) in tools" :key="i" class="tool" :class="{ 'tool--active': curOp === o.type }" @click="changeTool(o)">{{ o.label }}</div>
     </footer>
-    
   </div>
 </template>
 
 <script>
 import { fabric } from 'fabric'
 import Hammer from 'hammerjs'
-import { calcImageSize, calcOverlayImageSize, resizeImage } from './utils/image'
+import { calcImageSize, calcOverlayImageSize, resizeImage } from '../../utils/image/image'
 
 export default {
   data() {
@@ -201,7 +198,6 @@ export default {
         }
       ],
 
-
       container: null,
       containerSize: null,
 
@@ -215,7 +211,7 @@ export default {
       img: null,
       outputSize: null,
 
-      overlayImg: '',
+      overlayImg: ''
     }
   },
   computed: {
@@ -227,11 +223,11 @@ export default {
           left: left + 'px',
           width: width + 'px',
           height: height + 'px',
-          background: `url(${this.overlayImg}) no-repeat center/100% 100%`,
+          background: `url(${this.overlayImg}) no-repeat center/100% 100%`
         }
       }
       return null
-    },
+    }
   },
   methods: {
     changeTool(o) {
@@ -310,9 +306,9 @@ export default {
     finish() {
       const dataURL = this.canvas.toDataURL({
         ...this.outputSize,
-        format: 'png',
+        format: 'png'
       })
-      
+
       this.$emit('finish', {
         ...this.outputSize,
         dataURL
@@ -339,7 +335,7 @@ export default {
         selection: false,
         // centeredScaling: true,
         centeredRotation: true,
-        backgroundColor: '#f3f3f3',
+        backgroundColor: '#f3f3f3'
       })
       this._initializeEvent()
     },
@@ -359,7 +355,7 @@ export default {
           }
         },
         // 限制缩放极限
-        'object:scaling': (e) => {
+        'object:scaling': e => {
           let scale = e.target.scaleX
           scale = Math.min(scale, this.maxScale)
           scale = Math.max(scale, this.minScale)
@@ -367,9 +363,9 @@ export default {
           this.canvas.requestRenderAll()
         },
         // 旋转图片时同步滑动条
-        'object:rotating': (e) => e.target && (this.rotation = e.target.angle),
+        'object:rotating': e => e.target && (this.rotation = e.target.angle),
         // 始终保持图片的聚焦
-        'mouse:down': (e) => !e.target && this.canvas.setActiveObject(this.img),
+        'mouse:down': e => !e.target && this.canvas.setActiveObject(this.img)
       })
     },
 
@@ -383,14 +379,14 @@ export default {
         scale: 0,
         rotation: 0,
         scaling: false,
-        rotating: false,
+        rotating: false
       }
       let diffS
       let diffR
 
       mc.get('pinch').set({ enable: true })
       mc.get('rotate').set({ enable: true })
-      mc.on('pinchstart pinchend pinchmove rotatemove', (e) => {
+      mc.on('pinchstart pinchend pinchmove rotatemove', e => {
         let { scale, rotation } = e
         switch (e.type) {
           case 'pinchstart':
@@ -426,13 +422,13 @@ export default {
       }
 
       // 预处理图片，将图片重新绘制成符合 canvas 尺寸的大小
-      new Promise((resolve) => {
+      new Promise(resolve => {
         fabric.util.loadImage(imgUrl, resolve)
       })
-        .then((img) => {
+        .then(img => {
           return resizeImage(img, this.outputSize)
         })
-        .then((nImgUrl) => {
+        .then(nImgUrl => {
           this._loadImage(nImgUrl, options)
         })
     },
@@ -440,14 +436,14 @@ export default {
     _loadImage(imgUrl, options = {}) {
       fabric.Image.fromURL(
         imgUrl,
-        (img) => {
+        img => {
           let { scale } = calcImageSize(img, this.outputSize)
           img.scale(scale)
           img.setControlsVisibility({
             mb: false,
             ml: false,
             mr: false,
-            mt: false,
+            mt: false
           })
           this.canvas.add(img).setActiveObject(img)
           img.center()
@@ -464,7 +460,7 @@ export default {
           cornerColor: '#fff',
           borderColor: '#666',
           cornerStrokeColor: '#666',
-          ...options,
+          ...options
         }
       )
     },
@@ -487,7 +483,7 @@ export default {
       this.canvas = null
       this.img = null
       this.mc = null
-    },
+    }
   },
   dispose() {
     this._dispose()

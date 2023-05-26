@@ -14,7 +14,7 @@ const { mapState, mapActions } = createNamespacedHelpers('customizer')
 
 import { loadTexture } from '../utils/customizer/load.js'
 import { setMaterial } from '../utils/utils.js'
-import { generateOutputImage } from '../utils/customizer/imageTools'
+import { generateOutputImage } from '../utils/image/imageTools'
 
 import svgList from '../data/svgList.json'
 
