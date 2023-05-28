@@ -83,10 +83,10 @@ export default {
       const txtures = await loadTexture({
         map: {
           options: {
-            repeat: [2, 2],
+            repeat: [5, 5],
             flipY: false,
-            // offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25]
-            offset: this.selectedOptions.currentPart === 'xietou' ? [0, 0] : [0, 0.25]
+            offset: this.selectedOptions.currentPart === 'vamp' ? [0.6, -0.18] : [0, 0.25]
+            // offset: this.selectedOptions.currentPart === 'xietou' ? [0, 0] : [0, 0.25]
           },
           image_url: userImgURL
         },

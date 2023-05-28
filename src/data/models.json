@@ -8,7 +8,7 @@
     "size": "9.0",
     "personalizationPosition": {},
     "model_urls": [
-      "https://down.bbtkids.cn/3dmodels/shoes.fbx",
+      "https://down.bbtkids.cn/wwcustomer/vans/9.0/authentic-classic-9.0.glb",
       "https://down.bbtkids.cn/wwcustomer/vans/9.0/binding_stitches.glb",
       "https://down.bbtkids.cn/wwcustomer/vans/9.0/lining_stitches.glb",
       "https://down.bbtkids.cn/wwcustomer/vans/9.0/quarters_stitches.glb",
@@ -19,7 +19,7 @@
     "size": "14.0",
     "personalizationPosition": {},
     "model_urls": {
-      "model": "",
+      "model": "https://down.bbtkids.cn/3dmodels/shoes.fbx",
       "binding_stitches": "",
       "lining_stitches": "",
       "quarters_stitches": "",

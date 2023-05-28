@@ -1,9 +1,9 @@
 export const partToIndex = {
-  0: 'xietou',
-  1: 'xiebang',
-  2: 'xiebang',
-  3: 'xiebian',
-  4: 'xiegen',
+  0: 'vamp',
+  1: 'quarters',
+  2: 'quarters',
+  3: 'binding',
+  4: 'tongue',
   5: 'eyelets',
   6: 'foxing',
   7: 'foxing_stripe',
@@ -44,7 +44,7 @@ export const defaultTextureUrls = {
       }
     }
   },
-  xietou: {
+  vamp: {
     textures: {
       normalMap: {
         options: {

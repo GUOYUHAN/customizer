@@ -287,14 +287,14 @@ export default {
       // this.controls.dampingFactor = 0.03
       this.controls.maxPolarAngle = THREE.MathUtils.degToRad(87)
 
-      this.controls.maxDistance = 70
-      this.controls.minDistance = 10
+      this.controls.maxDistance = 7
+      this.controls.minDistance = 2
       this.controls.dollySpeed = 0.5
       this.controls.azimuthRotateSpeed = 0.6
       this.controls.polarRotateSpeed = 0.6
 
       // this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
-      this.controls.setLookAt(37.5, 10, 6, 0, 7, 0, false)
+      this.controls.setLookAt(2.5, 1, 4, 0, 0.5, 0, false)
 
       // change user input config
       this.controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY
@@ -343,7 +343,7 @@ export default {
       })
 
       const { models } = await initialLoad()
-      this.setTheModel(models[0])
+      this.setTheModel(models[0].scene.children[0])
 
       for (let i = 0; i < models.length; i++) {
         scene.add(models[i].scene ? models[i].scene : models[i])
@@ -358,7 +358,7 @@ export default {
         },
         {
           azimuthAngle: 32 * THREE.MathUtils.DEG2RAD,
-          distance: 40,
+          distance: 4.5,
           duration: 3.5,
           ease: 'back.inOut(2.5)',
           paused: true

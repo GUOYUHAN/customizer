@@ -60,12 +60,12 @@ export const initialLoad = async () => {
   const models = results.slice(0, modelJobs.length)
   defaultTextures = results.slice(modelJobs.length)
 
-  theModel = results[0]
-  theModel.traverse(child => {
-    child.material = new THREE.MeshStandardMaterial()
-  })
+  theModel = results[0].scene.children[0]
+  // theModel.traverse(child => {
+  //   child.material = new THREE.MeshStandardMaterial()
+  // })
   console.log('theModel', theModel)
-  setDefaultTexture()
+  // setDefaultTexture()
 
   return { models }
 }

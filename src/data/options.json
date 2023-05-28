@@ -1,7 +1,7 @@
 [
   {
     "partName": "鞋头",
-    "part": "xietou",
+    "part": "vamp",
     "optionList": [
       {
         "optionType": "color",
@@ -245,7 +245,7 @@
   },
   {
     "partName": "鞋腰右脚 - 内侧 ",
-    "part": "xiebang",
+    "part": "quarters",
     "optionList": [
       {
         "optionType": "color",
@@ -389,7 +389,7 @@
   },
   {
     "partName": "鞋腰右脚 - 外侧 ",
-    "part": "xiebang",
+    "part": "quarters",
     "optionList": [
       {
         "optionType": "color",
@@ -533,7 +533,7 @@
   },
   {
     "partName": "滚边",
-    "part": "xiebian",
+    "part": "binding",
     "optionList": [
       {
         "optionType": "color",
@@ -604,8 +604,8 @@
     ]
   },
   {
-    "partName": "鞋跟",
-    "part": "xiegen",
+    "partName": "鞋舌",
+    "part": "tongue",
     "optionList": [
       {
         "optionType": "color",
