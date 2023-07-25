@@ -84,10 +84,6 @@ import { partToIndex } from '../constants/partToIndex.js'
 const { mapState, mapActions } = createNamespacedHelpers('customizer')
 let scene, ground
 
-
-
-
-
 export default {
   data() {
     return {
@@ -105,7 +101,7 @@ export default {
       isLoading: false,
       default_vamp_txt: null,
 
-      animateState: {},
+      animateState: {}
     }
   },
   mounted() {
@@ -352,8 +348,8 @@ export default {
 
       this.isInitial = false
 
-      let res = await API.test()
-      console.log(res)
+      // let res = await API.test()
+      // console.log(res)
     },
     animate() {
       const delta = this.clock.getDelta()
@@ -482,11 +478,11 @@ export default {
       tween.play(0)
     },
     blink(part) {
-      if (this.animateState[part])  return
+      if (this.animateState[part]) return
       this.animateState[part] = true
       setTimeout(() => {
         this.animateState[part] = false
-      }, (this.blinkDelay * 1000 + 1100))
+      }, this.blinkDelay * 1000 + 1100)
 
       setTimeout(() => {
         this.theModel.children[0].traverse(child => {

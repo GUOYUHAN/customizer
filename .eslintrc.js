@@ -10,10 +10,10 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
-    'indent': ['off', 2],
-    'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single'],
-    'semi': ['error', 'never'],
+    indent: ['off', 2],
+    'linebreak-style': [0, 'error', 'windows'],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
     'no-unused-vars': 0,
     'vue/no-unused-components': 'off',
     'no-unreachable': 'off'

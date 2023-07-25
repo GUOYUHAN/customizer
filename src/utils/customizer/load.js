@@ -16,7 +16,7 @@ loader.setCrossOrigin('')
 
 // Draco loader
 let dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('/cust/static/decoder/')
+dracoLoader.setDecoderPath('/static/decoder/')
 loader.setDRACOLoader(dracoLoader)
 
 let txtLoader = new THREE.TextureLoader(loadingManager)
@@ -81,7 +81,7 @@ export const loadTexture = async textures => {
 }
 
 export const loadPersonalization = async () => {
-  const result = await Promise.all([loader.loadAsync('/cust/static/models/personalization.glb')])
+  const result = await Promise.all([loader.loadAsync('/static/models/personalization.glb')])
   return result[0].scene
 }
 
